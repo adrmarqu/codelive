@@ -1,8 +1,34 @@
-.
-..
-.DS_Store
+# --- Dependencias ---
+node_modules/
+# Si tienes carpetas node_modules separadas:
+frontend/node_modules/
+backend/node_modules/
 
-secrets
-
+# --- Archivos de Entorno (¡MUY IMPORTANTE!) ---
+# Nunca subas tus claves de acceso a MongoDB o secretos de JWT
 .env
-!.env.example
+.env.local
+.env.*.local
+
+# --- Compilación y Builds ---
+dist/
+build/
+out/
+.vite/
+
+# --- Logs y Debug ---
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# --- IDEs y Editores ---
+.vscode/
+.idea/
+.DS_Store # (Solo si usas Mac)
+
+# --- Archivos temporales o de sistema ---
+*.swp
+*.swo
+.tmp/
+temp/
