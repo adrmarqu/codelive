@@ -1,45 +1,23 @@
-# Roles
+# Home - Dashboard - Footer content - Terminos y servicios
 
-## Invitado
+Accesible para todos
 
-Este rol se dara cuando no estes conectado (el rol no existe).
+# Login - Signin
 
-El header tendra las opciones de login y signin.
+Solo accesible para invitado y admin, sino redirigir a Error
 
-El invitado no tendra barra de progreso
+# Lista usuarios - Contacto
 
-El invitado no podra acceder a: perfil, update, progreso, lista de usuarios, crear contenido
+Solo accesible para admin, sino redirigir a Error
 
-## Usuario
+# Update - Progreso - Perfil - Ranking
 
-Este rol es para los usuarios que vienen a consumir la web
+No accesible para invitados, sino redirigir a Error
 
-El header tendra un desplegable con perfil, progreso y logout
+# Crear contenido
 
-Podra ver su barra de progreso
+Solo accesible para editor y admin, sino redirigir a Error
 
-El usuario no podra acceder a lista de usuarios, crear contenido
+# Token (codigo + renvio) - Recuperar password
 
-
-## Editor
-
-Este rol es para los editores que vienen a consumir y crear contenido en la web
-
-El header tendra un desplegable con perfil, progreso crear contenido y logout
-
-Podra ver su barra de progreso
-
-El usuario no podra acceder a lista de usuarios.
-
-## Admin
-
-Este rol es para el administrador
-
-El header tendra un desplegable con perfil, progreso, lista de usuarios, crear contenido y logout
-
-Podra ver su barra de progreso
-
-
-# Verificar email
-
-Al acceder aqui mirara el get y decidira que hacer, si el get esta vacio o es incorrecto te redirigira a error.jsx
+Accesible solo para aquellos con un token sino redirigir a Error
