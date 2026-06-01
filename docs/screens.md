@@ -2,10 +2,10 @@
 
 - Home
 - Dashboard
-    - Lenguajes
+    - Curso (language)
     - Modulos
     - Lista de niveles
-    - Nivel
+    - Leccion
 - Ranking
 - Progreso
 - Perfil

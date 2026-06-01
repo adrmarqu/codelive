@@ -1,0 +1,36 @@
+/* Base button */
+.btn
+{
+    padding: 10px;
+}
+
+/* Send button */
+.btn-primary
+{
+
+}
+
+/* Cancel button */
+.btn-secondary
+{
+    
+}
+
+/* Delete button */
+.btn-danger
+{
+    
+}
+
+/* Link button */
+.btn-link
+{
+    padding: 10px;
+
+    text-decoration: none;
+
+    border: 1px solid blue;
+}
+
+.hidden { display: none; }
+.transparent { opacity: 0; }

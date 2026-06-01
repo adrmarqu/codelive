@@ -1,8 +1,49 @@
 :root
 {
+    /* Text colors */
+    
+    --text-color: black;
 
+    /* Background color */
+
+    --bg-color: white;
+
+    /* Buttons color */
+
+    /* Variables */
+
+    --max-width: 1000px;
 }
+
+/* Dark mode */
 .dark
 {
-  
+    /* Text colors */
+    
+    --text-color: white;
+
+    /* Background color */
+
+    --bg-color: black;
+
+    /* Buttons color */
+
+}
+
+*, *::before, *::after
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body
+{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+
+    max-width: var(--max-width);
+    margin: 0 auto;
 }

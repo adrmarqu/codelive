@@ -1,0 +1,29 @@
+footer
+{
+    margin-top: 50px;
+
+    border: 1px solid black;
+}
+
+#copyright
+{
+    width: 80%;
+    margin: auto;
+    
+    padding-bottom: 3px;
+
+    text-align: center;
+
+    border-bottom: 1px solid red;
+}
+
+#footer-data
+{
+    width: 75%;
+    margin: auto;
+
+    padding-top: 20px;
+    
+    display: flex;
+    flex-direction: column;
+}
