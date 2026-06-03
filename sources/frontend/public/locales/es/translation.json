@@ -1,0 +1,94 @@
+{
+    "lang": "Español",
+    
+    "es": "Español",
+    "en": "Inglés",
+    "ca": "Catalán",
+
+    "header":
+    {
+        "login": "Conectarse",
+        "signin": "Registrarse",
+        "profile": "Perfil",
+        "progress": "Progreso",
+        "ranking": "Ranking",
+        "contact": "Contacto",
+        "list": "Lista de usuarios",
+        "create": "Manejar contenido"
+    },
+
+    "welcome": "Bienvenido a CodeLive!",
+    "intro": "Aprende programando. Supera retos interactivos, domina ejemplos reales y desbloquea nuevos niveles mientras conviertes la teoría en proyectos sólidos.",
+    "start": "Explorar contenido principal",
+    "contact": "Contacto",
+    "copyright": "Todos los derechos reservados.",
+
+
+    "form": 
+    {
+        "signin":
+        {
+            "welcome": "Bienvenido a CodeLive!",
+            "intro": "Rellena el formulario para crear una nueva cuenta",
+            "title": "Registro"
+        },
+
+        "login":
+        {
+            "welcome": "Bienvenido de vuelta a CodeLive!",
+            "intro": "Rellena el formulario para conectarte con tu usuario",
+            "title": "Conectar",
+            "remember": "Recuerdame",
+            "forgot": "He olvidado mi contraseña"
+        },
+
+        "verify":
+        {
+            "account":
+            {
+                "welcome": "",
+                "intro": "",
+                "title": ""
+            },
+            "email":
+            {
+                "welcome": "",
+                "intro": "",
+                "title": ""
+            },
+            "pass":
+            {
+                "welcome": "",
+                "intro": "Rellena el formulario para recuperar tu contraseña",
+                "title": "Recuperar contraseña"
+            }
+        },
+
+        "a":
+        {
+            "welcome": "",
+            "intro": "",
+            "title": ""
+        },
+
+        "user": "Introduce tu nombre de usuario",
+        "email": "Introduce tu correo electronico",
+        "pass": "Introduce tu contraseña",
+        "pass_rep": "Repite tu contraseña",
+        "terms": "Terminos y servicios",
+
+        "cancel": "Cancelar",
+        "send": "Enviar"
+    },
+
+
+    "code":
+    {
+        "400": "Petición incorrecta",
+        "401": "No autorizado",
+        "403": "Prohibido",
+        "404": "Página no encontrada",
+        "500": "Error interno del servidor",
+        "503": "Servicio no disponible"
+    }
+}

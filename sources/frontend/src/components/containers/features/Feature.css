@@ -1,0 +1,9 @@
+a { width: 30%; }
+
+.feature-card
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

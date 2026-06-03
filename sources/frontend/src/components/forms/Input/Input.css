@@ -1,0 +1,16 @@
+.form-container
+{
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label
+{
+    margin-bottom: 5px;
+}
+
+.form-input
+{
+    padding: 10px;
+}

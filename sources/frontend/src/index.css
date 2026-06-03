@@ -2,17 +2,40 @@
 {
     /* Text colors */
     
-    --text-color: black;
+    --text-color: #212529;
 
     /* Background color */
 
-    --bg-color: white;
+    --bg-color: #F8F9FA;
+    --bg-header: #FFFFFF;
+    --bg-form: #FFFFFF;
+    --bg-footer: #FFFFFF;
 
     /* Buttons color */
 
+    --primary-text-color: #FFFFFF;
+    --primary-bg-color: #007bff;
+    --primary-bg-hover: #0069d9;
+
+    --secondary-text-color: #333;
+    --secondary-bg-color: #e2e6ea;
+    --secondary-bg-hover: #dae0e5;
+
+    --warning-text-color: #212529;
+    --warning-bg-color: #ffc107;
+    --warning-bg-hover: #e0a800;
+
+    --danger-text-color: #FFFFFF;
+    --danger-bg-color: #dc3545;
+    --danger-bg-hover: #c82333;
+
+    /* Other colors */
+
+    --footer-line-color: #212529;
+
     /* Variables */
 
-    --max-width: 1000px;
+    --max-width: 100%;
 }
 
 /* Dark mode */
@@ -20,11 +43,13 @@
 {
     /* Text colors */
     
-    --text-color: white;
+    --text-color: #E0E0E0;
 
     /* Background color */
 
-    --bg-color: black;
+    --bg-color: #121212;
+    --bg-header: #1E1E1E;
+    --bg-form: #252525;
 
     /* Buttons color */
 

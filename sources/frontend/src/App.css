@@ -1,36 +1,51 @@
 /* Base button */
 .btn
 {
-    padding: 10px;
+    padding: 10px 20px;
+    text-decoration: none;
+
+    border-radius: 5px;
+    display: inline-block;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    border: none;
+    cursor: pointer;
+    text-align: center;
 }
+.btn:active { transform: scale(0.98); }
 
 /* Send button */
 .btn-primary
 {
-
+    color: var(--primary-text-color);
+    background-color: var(--primary-bg-color);
 }
+.btn-primary:hover { background-color: var(--primary-bg-hover); }
 
 /* Cancel button */
 .btn-secondary
 {
-    
+    color: var(--secondary-text-color);
+    background-color: var(--secondary-bg-color);
 }
+.btn-secondary:hover { background-color: var(--secondary-bg-hover); }
+
+/* Warning button */
+.btn-warning {
+    color: var(--warning-text-color);
+    background-color: var(--warning-bg-color);
+}
+.btn-warning:hover { background-color: var(--warning-bg-hover); }
 
 /* Delete button */
-.btn-danger
-{
-    
+.btn-danger {
+    color: var(--danger-text-color);
+    background-color: var(--danger-bg-color);
 }
+.btn-danger:hover { background-color: var(--danger-bg-hover); }
 
-/* Link button */
-.btn-link
-{
-    padding: 10px;
+h1, h2, h3 { text-align: center; }
 
-    text-decoration: none;
+.link { cursor: pointer; }
 
-    border: 1px solid blue;
-}
-
-.hidden { display: none; }
+.hidden { display: none !important; }
 .transparent { opacity: 0; }

@@ -1,33 +1,52 @@
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { useEffect, useState } from 'react'
-import './Header.css'
+import { useEffect, useState, useRef } from 'react'
 
-/* import Logo from '@/assets/icons/logo' */
 import Button from '@/components/common/button/Button.jsx'
 import { PATHS } from '@/routes/paths.js'
-import { getUserRole } from '@/services/user'
 
-function Header()
+import './Header.css'
+
+function Header({role, setRole})
 {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
-    const [isOpen, setIsOpen] = useState(true);
-    const [role, setRole] = useState('guest');
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpenLang, setIsOpenLang] = useState(false);
+    const [lang, setLang] = useState(i18n.language);
 
     const toggleMenu = () => setIsOpen(!isOpen);
+    const toggleLang = () => setIsOpenLang(!isOpenLang);
 
+    const navRef = useRef(null);
+
+    /* Close dropdown */
     useEffect(() =>
     {
-        const fetchRole = async () =>
+        const handleClickOutside = (event) =>
         {
-            const userRole = await getUserRole();
-            setRole(userRole);
+            if (isOpen && navRef.current && !navRef.current.contains(event.target))
+                setIsOpen(false);
         };
 
-        fetchRole();
-    }, []);
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isOpen]);
 
+    /* Language */
+    const handleLanguage = async (lng) =>
+    {
+        await i18n.changeLanguage(lng);
+        setLang(lng);
+    };
+
+    /* Contrast */
+    const handleContrast = () =>
+    {
+        document.body.classList.toggle('dark');
+    };
+
+    /* Login + Signin */
     const AuthLinks = () =>
     {
         return (
@@ -38,6 +57,7 @@ function Header()
         );
     };
 
+    /* Profile + Progress + Ranking */
     const UserLinks = () =>
     {
         return (
@@ -49,6 +69,7 @@ function Header()
         );
     };
 
+    /* Contact + User List + Create */
     const AdminLinks = () =>
     {
         return (
@@ -59,27 +80,62 @@ function Header()
                 <Link to={PATHS.LIST}>{t('header.list')}</Link>
                 </>
             )}
-            {role === 'editor' && (
-                <Link to={PATHS.EDIT.COURSES}>{t('header.create')}</Link>
-            )}
+            <Link to={PATHS.EDIT.COURSES}>{t('header.create')}</Link>
             </>
         );
     };
 
+    /* Language button + Light/Dark button */
     const LDButton = () =>
     {
         return (
-            <Button>L/D</Button>
+            <>
+            <div id='header-lang' onClick={(e)=>e.stopPropagation()}>
+
+                <Button
+                    className='btn btn-lang'
+                    onClick={toggleLang}
+                >
+                    {t('lang')}
+                </Button>
+
+                <div className={`dropdown ${isOpenLang ? '' : 'hidden'}`}>
+                    {['es', 'ca', 'en'].map((lng) =>
+                    {
+                        return (
+                            <Button
+                                key={lng}
+                                className="btn"
+                                variant={lang === lng ? 'selected' : ''}
+                                onClick={() => handleLanguage(lng)}
+                            >
+                                {t(lng)}
+                            </Button>
+                        );
+                    })}
+                </div>
+            </div>
+
+            <Button className="btn btn-contrast" onClick={handleContrast}>
+                L/D
+            </Button>
+            </>
         );
     }
 
+    /* Logout button */
     const LogoutButton = () =>
     {
         return (
-            <Button>Logout</Button>
+            <Button
+                className="btn btn-danger"
+            >
+                Logout
+            </Button>
         );
     };
 
+    /* Dropdown content */
     const DropdownMenu = () =>
     {
         return (
@@ -124,7 +180,7 @@ function Header()
                 CodeLive
             </Link>
 
-            <nav>
+            <nav ref={navRef}>
                 <Button variant={`burger ${isOpen ? 'active' : ''}`} onClick={toggleMenu}
                 >
                     <span></span>

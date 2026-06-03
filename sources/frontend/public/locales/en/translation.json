@@ -1,0 +1,19 @@
+{
+    "lang": "English",
+    
+    "en": "English",
+    "ca": "Catalan",
+    "es": "Spanish",
+    
+    "header":
+    {
+        "login": "Login",
+        "signin": "Signin",
+        "profile": "Profile",
+        "progress": "Progress",
+        "ranking": "Ranking",
+        "contact": "Contact",
+        "list": "User list",
+        "create": "Manage content"
+    }
+}

@@ -4,7 +4,11 @@ export const getUserRole = async () =>
 {
     try
     {
-        const response = await fetch('api/me');
+        const response = await fetch('http://localhost:5000/api/user/me',
+        {
+            method: 'GET',
+            credentials: 'include'
+        });
 
         if (!response.ok) return 'guest';
 

@@ -3,16 +3,19 @@ import './Button.css';
 function Button(
 {
     children,
-    variant = 'primary',
+    className = '',
+    variant = '',
     onClick = () => {},
+    type = "button",
     disabled = false
 })
 {
     return (
         <button
-            className={`btn ${variant}`}
+            className={`${className} ${variant}`}
             onClick={onClick}
             disabled={disabled}
+            type={type}
         >
             {children}
         </button>
