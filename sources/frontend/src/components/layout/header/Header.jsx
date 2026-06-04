@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState, useRef } from 'react'
 
@@ -7,9 +7,11 @@ import { PATHS } from '@/routes/paths.js'
 
 import './Header.css'
 
-function Header({role, setRole})
+function Header({role, setRole, setIsLogged})
 {
     const { t, i18n } = useTranslation();
+
+    const navigate = useNavigate();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenLang, setIsOpenLang] = useState(false);
@@ -19,6 +21,14 @@ function Header({role, setRole})
     const toggleLang = () => setIsOpenLang(!isOpenLang);
 
     const navRef = useRef(null);
+
+    const logout = () =>
+    {
+        localStorage.removeItem('token');
+        setIsLogged(false);
+        setRole('guest');
+        navigate(PATHS.HOME);
+    };
 
     /* Close dropdown */
     useEffect(() =>
@@ -62,7 +72,7 @@ function Header({role, setRole})
     {
         return (
             <>
-            <Link to={PATHS.PROFILE}>{t('header.profile')}</Link>
+            <Link to={PATHS.USER.PROFILE}>{t('header.profile')}</Link>
             <Link to={PATHS.PROGRESS}>{t('header.progress')}</Link>
             <Link to={PATHS.RANKING}>{t('header.ranking')}</Link>
             </>
@@ -80,7 +90,7 @@ function Header({role, setRole})
                 <Link to={PATHS.LIST}>{t('header.list')}</Link>
                 </>
             )}
-            <Link to={PATHS.EDIT.COURSES}>{t('header.create')}</Link>
+            <Link to={PATHS.EDIT.COURSE}>{t('header.create')}</Link>
             </>
         );
     };
@@ -129,6 +139,7 @@ function Header({role, setRole})
         return (
             <Button
                 className="btn btn-danger"
+                onClick={logout}
             >
                 Logout
             </Button>

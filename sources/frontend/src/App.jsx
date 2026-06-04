@@ -21,6 +21,7 @@ import Verify from './pages/auth/Verify/Verify.jsx'
 /* Edit */
 /* Update */
 /* Admin */
+import Create from './pages/admin/Create/Create.jsx'
 
 import './App.css'
 
@@ -28,6 +29,7 @@ function App()
 {
     const navigate = useNavigate();
     const [role, setRole] = useState('guest');
+    const [isLogged, setIsLogged] = useState(false);
 
     /* Rol */
     useEffect(() =>
@@ -39,16 +41,21 @@ function App()
         };
 
         fetchRole();
-    }, []);
+    }, [isLogged]);
 
     return (
         <>
         <Routes>
-            <Route element={<MainLayout role={role} setRole={setRole} /> }>
+            <Route element={<MainLayout role={role} setRole={setRole} setIsLogged={setIsLogged}/> }>
                 <Route path={PATHS.HOME} element={<Home role={ role }/>}/>
                 <Route path={PATHS.AUTH.SIGNIN} element={<Signin />}/>
-                <Route path={PATHS.AUTH.LOGIN} element={<Login />}/>
-                <Route path={PATHS.AUTH.VERIFY + '/:type'} element={<Verify />}/>
+                <Route path={PATHS.AUTH.LOGIN} element={<Login setIsLogged={setIsLogged} />}/>
+                <Route path={PATHS.AUTH.VERIFY} element={<Verify />}/>
+
+                <Route path={PATHS.EDIT.COURSE} element={<Create />} />
+                <Route path={PATHS.EDIT.MODULE} element={<Create />} />
+                <Route path={PATHS.EDIT.LEVELS} element={<Create />} />
+                <Route path={PATHS.EDIT.LESSON} element={<Create />} />
             </Route>
 
             <Route path={PATHS.TERMS} element={<Terms />}/>

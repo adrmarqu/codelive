@@ -28,4 +28,7 @@ front:
 back:
 	open http://localhost:5000
 
+db:
+	open http://localhost:8080
+
 .PHONY: up down restart build logs clean

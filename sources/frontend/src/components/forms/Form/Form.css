@@ -32,3 +32,14 @@
 {
     width: 45%;
 }
+
+#sign-text
+{
+    margin-top: 10px;
+    text-align: center;
+}
+
+#login-signin
+{
+    margin-left: 5px;
+}

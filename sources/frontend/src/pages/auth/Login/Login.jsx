@@ -8,7 +8,7 @@ import Input from '@/components/forms/Input/Input.jsx'
 
 import './Login.css'
 
-function Login()
+function Login({setIsLogged})
 {
     const { t } = useTranslation();
 
@@ -16,6 +16,7 @@ function Login()
         <Form 
             name="login"
             action="/api/auth/login"
+            setIsLogged={setIsLogged}
         >
             <Input type="email" name="email" label={t('form.email')}/>
             <Input type="password" name="pass" label={t('form.pass')}/>

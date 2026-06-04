@@ -6,7 +6,6 @@ function Input({type = "text", name = "default", label = ""})
         <div className='form-container'>
             <label className='form-label' htmlFor={name}>{label}</label>
             <input className='form-input' type={type} name={name}/>
-            <output></output>
         </div>
     );
 }

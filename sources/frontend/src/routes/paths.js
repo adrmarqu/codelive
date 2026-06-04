@@ -14,19 +14,19 @@ export const PATHS =
     /* Create */
     EDIT:
     {
-        COURSE: '/edit/courses',
-        MODULE: '/edit/:course/modules',
-        LEVELS: '/edit/:course/:module/levels',
-        LESSON: '/edit/:course/:module/:lesson',
+        COURSE: '/edit',
+        MODULE: '/edit/:courseId',
+        LEVELS: '/edit/:courseId/:moduleId',
+        LESSON: '/edit/:courseId/:moduleId/:lessonId',
     },
 
     /* Learn */
     LEARN:
     {
-        COURSE: '/learn/courses',
-        MODULE: '/learn/:course/modules',
-        LEVELS: '/learn/:course/:module/levels',
-        LESSON: '/learn/:course/:module/:lesson',
+        COURSE: '/learn',
+        MODULE: '/learn/:courseId',
+        LEVELS: '/learn/:courseId/:moduleId',
+        LESSON: '/learn/:courseId/:moduleId/:lessonId',
     },
 
     /* Auth */
@@ -35,7 +35,7 @@ export const PATHS =
         LOGIN: '/auth/login',
         SIGNIN: '/auth/signin',
         RECOVER: '/auth/recover',
-        VERIFY: '/auth/verify'
+        VERIFY: '/auth/verify/:type'
     },
 
     /* User */

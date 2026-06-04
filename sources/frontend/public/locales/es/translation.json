@@ -23,6 +23,29 @@
     "contact": "Contacto",
     "copyright": "Todos los derechos reservados.",
 
+    "feature":
+    {
+        "title":
+        {
+            "high": "Cursos de alto nivel",
+            "progress": "Seguimiento de progreso",
+            "limit": "Desafia tu limite",
+            "ranking": "Ranking global",
+            "create": "Creación de contenido",
+            "list": "Lista de usuarios"
+        },
+
+        "text":
+        {
+            "high": "Contenido especializado para potenciar habilidades profesionales.",
+            "progress": "Visualiza y analiza tu evolución de aprendizaje en tiempo real.",
+            "limit": "Pon a prueba tus capacidades con retos y ejercicios de alta dificultad.",
+            "ranking": "Compite con la comunidad y escala posiciones por tus logros.",
+            "create": "Crea y modifica los cursos para compartir el conocimiento.",
+            "list": "Observa todos los usuarios y sus progresos."
+        }
+    },
+
 
     "form": 
     {
@@ -39,7 +62,10 @@
             "intro": "Rellena el formulario para conectarte con tu usuario",
             "title": "Conectar",
             "remember": "Recuerdame",
-            "forgot": "He olvidado mi contraseña"
+            "forgot": "He olvidado mi contraseña",
+
+            "account_no": "¿No tienes cuenta?",
+            "account_sign": "Crea una cuenta"
         },
 
         "verify":
