@@ -1,4 +1,3 @@
-
 CREATE TYPE user_rol AS ENUM ('user', 'editor', 'admin');
 CREATE TYPE lesson_type AS ENUM ('theory', 'game');
 CREATE TYPE lang_type AS ENUM ('en', 'ca', 'es');
@@ -27,7 +26,7 @@ CREATE TABLE modules
 (
     id              SERIAL PRIMARY KEY,
     name            VARCHAR(150) NOT NULL,
-    id_course       INT REFERENCES courses(id) ON DELETE CASCADE,
+    id_course       VARCHAR(50) courses(name) ON DELETE CASCADE,
     creator_id      INT REFERENCES users(id) ON DELETE SET NULL,
     last_editor_id  INT REFERENCES users(id) ON DELETE SET NULL,
 
@@ -39,11 +38,11 @@ CREATE TABLE lessons
     id              SERIAL PRIMARY KEY,
     name            VARCHAR(150) NOT NULL,
     level           INT NOT NULL, 
-    id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
+    id_module       VARCHAR(150) REFERENCES modules(id) ON DELETE CASCADE,
     creator_id      INT REFERENCES users(id) ON DELETE SET NULL,
     last_editor_id  INT REFERENCES users(id) ON DELETE SET NULL,
 
-    UNIQUE(id_module, level),
+    UNIQUE(id_module, level)
 );
 
 CREATE TABLE content

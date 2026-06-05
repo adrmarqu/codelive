@@ -25,6 +25,7 @@ function Header({role, setRole, setIsLogged})
     const logout = () =>
     {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setIsLogged(false);
         setRole('guest');
         navigate(PATHS.HOME);

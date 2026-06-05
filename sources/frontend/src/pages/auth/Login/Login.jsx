@@ -17,6 +17,7 @@ function Login({setIsLogged})
             name="login"
             action="/api/auth/login"
             setIsLogged={setIsLogged}
+            path={PATHS.HOME}
         >
             <Input type="email" name="email" label={t('form.email')}/>
             <Input type="password" name="pass" label={t('form.pass')}/>

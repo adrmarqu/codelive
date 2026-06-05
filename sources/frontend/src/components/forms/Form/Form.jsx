@@ -9,7 +9,7 @@ import { checkForm } from '@/services/auth.js'
 
 import './Form.css'
 
-function Form({name, action, method = "post", children = "", setIsLogged})
+function Form({name, action = "", method = "post", children = "", setIsLogged = null, onSubmit = null, path})
 {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -28,10 +28,7 @@ function Form({name, action, method = "post", children = "", setIsLogged})
         {
             if (name === 'login')
                 setIsLogged(true);
-            if (name === 'login' || name === 'signin')
-                navigate(PATHS.HOME);
-            else
-                navigate(PATHS.USER.PROFILE)
+            navigate(path);
         }
         else
             setError(result.error);
@@ -52,7 +49,7 @@ function Form({name, action, method = "post", children = "", setIsLogged})
         <h1>{t(`form.${name}.welcome`)}</h1>    
         <h3>{t(`form.${name}.intro`)}</h3>
 
-        <form id='form' action={action} method={method}>
+        <form id='form' action={action} method={method} onSubmit={onSubmit}>
             <h3>{t(`form.${name}.title`)}</h3>
             <output id='form-error' className={error ? '' : 'hidden'}>
                 {error}

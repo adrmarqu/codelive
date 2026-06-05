@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
-import { getUserRole } from './services/user.js'
+import { getUserData } from './services/user.js'
 import { PATHS } from './routes/paths.js'
 
 import MainLayout from './components/layout/Main/MainLayout.jsx'
@@ -21,7 +21,7 @@ import Verify from './pages/auth/Verify/Verify.jsx'
 /* Edit */
 /* Update */
 /* Admin */
-import Create from './pages/admin/Create/Create.jsx'
+import Create from './pages/edit/Create/Create.jsx'
 
 import './App.css'
 
@@ -36,7 +36,7 @@ function App()
     {
         const fetchRole = async () =>
         {
-            const userRole = await getUserRole();
+            const userRole = await getUserData();
             setRole(userRole);
         };
 

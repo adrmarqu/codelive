@@ -22,6 +22,7 @@
     "start": "Explorar contenido principal",
     "contact": "Contacto",
     "copyright": "Todos los derechos reservados.",
+    "return": "Volver",
 
     "feature":
     {
@@ -107,6 +108,19 @@
         "send": "Enviar"
     },
 
+    "learn":
+    {
+        "no_course": "No hay cursos disponibles actualmente"
+    },
+
+    "edit":
+    {
+        "courses": "Manejo de cursos",
+        "create_course": "Introduce el nombre del curso nuevo",
+
+        "module": "Manejo de los modulos",
+        "create_module": "Introduce el nombre del modelo nuevo"
+    },
 
     "code":
     {

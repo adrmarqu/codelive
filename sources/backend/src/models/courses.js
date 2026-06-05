@@ -4,7 +4,7 @@ const pool = require('../config/db');
 /* Conseguir todos los cursos, si no hay cursos devuelve null */
 const getCourses = async () =>
 {
-    const result = await pool.query('');
+    const result = await pool.query('SELECT * FROM courses');
 
     if (result.rows.length === 0) return null;
     return result;
@@ -13,7 +13,7 @@ const getCourses = async () =>
 /* Conseguir un curso, sino lo encuentra devuelve null */
 const getCourse = async (name) =>
 {
-    const result = await pool.query('', [name]);
+    const result = await pool.query('SELECT * FROM courses WHERE name=$1', [name]);
 
     if (result.rows.length === 0) return null;
     return result.rows[0];
@@ -22,9 +22,13 @@ const getCourse = async (name) =>
 /* Subir un curso, si ya existe devuelve false */
 const postCourse = async (name, creatorId) =>
 {
-    if (!getCourse(name)) return false;
-    await pool.query('', [name, creatorId]);
-    return true;
+    const courseExist = await getCourse(name);
+    if (!courseExist)
+    {
+        await pool.query('INSERT INTO courses (name, creator_id) VALUES ($1, $2)', [name, creatorId]);
+        return true;
+    }
+    return false;
 };
 
 /* Actualizar el nombre de un curso, devuelve false si ese nombre ya existe */

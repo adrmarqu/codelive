@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom"
 
-import Courses from '../Courses/Courses.jsx'
-import Modules from '../Modules/Modules.jsx'
-import Levels from '../Levels/Levels.jsx'
-import Lesson from '../Lesson/Lesson.jsx'
+import Courses from '@/pages/edit/Courses/Courses.jsx'
+import Modules from '@/pages/edit/Modules/Modules.jsx'
+import Levels from '@/pages/edit/Levels/Levels.jsx'
+import Lesson from '@/pages/edit/Lesson/Lesson.jsx'
+
+import './Create.css'
 
 function Create()
 {

@@ -1,6 +1,6 @@
 /* Datos del usuario + progreso */
 
-export const getUserRole = async () =>
+export const getUserData = async () =>
 {
     const token = localStorage.getItem('token');
     
@@ -20,6 +20,8 @@ export const getUserRole = async () =>
         if (!response.ok) return 'guest';
 
         const data = await response.json();
+
+        localStorage.setItem('user', JSON.stringify(data));
         return data.rol || 'guest';
     }
     catch (error) 

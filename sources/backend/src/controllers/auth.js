@@ -1,5 +1,6 @@
 const { generateToken } = require('../config/jwt');
 const { getUserData, checkPass, userExists, setUser } = require('../models/user.js');
+const { getCourse } = require('../models/courses.js');
 
 /* 8 -> min, may, num <- 50 */
 const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,50}$/;
@@ -18,21 +19,22 @@ const login = async (req, res) =>
     if (!emailRegex.test(email)) 
         return res.status(400).json({ message: "Formato de email inválido." });
     
-    if (pass !== 'admin' && !passRegex.test(pass)) 
+    if (!passRegex.test(pass)) 
         return res.status(400).json({ message: "La contraseña no cumple los requisitos." });
 
     try
     {
-        const user = getUserData(email);
+        const user = await getUserData(email);
 
         if (!user)
             return res.status(401).json({ message: "Usuario o contraseña incorrectos" });
 
         /* Check account status */
-        if (!user.active)
-            return res.status(403).json({ message: "Cuenta no activada. Por favor, revise su correo." });
+        /* if (!user.active)
+            return res.status(403).json({ message: "Cuenta no activada. Por favor, revise su correo." }); */
 
-        if (!checkPass(pass, user.password_hash))
+        const isMatch = await checkPass(pass, user.password_hash);
+        if (!isMatch)
             return res.status(401).json({ message: "Usuario o contraseña incorrectos" });
     
         /* Generate token */
@@ -62,7 +64,7 @@ const signin = async (req, res) =>
     if (!emailRegex.test(email)) 
         return res.status(400).json({ message: "Formato de email inválido" });
     
-    if (pass !== 'admin' && !passRegex.test(pass)) 
+    if (!passRegex.test(pass)) 
         return res.status(400).json({ message: "Contraseña no cumple requisitos" });
     
     if (pass !== rep)
@@ -73,10 +75,10 @@ const signin = async (req, res) =>
 
     try
     {
-        if (userExists(user, email))
+        if (await userExists(user, email))
             return res.status(409).json({ message: "El usuario o el email ya están registrados." });
 
-        setUser(user, email, pass);
+        await setUser(user, email, pass);
 
         /* Enviar correo */
 
@@ -88,4 +90,26 @@ const signin = async (req, res) =>
     }
 };
 
-module.exports = { login, signin };
+const formCourse = async (req, res) =>
+{
+    const { course } = req.body;
+
+    if (!course)
+        return res.status(400).json({ message: "Campos vacíos" });
+
+    try
+    {
+        const result = await getCourse(course);
+
+        if (!result)
+            return res.status(201).json({ message: "No hay cursos con ese nombre" });
+
+        return res.status(409).json({ message: "Ese curso ya existe" });
+    }
+    catch (error)
+    {
+        return res.status(500).json({message: "Internal error"});
+    }
+};
+
+module.exports = { login, signin, formCourse };

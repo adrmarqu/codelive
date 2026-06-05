@@ -17,10 +17,10 @@ app.use(express.json());
 /* 
 const learnRoutes = require('./routes/learn.js');
 const otherRoutes = require('./routes/others.js'); */
-const editRoutes = require('./routes/edit.js');
 const authRoutes = require('./routes/auth.js');
 const userRoutes = require('./routes/user.js');
-  
+const editRoutes = require('./routes/edit.js');
+
 /* Check routes */
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);

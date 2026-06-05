@@ -31,4 +31,7 @@ back:
 db:
 	open http://localhost:8080
 
+seed:
+	docker exec -it codelive-backend node src/seed/seed.js
+
 .PHONY: up down restart build logs clean

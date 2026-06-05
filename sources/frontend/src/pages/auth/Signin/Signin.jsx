@@ -16,6 +16,7 @@ function Signin()
         <Form 
             name="signin"
             action="/api/auth/signin"
+            path={PATHS.HOME}
         >
             <Input name="user" label={t('form.user')}/>
             <Input type="email" name="email" label={t('form.email')}/>

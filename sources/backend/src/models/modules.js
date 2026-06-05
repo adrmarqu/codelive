@@ -4,7 +4,7 @@ const pool = require('../config/db');
 /* Conseguir todos los modulos de un curso, si no hay modulos devuelve null */
 const getModules = async (courseId) =>
 {
-    const result = await pool.query('', [courseId]);
+    const result = await pool.query('SELECT * FROM modules WHERE id_course=$1', [courseId]);
 
     if (result.rows.length === 0) return null;
     return result;

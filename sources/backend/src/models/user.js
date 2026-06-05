@@ -20,10 +20,10 @@ const checkPass = async (pass, DBPass) =>
 
 const userExists = async (user, email) =>
 {
-    const result = await pool.query('SELECT username, email from users WHERE username = $1 OR email = $2', [user, email]);
+    const result = await pool.query('SELECT username, email FROM users WHERE username = $1 OR email = $2', [user, email]);
 
-    if (result.rows.length > 0) return true;
-    return false;
+    console.log('Buscando usuario:', user, email, 'Resultado:', result.rows);
+    return result.rows.length > 0;
 };
 
 const setUser = async (user, email, pass) =>

@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const protect = require('../middleware/middleware');
 
-
 router.get('/me', protect, (req, res) =>
 {
     if (req.user)
