@@ -1,12 +1,11 @@
-const bcrypt = require('bcrypt');
-const pool = require('../config/db');
 const { generateToken } = require('../config/jwt');
+const { getUserData, checkPass, userExists, setUser } = require('../models/user.js');
 
-
-/* 8 -> min, may, num */
+/* 8 -> min, may, num <- 50 */
 const passRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,50}$/;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const userRegex = /^(?![0-9])[a-zA-Z0-9-_]{1,50}$/;
+/* letra - numero, letra, guion, min 2 - max 50 */
+const userRegex = /^(?![0-9])[a-zA-Z0-9-_]{2,50}$/;
 
 const login = async (req, res) =>
 {
@@ -24,24 +23,18 @@ const login = async (req, res) =>
 
     try
     {
-        /* Get user */
-        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        const user = getUserData(email);
 
-        /* User exists */
-        if (result.rows.length === 0)
+        if (!user)
             return res.status(401).json({ message: "Usuario o contraseña incorrectos" });
-
-        const user = result.rows[0];
 
         /* Check account status */
         if (!user.active)
             return res.status(403).json({ message: "Cuenta no activada. Por favor, revise su correo." });
 
-        /* Check pass */
-        const isMatch = await bcrypt.compare(pass, user.password_hash);
-        if (!isMatch)
+        if (!checkPass(pass, user.password_hash))
             return res.status(401).json({ message: "Usuario o contraseña incorrectos" });
-
+    
         /* Generate token */
         const token = generateToken(user, remember);
 
@@ -80,14 +73,12 @@ const signin = async (req, res) =>
 
     try
     {
-        const result = await pool.query('SELECT username, email from users WHERE username = $1 OR email = $2', [user, email]);
-
-        if (result.rows.length > 0)
+        if (userExists(user, email))
             return res.status(409).json({ message: "El usuario o el email ya están registrados." });
 
-        const hash = await bcrypt.hash(pass, 10);
+        setUser(user, email, pass);
 
-        await pool.query('INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3)', [user, email, hash]);
+        /* Enviar correo */
 
         return res.status(201).json({ message: "Usuario registrado con éxito." });
     }

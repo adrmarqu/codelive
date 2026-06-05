@@ -18,34 +18,46 @@ CREATE TABLE users
 CREATE TABLE courses
 (
     id              SERIAL PRIMARY KEY,
-    name            VARCHAR(50) NOT NULL,
-    id_editor       INT REFERENCES users(id) ON DELETE SET NULL
+    name            VARCHAR(50) UNIQUE NOT NULL,
+    creator_id      INT REFERENCES users(id) ON DELETE SET NULL,
+    last_editor_id  INT REFERENCES users(id) ON DELETE SET NULL
 );
 
 CREATE TABLE modules
 (
     id              SERIAL PRIMARY KEY,
     name            VARCHAR(150) NOT NULL,
-    id_course       INT REFERENCES courses(id) ON DELETE CASCADE
+    id_course       INT REFERENCES courses(id) ON DELETE CASCADE,
+    creator_id      INT REFERENCES users(id) ON DELETE SET NULL,
+    last_editor_id  INT REFERENCES users(id) ON DELETE SET NULL,
+
+    UNIQUE(name, id_course)
 );
 
 CREATE TABLE lessons
 (
     id              SERIAL PRIMARY KEY,
     name            VARCHAR(150) NOT NULL,
-    type            lesson_type NOT NULL,
-    id_module       INT REFERENCES modules(id) ON DELETE CASCADE
+    level           INT NOT NULL, 
+    id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
+    creator_id      INT REFERENCES users(id) ON DELETE SET NULL,
+    last_editor_id  INT REFERENCES users(id) ON DELETE SET NULL,
+
+    UNIQUE(id_module, level),
 );
 
 CREATE TABLE content
 (
     id              SERIAL PRIMARY KEY,
     id_lesson       INT REFERENCES lessons(id) ON DELETE CASCADE,
+    type            lesson_type NOT NULL,
     lang            lang_type NOT NULL,
     title           VARCHAR(200) NOT NULL,
     content         TEXT NOT NULL,
     code            TEXT,
-    code_language   prog_lang
+    code_language   prog_lang,
+
+    UNIQUE (id_lesson, lang)
 );
 
 CREATE TABLE progress
@@ -54,6 +66,7 @@ CREATE TABLE progress
     id_user         INT REFERENCES users(id) ON DELETE CASCADE,
     id_lesson       INT REFERENCES lessons(id) ON DELETE CASCADE,
     completed_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
     UNIQUE(id_user, id_lesson)
 );
 

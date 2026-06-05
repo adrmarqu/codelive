@@ -15,17 +15,18 @@ app.use(express.json());
 
 /* Routes */
 /* 
-const editRoutes = require('./routes/edit');
-const learnRoutes = require('./routes/learn');
-const otherRoutes = require('./routes/others'); */
+const learnRoutes = require('./routes/learn.js');
+const otherRoutes = require('./routes/others.js'); */
+const editRoutes = require('./routes/edit.js');
 const authRoutes = require('./routes/auth.js');
 const userRoutes = require('./routes/user.js');
   
 /* Check routes */
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
-/* app.use('/api/auth', authRoutes);
 app.use('/api/edit', editRoutes);
+/* 
+app.use('/api/auth', authRoutes);
 app.use('/api/learn', learnRoutes);
 app.use('/api/others', otherRoutes); */
 

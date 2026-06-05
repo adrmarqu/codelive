@@ -10,9 +10,9 @@ function Create()
     const { courseId, moduleId, lessonId} = useParams();
 
     if (lessonId)
-        return (<Lesson lessonId={lessonId}/>);
+        return (<Lesson courseId={courseId} moduleId={moduleId} lessonId={lessonId}/>);
     if (moduleId)
-        return (<Levels moduleId={moduleId}/>);
+        return (<Levels courseId={courseId} moduleId={moduleId}/>);
     if (courseId)
         return (<Modules courseId={courseId}/>);
     return (<Courses />);
