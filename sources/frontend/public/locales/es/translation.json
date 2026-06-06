@@ -23,6 +23,7 @@
     "contact": "Contacto",
     "copyright": "Todos los derechos reservados.",
     "return": "Volver",
+    "courses": "Cursos",
 
     "feature":
     {
@@ -103,9 +104,15 @@
         "pass": "Introduce tu contraseña",
         "pass_rep": "Repite tu contraseña",
         "terms": "Terminos y servicios",
+        "name": "Introduce el nombre",
 
         "cancel": "Cancelar",
-        "send": "Enviar"
+        "send": "Enviar",
+        "create": "Crear",
+        "edit": "Editar",
+        "delete": "Delete",
+        "save": "Guardar",
+        "new": "Nuevo"
     },
 
     "learn":

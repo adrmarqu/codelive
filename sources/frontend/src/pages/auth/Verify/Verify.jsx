@@ -4,8 +4,8 @@ import { Link, useParams } from 'react-router-dom'
 
 import { PATHS } from '@/routes/paths'
 
-import Form from '@/components/forms/Form/Form.jsx'
-import Input from '@/components/forms/Input/Input.jsx'
+import Form from '@/components/Forms/Form/Form.jsx'
+import Input from '@/components/Forms/Input/Input.jsx'
 
 import './Verify.css'
 

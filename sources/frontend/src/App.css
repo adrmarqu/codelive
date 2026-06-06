@@ -49,3 +49,4 @@ h1, h2, h3 { text-align: center; }
 
 .hidden { display: none !important; }
 .transparent { opacity: 0; }
+.click { cursor: pointer; }

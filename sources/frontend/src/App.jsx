@@ -52,10 +52,7 @@ function App()
                 <Route path={PATHS.AUTH.LOGIN} element={<Login setIsLogged={setIsLogged} />}/>
                 <Route path={PATHS.AUTH.VERIFY} element={<Verify />}/>
 
-                <Route path={PATHS.EDIT.COURSE} element={<Create />} />
-                <Route path={PATHS.EDIT.MODULE} element={<Create />} />
-                <Route path={PATHS.EDIT.LEVELS} element={<Create />} />
-                <Route path={PATHS.EDIT.LESSON} element={<Create />} />
+                <Route path={PATHS.EDIT} element={<Create />} />
             </Route>
 
             <Route path={PATHS.TERMS} element={<Terms />}/>

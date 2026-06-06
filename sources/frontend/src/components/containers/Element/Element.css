@@ -1,0 +1,17 @@
+.element-info
+{
+    padding: 5px;
+    margin-top: 5px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.element-btn
+{
+    display: flex;
+    gap: 10px;
+}

@@ -36,7 +36,8 @@ CREATE TABLE lessons
     level           INT NOT NULL, 
     id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
 
-    UNIQUE(id_module, level)
+    UNIQUE(id_module, level),
+    UNIQUE(id_module, name)
 );
 
 CREATE TABLE content
@@ -45,6 +46,7 @@ CREATE TABLE content
     id_lesson       INT REFERENCES lessons(id) ON DELETE CASCADE,
     type            lesson_type NOT NULL,
     lang            lang_type NOT NULL,
+    title           VARCHAR(50) NOT NULL
     content         TEXT NOT NULL,
     code            TEXT,
     code_language   prog_lang,

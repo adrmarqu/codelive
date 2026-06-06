@@ -2,23 +2,8 @@ import { useTranslation } from 'react-i18next'
 
 import { Link } from 'react-router-dom'
 import { PATHS, ICON_MAP } from '@/routes/paths.js'
-import Feature from '@/components/containers/features/Feature.jsx'
+import Feature from '@/components/Containers/Features/Feature.jsx'
 import './Home.css'
-
-/* Features
-
-- Cursos de alto nivel : high
-- Seguimiento de progreso : progress
-- Desafia tu limite : limit
-
-- Ranking : ranking
-
-- Crear contenido : create
-
-- Lista de usuarios: user
-
-
-*/
 
 function Home({ role })
 {

@@ -24,7 +24,7 @@ const postCourse = async (name) =>
     const courseExist = await getCourse(name);
     if (courseExist) return false;
 
-    const result = await pool.query('INSERT INTO courses (name) VALUES ($1, $2)', [name]);
+    const result = await pool.query('INSERT INTO courses (name) VALUES ($1)', [name]);
     return result.rowCount > 0;
 };
 
@@ -47,4 +47,4 @@ const deleteCourse = async (id) =>
     return result.rowCount > 0;
 };
 
-module.exports = { getCourses, postCourse, putCourse, deleteCourse };
+module.exports = { getCourse, getCourses, postCourse, putCourse, deleteCourse };

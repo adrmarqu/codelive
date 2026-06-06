@@ -7,98 +7,37 @@ import Modules from '@/pages/edit/Modules/Modules.jsx'
 import Levels from '@/pages/edit/Levels/Levels.jsx'
 import Lesson from '@/pages/edit/Lesson/Lesson.jsx'
 
-import Button from '@/components/common/button/Button.jsx'
-import Input from '@/components/forms/Input/Input.jsx'
-import FormEdit from '@/components/forms/Form/FormEdit.jsx'
-
-import { postCourseResquest, putCourseResquest, deleteCourseRequest } from "@/services/courses.js"
-/* import { postModuleResquest, putModuleResquest, deleteModuleRequest } from "@/services/modules.js"
-import { postLevelResquest, putLevelResquest, deleteLevelRequest } from "@/services/levels.js" */
+import Button from '@/components/Common/button/Button.jsx'
+import Input from '@/components/Forms/Input/Input.jsx'
 
 import './Create.css'
 
+/* 
+
+/edit/courses
+/edit/courses/:course
+/edit/courses/:course/:module
+/edit/courses/:course/:module/:level
+
+*/
+
 function Create()
 {
-    const { courseId, moduleId, lessonId } = useParams();
+    const { course, module, level } = useParams();
     const { t } = useTranslation();
     const navigate = useNavigate();
 
-    const [isForm, setIsForm] = useState(false);
-    const [itemToEdit, setItemToEdit] = useState(null);
-
-    const openForm = (data = null) =>
+    const getRenderContent = () =>
     {
-        setItemToEdit(data);
-        setIsForm(true);
+        if (level) return <Lesson course={course} module={module} level={level} />;
+        if (module) return <Levels course={course} module={module} />;
+        if (course) return <Modules course={course} />;
+        return <Courses />;
     };
-
-    const handleSave = async (formData) =>
-    {
-        try
-        {
-            let response;
-            
-            if (itemToEdit)
-            {
-                if (moduleId) response = await putLevelRequest(itemToEdit.id, formData);
-                else if (courseId) response = await putModuleRequest(itemToEdit.id, formData);
-                else response = await putCourseRequest(itemToEdit.id, formData);
-            }
-            else
-            {
-                if (moduleId)
-                    response = await postLevelRequest(moduleId, formData);
-                else if (courseId)
-                    response = await postModuleRequest(courseId, formData);
-                else
-                    response = await postCourseRequest(formData);
-            }
-
-            console.log("Recibido:", response);
-            
-            setIsForm(false);
-            setItemToEdit(null);
-            await loadData();
-        }
-        catch (error)
-        {
-            console.error("Error al persistir el elemento:", error);
-        }
-    };
-
-    const renderHeader = () =>
-    (
-        <div className="edit-header">
-            {courseId && <Button onClick={() => navigate(-1)}>{t('return')}</Button>}
-            <h2>{t('courses')}</h2> {/* Aquí podrías poner lógica para cambiar el título dinámicamente */}
-            {!isForm && <Button onClick={() => openForm()}>{t('new')}</Button>}
-        </div>
-    );
-
-    const renderContent = () =>
-    (
-        <div className="edit-content">
-            {lessonId ? <Lesson course={courseId} module={moduleId} level={lessonId} onEdit={openForm} />
-            : moduleId ? <Levels course={courseId} module={moduleId} onEdit={openForm} />
-            : courseId ? <Modules course={courseId} onEdit={openForm} />
-            : <Courses onEdit={openForm} />}
-        </div>
-    );
 
     return (
         <section id="edit-section">
-            {!isForm ? (
-                <>
-                    {renderHeader()}
-                    {renderContent()}
-                </>
-            ) : (
-                <FormEdit 
-                    initialData={itemToEdit} 
-                    onClose={() => setIsForm(false)} 
-                    onSubmit={handleSave} 
-                />
-            )}
+            {getRenderContent()}
         </section>
     );
 }

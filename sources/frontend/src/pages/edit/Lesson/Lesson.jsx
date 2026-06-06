@@ -1,4 +1,4 @@
-function Lesson()
+function Lesson({course, module, level})
 {
     return (
         <>

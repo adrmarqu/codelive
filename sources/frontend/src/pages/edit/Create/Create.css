@@ -1,0 +1,33 @@
+#edit-section
+{
+    width: 80%;
+    margin: auto;
+}
+
+.edit-header
+{
+    margin-bottom: 5px;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.edit-content
+{
+    margin-top: 15px;
+}
+
+.edit-content form
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.edit-input
+{
+    padding: 10px;
+    border: 2px solid black;
+}
