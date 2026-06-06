@@ -26,7 +26,7 @@ front:
 	open http://localhost:5173
 
 back:
-	open http://localhost:5000
+	open http://localhost:3000
 
 db:
 	open http://localhost:8080

@@ -1,4 +1,9 @@
-/* Datos del usuario + progreso */
+import axios from 'axios';
+
+const api = axios.create(
+{
+    baseURL: 'http://localhost:3000/api/user'
+});
 
 export const getUserData = async () =>
 {
@@ -8,23 +13,18 @@ export const getUserData = async () =>
 
     try
     {
-        const response = await fetch('http://localhost:5000/api/user/me',
-        {
-            method: 'GET',
+        const response = await api.get('/me', {
             headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
+                'Authorization': `Bearer ${token}`
             }
         });
 
-        if (!response.ok) return 'guest';
-
-        const data = await response.json();
-
+        const data = response.data;
         localStorage.setItem('user', JSON.stringify(data));
+        
         return data.rol || 'guest';
     }
-    catch (error) 
+    catch (error)
     {
         console.error("Error (getUserRole):", error);
         return 'guest';

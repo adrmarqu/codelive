@@ -1,111 +1,50 @@
-import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getCourses, handleCreateCourse } from '@/services/content.js'
-import { PATHS } from '@/routes/paths.js'
+import { getAllCoursesRequest, deleteCourseRequest } from '@/services/courses.js'
 
-import Form from '@/components/forms/Form/Form.jsx'
-import Input from '@/components/forms/Input/Input.jsx'
-import CardEdit from '@/components/containers/cardEdit/CardEdit.jsx'
-import Button from '@/components/common/Button/button.jsx'
-
-function Courses()
+const Courses = ({ onEdit }) =>
 {
-    const { t } = useTranslation();
-    const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
-    const [newCourse, setNewCourse] = useState(false);
+    const navigate = useNavigate();
 
-    const fetchCourses = async () =>
+    // Cargar cursos al montar el componente
+    useEffect(() => { loadCourses(); }, []);
+
+    const loadCourses = async () =>
     {
-        const data = await getCourses();
-        if (Array.isArray(data)) setCourses(data);
+        const res = await getAllCoursesRequest();
+        setCourses(res.data);
     };
 
-    useEffect(() =>
+    const handleDelete = async (id) =>
     {
-        fetchCourses();
-    }, []);
-
-    const closeForm = () => setNewCourse(false);
-    const goTo = (id) => { navigate(`${PATHS.EDIT.COURSE}/${id}`); };
-
-    const getUserId = () =>
-    {
-        const userString = localStorage.getItem('user');
-        return userString ? JSON.parse(userString).id : null;
-    };
-
-    const handleSubmit = async (e) =>
-    {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const data = Object.fromEntries(formData.entries());
-                
-        const creatorId = getUserId() || 1;
-        const courseName = data.course;
-
-        if (!courseName) {
-            console.error("Error: el nombre del curso está vacío");
-            return;
-        }
-
-        const isSuccess = await handleCreateCourse(data, creatorId);
-
-        if (isSuccess)
+        if (window.confirm('¿Estás seguro de eliminar este curso?'))
         {
-            await fetchCourses();
-            console.log("CURSOS:", courses);
-            setNewCourse(false);
+            await deleteCourseRequest(id);
+            loadCourses(); // Recargar lista tras borrar
         }
     };
 
     return (
-        <>
-        {!newCourse && (
-        <section className="edit-container">
-            <div>
-                <h2>{t('edit.courses')}</h2>
-                <hr /> 
-            </div>
-
-            <div className='cards-grid'>
-                <CardEdit
-                    name='New course'
-                    onClick={() => setNewCourse(true)}
-                    className='card-new'    
-                />
-
-                {courses.map((course) => (
-                <CardEdit
-                    key={course.id}
-                    name={course.name}
-                    onClick={() => goTo(course.name)}
-                    className='card-edit'
-                />
-                ))}
-            </div>
-        </section>
-        )}
-
-        {newCourse && (
-        <section id='section-form'>
-            <form id='form' onSubmit={handleSubmit}>
-                <Input name='course' label={t('edit.create_course')} />
-
-                <div id='form-btn-container'>
-                    <Button className="btn btn-secondary" onClick={closeForm}>
-                        {t('form.cancel')}
-                    </Button>
-                    <Button className="btn btn-primary" type="submit">
-                        {t('form.send')}
-                    </Button>
+        <div className="courses-list">
+            {courses.map((course) => (
+                <div 
+                    key={course.id} 
+                    className="item-row" 
+                    onClick={() => navigate(`/edit/courses/${course.id}`)}
+                >
+                    <span>{course.name}</span>
+                    
+                    <div className="buttons" onClick={(e) => e.stopPropagation()}>
+                        {/* El botón de Editar llama a la función que viene de Create.jsx */}
+                        <button onClick={() => onEdit(course)}>Editar</button>
+                        
+                        <button onClick={() => handleDelete(course.id)}>Del</button>
+                    </div>
                 </div>
-            </form>
-        </section>
-        )}
-       </>
+            ))}
+        </div>
     );
-}
+};
 
 export default Courses

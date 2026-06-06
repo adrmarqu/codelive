@@ -2,13 +2,14 @@
 const express = require('express');
 const router = express.Router();
 
-const { getAllCourses, getOneCourse, postOneCourse } = require('../controllers/courses.js');
+const { getAllCourses, postOneCourse, putOneCourse, deleteOneCourse } = require('../controllers/courses.js');
 const { getAllModules } = require('../controllers/modules.js');
 
 /* Courses */
 router.get('/courses', getAllCourses);
-router.get('/courses/:courseId', getOneCourse);
-router.post('/courses/:creator/:courseName', postOneCourse);
+router.post('/courses', postOneCourse);
+router.put('/courses/:courseId', putOneCourse);
+router.delete('/courses/:courseId', deleteOneCourse);
 
 /* Modules */
 router.get('/courses/:courseId/modules', getAllModules);

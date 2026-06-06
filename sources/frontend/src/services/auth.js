@@ -1,22 +1,18 @@
-/* Login, Signin... */
+import axios from 'axios';
+
+const api = axios.create(
+{
+    baseURL: 'http://localhost:3000/api/auth'
+});
 
 export const checkForm = async (name, formData) =>
 {
     try
     {
-        const response = await fetch(`http://localhost:5000/api/auth/${name}`,
-        {
-            method: 'POST',
-            headers:
-            {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(Object.fromEntries(formData.entries()))
-        });
+        const payload = Object.fromEntries(formData.entries());
+        const response = await api.post(`/${name}`, payload);
 
-        const data = await response.json();
-
-        if (!response.ok) throw new Error(data.message || "Error al enviar");
+        const { data } = response;
 
         console.log("TOKEN:", data.token);
 
@@ -24,9 +20,10 @@ export const checkForm = async (name, formData) =>
             localStorage.setItem('token', data.token);
 
         return { success: true, data };
-    }
-    catch (error) 
+    } 
+    catch (error)
     {
-        return { success: false, error: error.message };
+        const errorMessage = error.response?.data?.message || "Error al enviar";
+        return { success: false, error: errorMessage };
     }
 };

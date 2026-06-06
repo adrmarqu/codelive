@@ -90,26 +90,4 @@ const signin = async (req, res) =>
     }
 };
 
-const formCourse = async (req, res) =>
-{
-    const { course } = req.body;
-
-    if (!course)
-        return res.status(400).json({ message: "Campos vacíos" });
-
-    try
-    {
-        const result = await getCourse(course);
-
-        if (!result)
-            return res.status(201).json({ message: "No hay cursos con ese nombre" });
-
-        return res.status(409).json({ message: "Ese curso ya existe" });
-    }
-    catch (error)
-    {
-        return res.status(500).json({message: "Internal error"});
-    }
-};
-
-module.exports = { login, signin, formCourse };
+module.exports = { login, signin };
