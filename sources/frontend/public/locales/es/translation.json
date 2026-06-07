@@ -1,5 +1,6 @@
 {
     "lang": "Español",
+    "lant_sub": "es",
     
     "es": "Español",
     "en": "Inglés",
@@ -126,7 +127,10 @@
         "create_course": "Introduce el nombre del curso nuevo",
 
         "module": "Manejo de los modulos",
-        "create_module": "Introduce el nombre del modelo nuevo"
+        "create_module": "Introduce el nombre del modelo nuevo",
+
+        "theory": "Teorico",
+        "game": "Minijuego"
     },
 
     "code":

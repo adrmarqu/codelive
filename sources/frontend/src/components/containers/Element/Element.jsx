@@ -5,12 +5,10 @@ import Button from '@/components/Common/Button/Button.jsx'
 
 import './Element.css'
 
-const Element = ({ title, onSave, onDel, onNavigate, onUp = null, onDown = null }) =>
+const Element = ({ title, onSave, onDel, onNavigate }) =>
 {
     const [isEditing, setIsEditing] = useState(false);
     const [name, setName] = useState(title);
-
-    const isLevel = onUp && onDown;
 
     const { t } = useTranslation();
 
@@ -33,17 +31,7 @@ const Element = ({ title, onSave, onDel, onNavigate, onUp = null, onDown = null 
     {
         e.stopPropagation();
         if (!window.confirm("Quieres borralo?")) return;
-        onDel(name);
-    };
-    const handleUp = (e) =>
-    {
-        e.stopPropagation();
-        onUp();
-    };
-    const handleDown = (e) =>
-    {
-        e.stopPropagation();
-        onDown();
+        onDel(title);
     };
 
     return (
@@ -51,22 +39,13 @@ const Element = ({ title, onSave, onDel, onNavigate, onUp = null, onDown = null 
             {isEditing ? (
                 <div className='element-info'>
                     <input 
-                        type="text" 
+                        type={inputType} 
                         value={name} 
                         onChange={(e) => setName(e.target.value)} 
                         autoFocus 
                     />
+                    
                     <div className='element-btn'>
-                        {isLevel && (
-                            <>
-                            <Button className="btn btn-warning" onClick={handleUp}>
-                                ▲
-                            </Button>
-                            <Button className="btn btn-warning" onClick={handleDown}>
-                                ▼
-                            </Button>
-                            </>
-                        )}
                         <Button className="btn btn-primary" onClick={handleSave}>{t('form.save')}</Button>
                         <Button className="btn btn-secondary" onClick={handleCancel}>{t('form.cancel')}</Button>
                     </div>

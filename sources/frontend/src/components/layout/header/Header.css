@@ -1,4 +1,4 @@
-header
+.header
 {
     padding: 10px;
     background-color: var(--bg-header);
@@ -72,4 +72,9 @@ nav { position: relative; }
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.header-icon
+{
+    width: 100px;
 }

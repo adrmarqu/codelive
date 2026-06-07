@@ -1,4 +1,12 @@
-const { getLevel, getLevelById, getLevels, postLevel, putLevel, deleteLevel, getLessonByLevel, changeLevel } = require('../models/levels.js');
+const {
+    getLevel, 
+    getLevelById, 
+    getLevels, 
+    postLevel, 
+    putType, 
+    deleteLevel, 
+    changeLevel 
+} = require('../models/levels.js');
 
 const getAllLevels = async (req, res) =>
 {
@@ -15,14 +23,31 @@ const getAllLevels = async (req, res) =>
     }
 };
 
-const postOneLevel = async (req, res) =>
+const getOneLevel = async (req, res) =>
 {
-    const { moduleId } = req.params;
-    const { levelName, level } = req.body;
+    const { moduleId, level } = req.params;
     
     try
     {
-        const result = await postLevel(moduleId, levelName, level);
+        const result = await getLevel(moduleId, level);
+        if (!result)
+            return res.status(409).json({message: "Ese nivel no existe"});
+        return res.status(200).json(result);
+    }
+    catch (error)
+    {
+        return res.status(500).json({message: "Internal error"});
+    }
+};
+
+const postOneLevel = async (req, res) =>
+{
+    const { moduleId } = req.params;
+    const { level, type } = req.body;
+    
+    try
+    {
+        const result = await postLevel(moduleId, level, type);
         
         if (!result)
             return res.status(400).json({message: "Ese nivel ya existe"});
@@ -36,16 +61,27 @@ const postOneLevel = async (req, res) =>
     }
 };
 
-const putOneLevel = async (req, res) =>
+const putTwoLevels = async (req, res) =>
 {
-    const { levelId } = req.params;
-    const { levelName } = req.body;
+    const { moduleId } = req.params;
+    const { levelId, level, newLevel, newType } = req.body;
     
     try
     {
-        const result = await putLevel(levelId, levelName);
+        const result = await putType(levelId, newType);
         if (!result)
-            return res.status(400).json({message: "El nivel no se ha actualizado"});
+            return res.status(400).json({message: "El tipo no se ha actualizado"});
+        
+        if (level !== newLevel)
+        {
+            const levelB = await getLevel(moduleId, newLevel);
+            if (!levelB)
+                return res.status(400).json({message: "Ese nivel no existe"});
+
+            const result = await changeLevel(levelId, levelB.id, level, newLevel);
+            if (!result)
+                return res.status(400).json({message: "No se ha podido mover el nivel"});
+        }
 
         return res.status(200).json({message: "Nivel actualizado con exito"});
     }
@@ -57,8 +93,8 @@ const putOneLevel = async (req, res) =>
 
 const swapTwoLevels = async (req, res) =>
 {
-    const { moduleId, levelId } = req.params;
-    const { direction } = req.body;
+    const { moduleId } = req.params;
+    const { levelId, direction } = req.body;
     
     try
     {
@@ -72,7 +108,7 @@ const swapTwoLevels = async (req, res) =>
         const targetLevel = direction === 'up' ? currLevel - 1 : currLevel + 1;
 
         /* Get level B */
-        const levelB = await getLessonByLevel(moduleId, targetLevel);
+        const levelB = await getLevel(moduleId, targetLevel);
         if (!levelB)
             return res.status(400).json({message: "No hay nivel en esa direccion"});
 
@@ -108,4 +144,4 @@ const deleteOneLevel = async (req, res) =>
     }
 };
 
-module.exports = { getAllLevels, postOneLevel, putOneLevel, swapTwoLevels, deleteOneLevel};
+module.exports = { getOneLevel, getAllLevels, postOneLevel, putTwoLevels, swapTwoLevels, deleteOneLevel};

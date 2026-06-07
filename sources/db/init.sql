@@ -32,7 +32,7 @@ CREATE TABLE modules
 CREATE TABLE lessons
 (
     id              SERIAL PRIMARY KEY,
-    name            VARCHAR(150) NOT NULL,
+    type            lesson_type NOT NULL,
     level           INT NOT NULL, 
     id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
 
@@ -44,7 +44,6 @@ CREATE TABLE content
 (
     id              SERIAL PRIMARY KEY,
     id_lesson       INT REFERENCES lessons(id) ON DELETE CASCADE,
-    type            lesson_type NOT NULL,
     lang            lang_type NOT NULL,
     title           VARCHAR(50) NOT NULL
     content         TEXT NOT NULL,

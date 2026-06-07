@@ -2,9 +2,36 @@
 const express = require('express');
 const router = express.Router();
 
-const { getOneCourse, getAllCourses, postOneCourse, putOneCourse, deleteOneCourse } = require('../controllers/courses.js');
-const { getAllModules, postOneModule, putOneModule, deleteOneModule, getOneModule } = require('../controllers/modules.js');
-const { getAllLevels, postOneLevel, putOneLevel, swapTwoLevels, deleteOneLevel } = require('../controllers/levels.js');
+const { 
+    getOneCourse, 
+    getAllCourses, 
+    postOneCourse, 
+    putOneCourse, 
+    deleteOneCourse 
+} = require('../controllers/courses.js');
+
+const { 
+    getAllModules, 
+    postOneModule, 
+    putOneModule, 
+    deleteOneModule, 
+    getOneModule 
+} = require('../controllers/modules.js');
+
+const { 
+    getOneLevel,
+    getAllLevels, 
+    postOneLevel, 
+    putTwoLevels, 
+    swapTwoLevels, 
+    deleteOneLevel 
+    } = require('../controllers/levels.js');
+
+const {
+    getOneLesson, 
+    postOneLesson, 
+    putOneLesson
+} = require('../controllers/lesson.js');
 
 /* Courses */
 router.get('/courses', getAllCourses);
@@ -15,7 +42,6 @@ router.post('/courses', postOneCourse);
 router.put('/courses/:courseId', putOneCourse);
 
 router.delete('/courses/:courseId', deleteOneCourse);
-
 
 
 /* Modules */
@@ -31,12 +57,21 @@ router.delete('/modules/:moduleId', deleteOneModule);
 
 /* Levels */
 router.get('/levels/:moduleId', getAllLevels);
+router.get('/levels/:moduleId/:level', getOneLevel);
+router.get(`/levels/${moduleId}/${level}`);
 
 router.post('/levels/:moduleId', postOneLevel);
 
-router.put('/levels/:levelId', putOneLevel);
-router.put('/levels/:moduleId/:levelId', swapTwoLevels);
+router.put('/levels/:moduleId', putTwoLevels);
+router.put('/levels/swap/:moduleId/', swapTwoLevels);
 
 router.delete('/levels/:levelId', deleteOneLevel);
+
+
+/* Lesson */
+
+router.put('/lesson/:levelId', getOneLesson);
+router.post('/lesson/:levelId', postOneLesson);
+router.put('/lesson/:levelId', putOneLesson);
 
 module.exports = router;

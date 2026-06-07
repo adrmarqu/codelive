@@ -32,7 +32,7 @@ export const PATHS =
     }
 };
 
-const iconURL = '@/assets/icons';
+const iconURL = '@/../public/assets/icons/home';
 
 export const ICON_MAP =
 {
@@ -45,7 +45,7 @@ export const ICON_MAP =
 
     LIMIT:
     {
-        src: `${iconURL}/limit.png`,
+        src: `${iconURL}/limits.png`,
         alt: 'Break your limits',
         title: 'Limit icon'
     },

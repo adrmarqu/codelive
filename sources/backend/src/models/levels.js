@@ -10,9 +10,9 @@ const getLevels = async (moduleId) =>
 };
 
 /* Conseguir un modulo de un curso, sino lo encuentra devuelve null */
-const getLevel = async (moduleId, name) =>
+const getLevel = async (moduleId, level) =>
 {
-    const result = await pool.query('SELECT * FROM lessons WHERE id_module=$1 AND name=$2', [moduleId, name]);
+    const result = await pool.query('SELECT * FROM lessons WHERE id_module=$1 AND level=$2', [moduleId, level]);
 
     if (result.rows.length === 0) return null;
     return result.rows[0];
@@ -26,23 +26,15 @@ const getLevelById = async (levelId) =>
     return result.rows[0];
 };
 
-const getLessonByLevel = async (moduleId, level) =>
-{
-    const result = await pool.query('SELECT * FROM lessons WHERE id_module=$1 AND level=$2', [moduleId, level]);
-
-    if (result.rows.length === 0) return null;
-    return result.rows[0];
-};
-
 /* Crear niveles */
-const postLevel = async (moduleId, name, level) =>
+const postLevel = async (moduleId, level, type) =>
 {
     try
     {
-        const module = await getLevel(moduleId, name);
+        const module = await getLevel(moduleId, level);
         if (module) return false;
 
-        const result = await pool.query('INSERT INTO lessons (name, level, id_module) VALUES ($1, $2, $3)', [name, level, moduleId]);
+        const result = await pool.query('INSERT INTO lessons (type, level, id_module) VALUES ($1, $2, $3)', [type, level, moduleId]);
 
         return result.rowCount > 0;
     }
@@ -53,12 +45,12 @@ const postLevel = async (moduleId, name, level) =>
     }
 };
 
-/* Actualizar el nombre de un modulo, devuelve false si ese nombre ya existe */
-const putLevel = async (id, newName) =>
+/* Actualizar el tipo de un modulo */
+const putType = async (id, newType) =>
 {
     const result = await pool.query(
-        `UPDATE lessons SET name = $1
-         WHERE id=$2`, [newName, id]
+        `UPDATE lessons SET type = $1
+         WHERE id=$2`, [newType, id]
     );
 
     return result.rowCount > 0;
@@ -95,4 +87,4 @@ const deleteLevel = async (levelId) =>
     return result.rowCount > 0;
 };
 
-module.exports = { getLevels, getLevel, getLevelById, postLevel, putLevel, deleteLevel, getLessonByLevel, changeLevel };
+module.exports = { getLevels, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };

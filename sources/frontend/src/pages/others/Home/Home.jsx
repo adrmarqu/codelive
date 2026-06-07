@@ -14,19 +14,19 @@ function Home({ role })
         return (
             <>
             <Feature 
-                path={PATHS.LEARN.COURSE}
+                path={PATHS.LEARN}
                 icon={ICON_MAP.HIGH}
                 title={t('feature.title.high')}
                 text={t('feature.text.high')}
             />
             <Feature 
-                path={PATHS.LEARN.COURSE}
+                path={role === 'guest' ? PATHS.LEARN : PATHS.PROGRESS}
                 icon={ICON_MAP.PROGRESS}
                 title={t('feature.title.progress')}
                 text={t('feature.text.progress')}
             />
             <Feature 
-                path={PATHS.LEARN.COURSE}
+                path={PATHS.LEARN}
                 icon={ICON_MAP.LIMIT}
                 title={t('feature.title.limit')}
                 text={t('feature.text.limit')}
@@ -50,7 +50,7 @@ function Home({ role })
 
             {(role === 'editor' || role === 'admin') && (
             <Feature 
-                path={PATHS.EDIT.COURSE}
+                path={PATHS.EDIT}
                 icon={ICON_MAP.CREATE}
                 title={t('feature.title.create')}
                 text={t('feature.text.create')}
@@ -59,7 +59,7 @@ function Home({ role })
 
             {role === 'admin' && (
             <Feature 
-                path={PATHS.LEARN.LIST}
+                path={PATHS.LIST}
                 icon={ICON_MAP.LIST}
                 title={t('feature.title.list')}
                 text={t('feature.text.list')}
@@ -76,7 +76,7 @@ function Home({ role })
                     <h1>{t('welcome')}</h1>
                     <p>{t('intro')}</p>
                     <Link 
-                        to={PATHS.LEARN.COURSE}
+                        to={PATHS.LEARN}
                         id='home-link'
                         className='btn btn-primary'
                     >

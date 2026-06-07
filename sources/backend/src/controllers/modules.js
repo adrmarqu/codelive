@@ -22,6 +22,9 @@ const getOneModule = async (req, res) =>
     try
     {
         const module = await getModule(courseId, moduleName);
+        if (!module)
+            return res.status(409).json({message: "Ese modulo no existe"});
+
         return res.status(200).json(module);
     }
     catch (error)

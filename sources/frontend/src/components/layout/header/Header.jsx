@@ -91,7 +91,7 @@ function Header({role, setRole, setIsLogged})
                 <Link to={PATHS.LIST}>{t('header.list')}</Link>
                 </>
             )}
-            <Link to={PATHS.EDIT.COURSE}>{t('header.create')}</Link>
+            <Link to={PATHS.EDIT}>{t('header.create')}</Link>
             </>
         );
     };
@@ -187,9 +187,9 @@ function Header({role, setRole, setIsLogged})
     };
 
     return (
-        <header>
+        <header className='header'>
             <Link to={PATHS.HOME}>
-                CodeLive
+                <img src="@/../public/assets/icons/codelive.png" alt="CodeLive" title='CodeLive' className='header-icon' />
             </Link>
 
             <nav ref={navRef}>

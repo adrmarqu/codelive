@@ -20,6 +20,8 @@ const getOneCourse = async (req, res) =>
     try
     {
         const course = await getCourse(courseName);
+        if (!course) 
+            return res.status(409).json({message: "Ese curso no existe"});
         return res.status(200).json(course);
     }
     catch (error)
