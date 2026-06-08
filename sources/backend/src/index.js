@@ -32,9 +32,7 @@ app.use(cors({
 app.use(express.json());
 
 /* Routes */
-/* 
 const learnRoutes = require('./routes/learn.js');
-const otherRoutes = require('./routes/others.js'); */
 const authRoutes = require('./routes/auth.js');
 const userRoutes = require('./routes/user.js');
 const editRoutes = require('./routes/edit.js');
@@ -43,10 +41,7 @@ const editRoutes = require('./routes/edit.js');
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/edit', editRoutes);
-/* 
-app.use('/api/auth', authRoutes);
 app.use('/api/learn', learnRoutes);
-app.use('/api/others', otherRoutes); */
 
 
 pool.query('SELECT NOW()')

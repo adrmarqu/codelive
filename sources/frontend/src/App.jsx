@@ -17,7 +17,7 @@ import Login from './pages/auth/Login/Login.jsx'
 /* import Recover from './pages/auth/Recover/Recover.jsx' */
 import Verify from './pages/auth/Verify/Verify.jsx'
 /* User */
-/* Learn */
+import Learn from './pages/core/Learn.jsx'
 /* Edit */
 /* Update */
 /* Admin */
@@ -60,6 +60,7 @@ function App()
                 <Route path={PATHS.AUTH.LOGIN} element={<Login setIsLogged={setIsLogged} />}/>
                 <Route path={PATHS.AUTH.VERIFY} element={<Verify />}/>
 
+                <Route path={PATHS.LEARN} element={<Learn />} />
                 <Route path={PATHS.EDIT} element={<Create />} />
             </Route>
 
