@@ -110,7 +110,6 @@
 {
     max-width: var(--max-width);
     margin: 60px auto;
-    border: 3px solid red;
     padding: 0 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
