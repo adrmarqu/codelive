@@ -1,16 +1,24 @@
 .header
 {
-    padding: 10px;
+    padding: 10px 20px;
     background-color: var(--bg-header);
 
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
+    z-index: 1000;
+    border-bottom: 1px solid var(--secondary-bg-hover);
 }
 
 #header-lang
 {
-    margin: auto;
+    position: relative;
+    margin: 10px 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 #header-lang button.selected
@@ -29,13 +37,19 @@
     border: none;
     cursor: pointer;
     padding: 5px;
+    outline: none;
+}
+
+.burger:focus, .burger:active
+{
+    outline: none;
 }
 
 .burger span
 {
     width: 25px;
     height: 3px;
-    background: black;
+    background: var(--text-color);
     transition: all 0.3s ease;
 }
 
@@ -58,20 +72,51 @@ nav { position: relative; }
 
 .dropdown
 {
-    width: 200px;
+    width: 220px;
     position: absolute;
-    top: 100%;
-    right: 0%;
+    top: 120%;
+    right: 0;
 
     padding: 1rem;
 
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--bg-form);
+    border: 1px solid var(--secondary-bg-hover);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
 
     display: flex;
     flex-direction: column;
     gap: 10px;
+    z-index: 1001;
+}
+
+/* Language dropdown specific adjustments */
+#header-lang .dropdown
+{
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    box-shadow: var(--shadow-md);
+}
+
+.dropdown a
+{
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    display: block;
+    text-align: center;
+}
+
+.dropdown a:hover
+{
+    background-color: var(--secondary-bg-color);
 }
 
 .header-icon
