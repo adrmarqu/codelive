@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 
-import Button from '@/components/Common/Button/Button.jsx'
-import Element from '@/components/Containers/Element/Element.jsx'
-
-import { PATHS } from '@/routes/paths';
+import Button from '@/components/common/Button/Button.jsx'
+import Element from '@/components/containers/Element/Element.jsx'
 
 import { getAllCoursesRequest, postCourseRequest, putCourseRequest, deleteCourseRequest } from '@/services/edit.js'
 

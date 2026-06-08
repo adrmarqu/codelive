@@ -1,91 +1,84 @@
-import axios from 'axios'
+import api from './api.js';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-const api = axios.create(
-{
-    baseURL: `${API_URL}/api/edit` 
-});
-
-// Courses -> /courses/:id
+// Courses -> /api/edit/courses
 
 // Conseguir todos los cursos
 export const getAllCoursesRequest = () => 
-    api.get('/courses');
+    api.get('/api/edit/courses');
 
 // Crear un curso
 export const postCourseRequest = (name) => 
-    api.post('/courses', { name });
+    api.post('/api/edit/courses', { name });
 
 // Actualizar el nombre de un curso
 export const putCourseRequest = (courseId, name) => 
-    api.put(`/courses/${courseId}`, { name });
+    api.put(`/api/edit/courses/${courseId}`, { name });
 
 // Eliminar un curso
 export const deleteCourseRequest = (courseId) => 
-    api.delete(`/courses/${courseId}`);
+    api.delete(`/api/edit/courses/${courseId}`);
 
 // Conseguir un curso
 export const getCourseRequest = (courseName) => 
-    api.get(`/courses/course/${courseName}`);
+    api.get(`/api/edit/courses/course/${courseName}`);
 
 
-// Modules -> /modules/:id 
+// Modules -> /api/edit/modules
 
 // Conseguir todos los modulos
 export const getAllModulesRequest = (courseId) => 
-    api.get(`/modules/${courseId}`);
+    api.get(`/api/edit/modules/${courseId}`);
 
 // Crear un modulo
 export const postModuleRequest = (courseId, moduleName) => 
-    api.post(`/modules/${courseId}`, { moduleName });
+    api.post(`/api/edit/modules/${courseId}`, { moduleName });
 
 // Actualizar nombre de un modulo
 export const putModuleRequest = (moduleId, moduleNewName) => 
-    api.put(`/modules/${moduleId}`, { moduleNewName });
+    api.put(`/api/edit/modules/${moduleId}`, { moduleNewName });
 
 // Eliminar un modulo
 export const deleteModuleRequest = (moduleId) => 
-    api.delete(`/modules/${moduleId}`);
+    api.delete(`/api/edit/modules/${moduleId}`);
 
 // Conseguir un modulo
 export const getModuleRequest = (courseId, moduleName) => 
-    api.get(`/modules/${courseId}/${moduleName}`);
+    api.get(`/api/edit/modules/${courseId}/${moduleName}`);
 
 
-// Levels -> /levels/:id
+// Levels -> /api/edit/levels
 
 // Obtener todos los niveles de un módulo
 export const getAllLevelsRequest = (moduleId) => 
-    api.get(`/levels/${moduleId}`);
+    api.get(`/api/edit/levels/${moduleId}`);
 
 export const getLevelRequest = (moduleId, level) =>
-    api.get(`/levels/${moduleId}/${level}`);
+    api.get(`/api/edit/levels/${moduleId}/${level}`);
 
 // Crear un nuevo nivel
 export const postLevelRequest = (moduleId, level, type) => 
-    api.post(`/levels/${moduleId}`, { level, type });
+    api.post(`/api/edit/levels/${moduleId}`, { level, type });
 
 // Mover un nivel una posicion (Swap)
 export const swapLevelRequest = (moduleId, levelId, direction) => 
-    api.put(`/levels/swap/${moduleId}`, { levelId, direction });
+    api.put(`/api/edit/levels/swap/${moduleId}`, { levelId, direction });
 
 // Mover un nivel y actualizar type
 export const putLevelRequest = (moduleId, levelId, level, newLevel, newType) => 
-    api.put(`/levels/${moduleId}`, { levelId, level, newLevel, newType });
+    api.put(`/api/edit/levels/${moduleId}`, { levelId, level, newLevel, newType });
 
 // Eliminar un nivel
 export const deleteLevelRequest = (levelId) => 
-    api.delete(`/levels/${levelId}`);
+    api.delete(`/api/edit/levels/${levelId}`);
 
 
-// Lesson -> /lesson/:id
+// Lesson -> /api/edit/lesson
 
 export const getLessonRequest = (levelId) =>
-    api.get(`/lesson/${levelId}`);
+    api.get(`/api/edit/lesson/${levelId}`);
 
 export const postLessonRequest = (levelId, lang, title, content, code) =>
-    api.post(`/lesson/${levelId}`, {lang, title, content, code});
+    api.post(`/api/edit/lesson/${levelId}`, {lang, title, content, code});
 
 export const putLessonRequest = (levelId, lang, title, content, code) =>
-    api.put(`/lesson/${levelId}`, {lang, title, content, code});
+    api.put(`/api/edit/lesson/${levelId}`, {lang, title, content, code});

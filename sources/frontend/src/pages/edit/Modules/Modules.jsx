@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react'
-import { useNavigate, Link, useParams } from 'react-router-dom'
+import { useState, useEffect, useCallback } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 
-import Button from '@/components/Common/Button/Button.jsx'
-import Element from '@/components/Containers/Element/Element.jsx'
-
-import { PATHS } from '@/routes/paths';
+import Button from '@/components/common/Button/Button.jsx'
+import Element from '@/components/containers/Element/Element.jsx'
 
 import { getCourseRequest, getAllModulesRequest, postModuleRequest, putModuleRequest, deleteModuleRequest } from '@/services/edit.js'
 
@@ -46,12 +44,7 @@ const Modules = () =>
         init();
     }, [course]);
 
-    useEffect(() =>
-    {
-        if (courseId) fetchModules(courseId);
-    }, [courseId]);
-
-     const fetchModules = async () =>
+    const fetchModules = useCallback(async () =>
     {
         try
         {
@@ -62,7 +55,12 @@ const Modules = () =>
         {
             console.error("Error al cargar los cursos:", error);
         }
-    };
+    }, [courseId]);
+
+    useEffect(() =>
+    {
+        if (courseId) fetchModules();
+    }, [courseId, fetchModules]);
 
     const newElement = () => setNewModule(true);
     const cancelForm = () => 

@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 
-import Button from '@/components/Common/Button/Button.jsx'
-import ElementLevel from '@/components/Containers/Element/ElementLevel.jsx' // 👈 Asegúrate de usar este nombre
+import Button from '@/components/common/Button/Button.jsx'
+import ElementLevel from '@/components/containers/Element/ElementLevel.jsx' // 👈 Asegúrate de usar este nombre
 
 import { 
     getCourseRequest,
@@ -24,7 +24,6 @@ const Levels = () =>
     const [newLevel, setNewLevel] = useState(false); 
     const [levels, setLevels] = useState([]); // 1. CORREGIDO: Ahora es setLevels (plural)
     const [levelType, setLevelType] = useState("theory");
-    const [courseId, setCourseId] = useState(null);
     const [moduleId, setModuleId] = useState(null);
 
     // 2. CORREGIDO: Evitar el desfase asíncrono usando variables locales intermedias
@@ -35,7 +34,6 @@ const Levels = () =>
                 
                 if (res && res.data) {
                     const fetchedCourseId = res.data.id;
-                    setCourseId(fetchedCourseId);
 
                     // Usamos la variable local en lugar del estado desfasado
                     const response = await getModuleRequest(fetchedCourseId, module);
@@ -51,7 +49,7 @@ const Levels = () =>
         init();
     }, [module, course]);
 
-    const fetchLevels = async () => {
+    const fetchLevels = useCallback(async () => {
         if (!moduleId) return; // Seguridad por si no hay módulo cargado
         try {
             const response = await getAllLevelsRequest(moduleId);
@@ -63,11 +61,11 @@ const Levels = () =>
         catch (error) { 
             console.error("Error al cargar niveles:", error); 
         }
-    };
+    }, [moduleId]);
 
     useEffect(() => {
         if (moduleId) fetchLevels();
-    }, [moduleId]);
+    }, [moduleId, fetchLevels]);
 
     const createLevel = async (e) => {
         e.preventDefault();

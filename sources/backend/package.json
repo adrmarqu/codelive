@@ -5,8 +5,7 @@
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "npm install bcrypt cors dotenv express jsonwebtoken pg"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +16,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "helmet": "^7.1.0",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.21.0"
   },

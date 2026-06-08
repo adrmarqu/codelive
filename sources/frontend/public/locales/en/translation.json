@@ -1,19 +1,21 @@
 {
-    "lang": "English",
-    
-    "en": "English",
-    "ca": "Catalan",
-    "es": "Spanish",
-    
-    "header":
-    {
-        "login": "Login",
-        "signin": "Signin",
-        "profile": "Profile",
-        "progress": "Progress",
-        "ranking": "Ranking",
-        "contact": "Contact",
-        "list": "User list",
-        "create": "Manage content"
-    }
+  "courses": "Courses",
+  "cancel": "Cancel",
+  "create": "Create",
+  "save": "Save",
+  "return": "Go Back",
+  "level": "Level",
+  "title": "Title",
+  "content": "Content",
+  "code": "Code",
+  "lang_sub": "en",
+  "edit.theory": "Theory",
+  "edit.game": "Activity",
+  "form.new": "New",
+  "form.create": "Create Level",
+  "form.name": "Name",
+  "form.save": "Save",
+  "form.cancel": "Cancel",
+  "form.edit": "Edit",
+  "form.delete": "Delete"
 }

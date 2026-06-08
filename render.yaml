@@ -1,0 +1,48 @@
+services:
+  # 💻 BACKEND: Node.js Web Service on Render
+  - type: web
+    name: codelive-backend
+    env: node
+    rootDir: sources/backend
+    buildCommand: npm install
+    startCommand: npm start
+    plan: free
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: codelive-postgres-db
+          property: connectionString
+      - key: CORS_ORIGINS
+        value: "*" # Change to your frontend Vercel domain in production
+
+  # 🎨 FRONTEND: Static Site on Render (Alternative/Backup to Vercel)
+  - type: web
+    name: codelive-frontend
+    env: static
+    rootDir: sources/frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
+    plan: free
+    routes:
+      - type: rewrite
+        path: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: codelive-backend
+          property: host
+
+databases:
+  # 🐘 DATABASE: PostgreSQL Database
+  - name: codelive-postgres-db
+    databaseName: codelive_db
+    user: admin
+    plan: free

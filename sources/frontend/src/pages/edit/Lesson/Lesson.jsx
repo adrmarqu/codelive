@@ -2,8 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react' // 🔥 CORREGIDO: Importado useEffect
 
-import Input from '@/components/Forms/Input/Input.jsx'
-import Button from '@/components/Common/Button/Button.jsx'
+import Button from '@/components/common/Button/Button.jsx'
 
 import {
     getCourseRequest,
@@ -27,10 +26,7 @@ function Lesson()
     const [content, setContent] = useState("");
     const [code, setCode] = useState("");
 
-    const [courseId, setCourseId] = useState("");
-    const [moduleId, setModuleId] = useState("");
     const [levelId, setLevelId] = useState("");
-    const [lessonId, setLessonId] = useState();
 
     // Traer IDs iniciales del curso, módulo y nivel
     useEffect(() => {
@@ -39,12 +35,10 @@ function Lesson()
                 const res = await getCourseRequest(course);
                 if (res && res.data) {
                     const fetchedCourseId = res.data.id;
-                    setCourseId(fetchedCourseId);
 
                     const response = await getModuleRequest(fetchedCourseId, module);
                     if (response && response.data) {
                         const fetchedModuleId = response.data.id;
-                        setModuleId(fetchedModuleId);
                         
                         const r = await getLevelRequest(fetchedModuleId, level);
                         if (r && r.data) {
@@ -68,7 +62,6 @@ function Lesson()
                 const r = await getLessonRequest(levelId);
                 if (r && r.data) {
                     setState("put");
-                    setLessonId(r.data.id);
                     setTitle(r.data.title);
                     setContent(r.data.content);
                     setCode(r.data.code);

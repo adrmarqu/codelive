@@ -2,72 +2,66 @@ import { useTranslation } from 'react-i18next'
 
 import { Link } from 'react-router-dom'
 import { PATHS, ICON_MAP } from '@/routes/paths.js'
-import Feature from '@/components/Containers/Features/Feature.jsx'
+import Feature from '@/components/containers/Features/Feature.jsx'
 import './Home.css'
 
 function Home({ role })
 {
     const { t } = useTranslation();
 
-    const FeatureContent = () =>
-    {
-        return (
-            <>
-            <Feature 
-                path={PATHS.LEARN}
-                icon={ICON_MAP.HIGH}
-                title={t('feature.title.high')}
-                text={t('feature.text.high')}
-            />
-            <Feature 
-                path={role === 'guest' ? PATHS.LEARN : PATHS.PROGRESS}
-                icon={ICON_MAP.PROGRESS}
-                title={t('feature.title.progress')}
-                text={t('feature.text.progress')}
-            />
-            <Feature 
-                path={PATHS.LEARN}
-                icon={ICON_MAP.LIMIT}
-                title={t('feature.title.limit')}
-                text={t('feature.text.limit')}
-            />
-            </>
-        );
-    };
+    const featureContent = (
+        <>
+        <Feature 
+            path={PATHS.LEARN}
+            icon={ICON_MAP.HIGH}
+            title={t('feature.title.high')}
+            text={t('feature.text.high')}
+        />
+        <Feature 
+            path={role === 'guest' ? PATHS.LEARN : PATHS.PROGRESS}
+            icon={ICON_MAP.PROGRESS}
+            title={t('feature.title.progress')}
+            text={t('feature.text.progress')}
+        />
+        <Feature 
+            path={PATHS.LEARN}
+            icon={ICON_MAP.LIMIT}
+            title={t('feature.title.limit')}
+            text={t('feature.text.limit')}
+        />
+        </>
+    );
 
-    const FeatureContentExtra = () =>
-    {
-        return (
-            <>
-            {(role === 'user' || role === 'editor' || role === 'admin') && (
-            <Feature 
-                path={PATHS.RANKING}
-                icon={ICON_MAP.RANKING}
-                title={t('feature.title.ranking')}
-                text={t('feature.text.ranking')}
-            />
-            )}
+    const featureContentExtra = (
+        <>
+        {(role === 'user' || role === 'editor' || role === 'admin') && (
+        <Feature 
+            path={PATHS.RANKING}
+            icon={ICON_MAP.RANKING}
+            title={t('feature.title.ranking')}
+            text={t('feature.text.ranking')}
+        />
+        )}
 
-            {(role === 'editor' || role === 'admin') && (
-            <Feature 
-                path={PATHS.CREATE}
-                icon={ICON_MAP.CREATE}
-                title={t('feature.title.create')}
-                text={t('feature.text.create')}
-            />   
-            )}
+        {(role === 'editor' || role === 'admin') && (
+        <Feature 
+            path={PATHS.CREATE}
+            icon={ICON_MAP.CREATE}
+            title={t('feature.title.create')}
+            text={t('feature.text.create')}
+        />   
+        )}
 
-            {role === 'admin' && (
-            <Feature 
-                path={PATHS.LIST}
-                icon={ICON_MAP.LIST}
-                title={t('feature.title.list')}
-                text={t('feature.text.list')}
-            />
-            )}
-            </>
-        );
-    };
+        {role === 'admin' && (
+        <Feature 
+            path={PATHS.LIST}
+            icon={ICON_MAP.LIST}
+            title={t('feature.title.list')}
+            text={t('feature.text.list')}
+        />
+        )}
+        </>
+    );
     
     return (
         <main>
@@ -86,8 +80,8 @@ function Home({ role })
             </section>
 
             <section id='features'>
-                <FeatureContent />
-                <FeatureContentExtra />
+                {featureContent}
+                {featureContentExtra}
             </section>
         </main>
     );

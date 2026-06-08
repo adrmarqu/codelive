@@ -1,138 +1,21 @@
 {
-    "lang": "Español",
-    "lant_sub": "es",
-    
-    "es": "Español",
-    "en": "Inglés",
-    "ca": "Catalán",
-
-    "header":
-    {
-        "login": "Conectarse",
-        "signin": "Registrarse",
-        "profile": "Perfil",
-        "progress": "Progreso",
-        "ranking": "Ranking",
-        "contact": "Contacto",
-        "list": "Lista de usuarios",
-        "create": "Manejar contenido"
-    },
-
-    "welcome": "Bienvenido a CodeLive!",
-    "intro": "Aprende programando. Supera retos interactivos, domina ejemplos reales y desbloquea nuevos niveles mientras conviertes la teoría en proyectos sólidos.",
-    "start": "Explorar contenido principal",
-    "contact": "Contacto",
-    "copyright": "Todos los derechos reservados.",
-    "return": "Volver",
-    "courses": "Cursos",
-
-    "feature":
-    {
-        "title":
-        {
-            "high": "Cursos de alto nivel",
-            "progress": "Seguimiento de progreso",
-            "limit": "Desafia tu limite",
-            "ranking": "Ranking global",
-            "create": "Creación de contenido",
-            "list": "Lista de usuarios"
-        },
-
-        "text":
-        {
-            "high": "Contenido especializado para potenciar habilidades profesionales.",
-            "progress": "Visualiza y analiza tu evolución de aprendizaje en tiempo real.",
-            "limit": "Pon a prueba tus capacidades con retos y ejercicios de alta dificultad.",
-            "ranking": "Compite con la comunidad y escala posiciones por tus logros.",
-            "create": "Crea y modifica los cursos para compartir el conocimiento.",
-            "list": "Observa todos los usuarios y sus progresos."
-        }
-    },
-
-
-    "form": 
-    {
-        "signin":
-        {
-            "welcome": "Bienvenido a CodeLive!",
-            "intro": "Rellena el formulario para crear una nueva cuenta",
-            "title": "Registro"
-        },
-
-        "login":
-        {
-            "welcome": "Bienvenido de vuelta a CodeLive!",
-            "intro": "Rellena el formulario para conectarte con tu usuario",
-            "title": "Conectar",
-            "remember": "Recuerdame",
-            "forgot": "He olvidado mi contraseña",
-
-            "account_no": "¿No tienes cuenta?",
-            "account_sign": "Crea una cuenta"
-        },
-
-        "verify":
-        {
-            "account":
-            {
-                "welcome": "",
-                "intro": "",
-                "title": ""
-            },
-            "email":
-            {
-                "welcome": "",
-                "intro": "",
-                "title": ""
-            },
-            "pass":
-            {
-                "welcome": "",
-                "intro": "Rellena el formulario para recuperar tu contraseña",
-                "title": "Recuperar contraseña"
-            }
-        },
-
-        "user": "Introduce tu nombre de usuario",
-        "email": "Introduce tu correo electronico",
-        "pass": "Introduce tu contraseña",
-        "pass_rep": "Repite tu contraseña",
-        "terms": "Terminos y servicios",
-        "name": "Introduce el nombre",
-
-        "cancel": "Cancelar",
-        "send": "Enviar",
-        "create": "Crear",
-        "edit": "Editar",
-        "delete": "Delete",
-        "save": "Guardar",
-        "new": "Nuevo"
-    },
-
-    "learn":
-    {
-        "no_course": "No hay cursos disponibles actualmente"
-    },
-
-    "edit":
-    {
-        "courses": "Manejo de cursos",
-        "create_course": "Introduce el nombre del curso nuevo",
-
-        "module": "Manejo de los modulos",
-        "create_module": "Introduce el nombre del modelo nuevo",
-
-        "theory": "Teorico",
-        "game": "Minijuego"
-    },
-
-    "code":
-    {
-        "400": "Petición incorrecta",
-        "401": "No autorizado",
-        "403": "Prohibido",
-        "404": "Página no encontrada",
-        "500": "Error interno del servidor",
-        "503": "Servicio no disponible"
-    }
+  "courses": "Cursos",
+  "cancel": "Cancelar",
+  "create": "Crear",
+  "save": "Guardar",
+  "return": "Volver",
+  "level": "Nivel",
+  "title": "Título",
+  "content": "Contenido",
+  "code": "Código",
+  "lang_sub": "es",
+  "edit.theory": "Teoría",
+  "edit.game": "Actividad",
+  "form.new": "Nuevo",
+  "form.create": "Crear Nivel",
+  "form.name": "Nombre",
+  "form.save": "Guardar",
+  "form.cancel": "Cancelar",
+  "form.edit": "Editar",
+  "form.delete": "Eliminar"
 }

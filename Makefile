@@ -1,37 +1,46 @@
-COMPOSE_PATH=sources/docker-compose.yml
+# =====================================================
+# CodeLive — Makefile
+# Runs from repository root (codelive/)
+# =====================================================
 
-all: build up
+COMPOSE = docker compose -f sources/docker-compose.yml
+BACKEND = $(COMPOSE) exec backend
 
-up:
-	docker compose -f $(COMPOSE_PATH) up -d
+.PHONY: build up down logs restart clean seed open help
 
-down:
-	docker compose -f $(COMPOSE_PATH) down
-
+## build: Construye las imágenes y arranca todos los servicios
 build:
-	docker compose -f $(COMPOSE_PATH) up -d --build
+	$(COMPOSE) up --build -d
 
+## up: Arranca los servicios sin reconstruir
+up:
+	$(COMPOSE) up -d
+
+## down: Para todos los servicios
+down:
+	$(COMPOSE) down
+
+## logs: Muestra los logs en tiempo real
 logs:
-	docker compose -f $(COMPOSE_PATH) logs -f
+	$(COMPOSE) logs -f
 
-restart: down up
+## restart: Reinicia todos los servicios
+restart:
+	$(COMPOSE) restart
 
+## clean: Para servicios y elimina volúmenes (BORRA LA BASE DE DATOS)
 clean:
-	docker compose -f $(COMPOSE_PATH) down -v
-	docker system prune -f
+	$(COMPOSE) down -v
 
-open: front back
-
-front:
-	open http://localhost:5173
-
-back:
-	open http://localhost:3000
-
-db:
-	open http://localhost:8080
-
+## seed: Ejecuta el script de inicialización de datos (admin + editor)
 seed:
-	docker exec -it codelive-backend node src/seed/seed.js
+	$(BACKEND) node src/seed/seed.js
 
-.PHONY: up down restart build logs clean
+## open: Abre el frontend y el backend API en el navegador
+open:
+	@open http://localhost:80 || xdg-open http://localhost:80 || start http://localhost:80
+	@open http://localhost:3000 || xdg-open http://localhost:3000 || start http://localhost:3000
+
+## help: Muestra esta ayuda
+help:
+	@grep -E '^## ' Makefile | sed 's/## /  /'

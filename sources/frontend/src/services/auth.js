@@ -1,25 +1,18 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL;
-
-const api = axios.create(
-{
-    baseURL: `${API_URL}/api/auth` 
-});
+import api from './api.js';
 
 export const checkForm = async (name, formData) =>
 {
     try
     {
         const payload = Object.fromEntries(formData.entries());
-        const response = await api.post(`/${name}`, payload);
+        // Map form action names to actual routes if needed (e.g. login/signin)
+        const response = await api.post(`/api/auth/${name}`, payload);
 
         const { data } = response;
 
-        console.log("TOKEN:", data.token);
-
-        if (name === 'login' && data.token)
+        if (name === 'login' && data.token) {
             localStorage.setItem('token', data.token);
+        }
 
         return { success: true, data };
     } 

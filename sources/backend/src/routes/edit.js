@@ -1,6 +1,7 @@
 /* course, module, levels, lesson */
 const express = require('express');
 const router = express.Router();
+const { protect, restrictTo } = require('../middleware/middleware');
 
 const { 
     getOneCourse, 
@@ -25,7 +26,7 @@ const {
     putTwoLevels, 
     swapTwoLevels, 
     deleteOneLevel 
-    } = require('../controllers/levels.js');
+} = require('../controllers/levels.js');
 
 const {
     getOneLesson, 
@@ -33,6 +34,9 @@ const {
     putOneLesson
 } = require('../controllers/lesson.js');
 
+// Apply protection to all edit routes - only logged-in editors/admins can modify content
+router.use(protect);
+router.use(restrictTo('editor', 'admin'));
 
 /* Courses */
 router.get('/courses', getAllCourses);
@@ -56,15 +60,15 @@ router.put('/modules/:moduleId', putOneModule);
 router.delete('/modules/:moduleId', deleteOneModule);
 
 
-
 /* Levels */
 router.get('/levels/:moduleId', getAllLevels);
 router.get('/levels/:moduleId/:level', getOneLevel);
 
 router.post('/levels/:moduleId', postOneLevel);
 
+// Fix route collision: swap route must come before the parameterized level route
+router.put('/levels/swap/:moduleId', swapTwoLevels);
 router.put('/levels/:moduleId', putTwoLevels);
-router.put('/levels/swap/:moduleId/', swapTwoLevels);
 
 router.delete('/levels/:levelId', deleteOneLevel);
 

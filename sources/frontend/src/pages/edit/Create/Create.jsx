@@ -1,14 +1,9 @@
-import { useState } from "react"
-import { useParams, useNavigate } from "react-router-dom"
-import { useTranslation } from 'react-i18next'
+import { useParams } from "react-router-dom"
 
 import Courses from '@/pages/edit/Courses/Courses.jsx'
 import Modules from '@/pages/edit/Modules/Modules.jsx'
 import Levels from '@/pages/edit/Levels/Levels.jsx'
 import Lesson from '@/pages/edit/Lesson/Lesson.jsx'
-
-import Button from '@/components/Common/button/Button.jsx'
-import Input from '@/components/Forms/Input/Input.jsx'
 
 import './Create.css'
 
@@ -24,8 +19,6 @@ import './Create.css'
 function Create()
 {
     const { course, module, level } = useParams();
-    const { t } = useTranslation();
-    const navigate = useNavigate();
 
     const getRenderContent = () =>
     {

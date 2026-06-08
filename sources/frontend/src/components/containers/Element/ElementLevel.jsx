@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import Button from '@/components/Common/Button/Button.jsx'
+import Button from '@/components/common/Button/Button.jsx'
 
 import './Element.css'
 

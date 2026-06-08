@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 
-import Button from '@/components/Common/Button/Button.jsx'
+import Button from '@/components/common/Button/Button.jsx'
 import { Link } from 'react-router-dom'
 import { PATHS } from '@/routes/paths.js'
 import { checkForm } from '@/services/auth.js'

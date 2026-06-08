@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { getUserData } from './services/user.js'
 import { PATHS } from './routes/paths.js'
@@ -27,7 +27,6 @@ import './App.css'
 
 function App()
 {
-    const navigate = useNavigate();
     const [role, setRole] = useState('guest');
     const [isLogged, setIsLogged] = useState(false);
 
@@ -45,6 +44,15 @@ function App()
 
     return (
         <>
+        <Helmet>
+            <title>CodeLive — Plataforma Interactiva para Aprender Programación</title>
+            <meta name="description" content="Aprende HTML, CSS, JavaScript, PHP, Node.js y bases de datos con nuestra plataforma interactiva y gamificada. ¡Lleva tus habilidades al siguiente nivel!" />
+            <meta charSet="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <meta property="og:title" content="CodeLive — Aprende Programación Gratis" />
+            <meta property="og:description" content="Cursos y niveles interactivos para dominar el desarrollo web de forma sencilla." />
+        </Helmet>
+        
         <Routes>
             <Route element={<MainLayout role={role} setRole={setRole} setIsLogged={setIsLogged}/> }>
                 <Route path={PATHS.HOME} element={<Home role={ role }/>}/>

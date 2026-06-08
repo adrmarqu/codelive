@@ -1,34 +1,38 @@
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL;
-
-const api = axios.create(
-{
-    baseURL: `${API_URL}/api/user` 
-});
+import api from './api.js';
 
 export const getUserData = async () =>
 {
-    const token = localStorage.getItem('token');
-    
-    if (!token) return 'guest';
-
     try
     {
-        const response = await api.get('/me', {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const token = localStorage.getItem('token');
+        if (!token) return 'guest';
 
-        const data = response.data;
-        localStorage.setItem('user', JSON.stringify(data));
-        
-        return data.rol || 'guest';
+        const response = await api.get('/api/user/me');
+
+        console.log("DEVOLVIENDO ROL:", response.data.rol);
+        return response.data.rol;
     }
     catch (error)
     {
-        console.error("Error (getUserRole):", error);
+        console.error("Error al obtener datos:", error);
+        // If the token is invalid or expired, clear it
+        localStorage.removeItem('token');
         return 'guest';
+    }
+};
+export const getFullUserData = async () =>
+{
+    try
+    {
+        const token = localStorage.getItem('token');
+        if (!token) return null;
+
+        const response = await api.get('/api/user/me');
+        return response.data;
+    }
+    catch (error)
+    {
+        console.error("Error al obtener datos del usuario:", error);
+        return null;
     }
 };

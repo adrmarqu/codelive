@@ -1,22 +1,28 @@
-# --- Dependencias ---
+# ==========================================
+# CODELIVE — .gitignore
+# ==========================================
+
+# --- Dependencias Node ---
 node_modules/
-# Si tienes carpetas node_modules separadas:
-frontend/node_modules/
-backend/node_modules/
+sources/frontend/node_modules/
+sources/backend/node_modules/
 
-# --- Archivos de Entorno (¡MUY IMPORTANTE!) ---
-# Nunca subas tus claves de acceso a MongoDB o secretos de JWT
+# --- Archivos de Entorno (NUNCA subas secretos!) ---
 .env
-!.env.local
+.env.local
 .env.*.local
+.env.production
+.env.docker
+sources/frontend/.env.local
+sources/backend/.env
 
-# --- Compilación y Builds ---
+# --- Builds y Compilación ---
 dist/
 build/
 out/
 .vite/
 
-# --- Logs y Debug ---
+# --- Logs ---
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -25,9 +31,12 @@ yarn-error.log*
 # --- IDEs y Editores ---
 .vscode/
 .idea/
-.DS_Store # (Solo si usas Mac)
 
-# --- Archivos temporales o de sistema ---
+# --- Sistema Operativo ---
+.DS_Store
+Thumbs.db
+
+# --- Archivos temporales ---
 *.swp
 *.swo
 .tmp/
