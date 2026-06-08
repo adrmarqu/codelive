@@ -1,58 +1,64 @@
 :root
 {
+    /* Typography */
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+
     /* Text colors */
-    
-    --text-color: #212529;
+    --text-color: #111827;
+    --text-color-soft: #6b7280;
 
     /* Background color */
-
-    --bg-color: #F8F9FA;
-    --bg-header: #FFFFFF;
-    --bg-form: #FFFFFF;
-    --bg-footer: #FFFFFF;
+    --bg-color: #f9fafb;
+    --bg-header: #ffffff;
+    --bg-form: #ffffff;
+    --bg-footer: #1f2937;
 
     /* Buttons color */
+    --primary-text-color: #ffffff;
+    --primary-bg-color: #6366f1; /* Premium Indigo */
+    --primary-bg-hover: #4f46e5;
 
-    --primary-text-color: #FFFFFF;
-    --primary-bg-color: #007bff;
-    --primary-bg-hover: #0069d9;
+    --secondary-text-color: #1f2937;
+    --secondary-bg-color: #f3f4f6; /* Modern light grey */
+    --secondary-bg-hover: #e5e7eb;
 
-    --secondary-text-color: #333;
-    --secondary-bg-color: #e2e6ea;
-    --secondary-bg-hover: #dae0e5;
+    --warning-text-color: #1f2937;
+    --warning-bg-color: #f59e0b; /* Amber */
+    --warning-bg-hover: #d97706;
 
-    --warning-text-color: #212529;
-    --warning-bg-color: #ffc107;
-    --warning-bg-hover: #e0a800;
-
-    --danger-text-color: #FFFFFF;
-    --danger-bg-color: #dc3545;
-    --danger-bg-hover: #c82333;
+    --danger-text-color: #ffffff;
+    --danger-bg-color: #ef4444; /* Soft Red */
+    --danger-bg-hover: #dc2626;
 
     /* Other colors */
-
-    --footer-line-color: #212529;
+    --footer-line-color: #374151;
 
     /* Variables */
-
-    --max-width: 100%;
+    --max-width: 1200px;
+    
+    /* Borders and Shadows */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
 }
 
 /* Dark mode */
 .dark
 {
     /* Text colors */
-    
-    --text-color: #E0E0E0;
+    --text-color: #f3f4f6;
+    --text-color-soft: #9ca3af;
 
     /* Background color */
+    --bg-color: #0f172a; /* Sleek slate-900 */
+    --bg-header: #1e293b;
+    --bg-form: #1e293b;
+    --bg-footer: #0f172a;
 
-    --bg-color: #121212;
-    --bg-header: #1E1E1E;
-    --bg-form: #252525;
-
-    /* Buttons color */
-
+    --secondary-text-color: #f3f4f6;
+    --secondary-bg-color: #334155;
+    --secondary-bg-hover: #475569;
 }
 
 *, *::before, *::after
@@ -62,9 +68,13 @@
     box-sizing: border-box;
 }
 
+body, button, input, select, textarea
+{
+    font-family: var(--font-family);
+}
+
 body
 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;

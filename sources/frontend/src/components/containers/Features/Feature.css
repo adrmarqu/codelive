@@ -1,4 +1,9 @@
-a { width: 30%; }
+.feature-link { 
+    width: 30%; 
+    min-width: 250px;
+    text-decoration: none;
+    color: inherit;
+}
 
 .feature-card
 {

@@ -1,17 +1,31 @@
 /* Base button */
 .btn
 {
-    padding: 10px 20px;
+    padding: 10px 22px;
     text-decoration: none;
-
-    border-radius: 5px;
-    display: inline-block;
-    transition: background-color 0.3s ease, transform 0.1s ease;
-    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid transparent;
     cursor: pointer;
     text-align: center;
+    box-shadow: var(--shadow-sm);
+    user-select: none;
 }
-.btn:active { transform: scale(0.98); }
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
 
 /* Send button */
 .btn-primary
@@ -19,37 +33,67 @@
     color: var(--primary-text-color);
     background-color: var(--primary-bg-color);
 }
-.btn-primary:hover { background-color: var(--primary-bg-hover); }
+.btn-primary:hover { 
+    background-color: var(--primary-bg-hover); 
+}
 
 /* Cancel button */
 .btn-secondary
 {
     color: var(--secondary-text-color);
     background-color: var(--secondary-bg-color);
+    border-color: var(--secondary-bg-hover);
 }
-.btn-secondary:hover { background-color: var(--secondary-bg-hover); }
+.btn-secondary:hover { 
+    background-color: var(--secondary-bg-hover); 
+}
 
 /* Warning button */
 .btn-warning {
     color: var(--warning-text-color);
     background-color: var(--warning-bg-color);
 }
-.btn-warning:hover { background-color: var(--warning-bg-hover); }
+.btn-warning:hover { 
+    background-color: var(--warning-bg-hover); 
+}
 
 /* Delete button */
 .btn-danger {
     color: var(--danger-text-color);
     background-color: var(--danger-bg-color);
 }
-.btn-danger:hover { background-color: var(--danger-bg-hover); }
+.btn-danger:hover { 
+    background-color: var(--danger-bg-hover); 
+}
 
-h1, h2, h3 { text-align: center; }
+/* Contrast button */
+.btn-contrast {
+    background: transparent;
+    color: var(--text-color);
+    border-color: var(--secondary-bg-hover);
+}
+.btn-contrast:hover {
+    background-color: var(--secondary-bg-color);
+}
+
+h1, h2, h3 { 
+    text-align: center; 
+    font-weight: 700;
+}
 
 .link { cursor: pointer; }
 
 .icon
 {
-    width: 200px;
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover .icon {
+    transform: scale(1.08);
 }
 
 .hidden { display: none !important; }
