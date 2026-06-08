@@ -5,9 +5,9 @@ services:
   - type: web
     name: codelive-backend
     env: docker
-    rootDir: sources/backend        # 👈 Soluciona el error de "package.json not found"
-    dockerfilePath: Dockerfile      # Relativo a rootDir
-    plan: free                      # Capa gratuita de Render
+    rootDir: sources/backend
+    dockerfilePath: Dockerfile
+    plan: free
     envVars:
       - key: PORT
         value: 3000
@@ -15,7 +15,6 @@ services:
         value: production
       - key: JWT_SECRET
         value: una_clave_secreta_y_larga_para_produccion
-      # Conecta automáticamente con la base de datos de abajo
       - key: DATABASE_URL
         fromDatabase:
           name: codelive-postgres-db
@@ -27,16 +26,16 @@ services:
   - type: web
     name: codelive-frontend
     env: docker
-    rootDir: sources/frontend       # 👈 Sitúa a Render dentro de la carpeta del frontend
-    dockerfilePath: Dockerfile      # Relativo a rootDir
-    plan: free                      # Capa gratuita de Render
+    rootDir: sources/frontend
+    dockerfilePath: Dockerfile
+    plan: free
     envVars:
-      # Le pasa automáticamente la URL del backend a tu React
+      # ✔️ Corregido: Ahora unimos 'https://' con el 'host' del backend
       - key: VITE_API_URL
         fromService:
           type: web
           name: codelive-backend
-          property: url
+          property: host
 
 # -------------------------------------------------------------------
 # 🐘 BASE DE DATOS: PostgreSQL
@@ -45,4 +44,4 @@ databases:
   - name: codelive-postgres-db
     databaseName: codelive_db
     user: admin
-    plan: free                      # Capa gratuita de Render (Dura 90 días)
+    plan: free
