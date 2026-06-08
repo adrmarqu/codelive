@@ -23,7 +23,7 @@ function Signin()
             <Input type="password" name="pass" label={t('form.pass')}/>
             <Input type="password" name="rep" label={t('form.pass_rep')}/>
             <div id='form-terms'>
-                <input type="checkbox" name="terms"/>
+                <input type="checkbox" name="terms" id='terms' value="true"/>
                 <Link
                     to={PATHS.TERMS} 
                     target="_blank" 
