@@ -6,6 +6,25 @@ import Input from '@/components/forms/Input/Input.jsx'
 
 import './Verify.css'
 
+/* 
+
+Como llegar
+
+- Registrar una cuenta nueva en el signin
+
+    - Llegara un codigo a tu correo, solo necesitas ponerlo para activar la cuenta
+
+- He olvidado mi contraseña en login
+
+    - Te pedira tu correo y enviara un codigo
+    - Al poner el codigo te mandara a recuperar contraseña para poner tu nueva pass
+
+- Actualizar email
+
+    - te llegara un codigo a tu correo y deberas introducir ese codigo para cambiar tu email
+
+*/
+
 function Verify()
 {
     const { t } = useTranslation();
