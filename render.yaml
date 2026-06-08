@@ -21,24 +21,6 @@ services:
       - key: CORS_ORIGINS
         value: "*" # Change to your frontend Vercel domain in production
 
-  # 🎨 FRONTEND: Static Site on Render (Alternative/Backup to Vercel)
-  - type: web
-    name: codelive-frontend
-    env: static
-    rootDir: sources/frontend
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-    envVars:
-      - key: VITE_API_URL
-        fromService:
-          type: web
-          name: codelive-backend
-          property: host
-
 databases:
   # 🐘 DATABASE: PostgreSQL Database
   - name: codelive-postgres-db
