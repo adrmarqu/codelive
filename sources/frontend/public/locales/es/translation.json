@@ -17,5 +17,41 @@
   "form.save": "Guardar",
   "form.cancel": "Cancelar",
   "form.edit": "Editar",
-  "form.delete": "Eliminar"
+  "form.delete": "Eliminar",
+  
+  "lang": "Idioma",
+  "es": "Español",
+  "en": "English",
+  "ca": "Català",
+  
+  "header.login": "Iniciar Sesión",
+  "header.signin": "Registrarse",
+  "header.profile": "Mi Perfil",
+  "header.progress": "Mi Progreso",
+  "header.ranking": "Ranking",
+  "header.contact": "Contacto",
+  "header.list": "Usuarios",
+  "header.create": "Modo Editor",
+  
+  "welcome": "Aprende a Programar con CodeLive",
+  "intro": "Accede a cursos interactivos de desarrollo web, resuelve niveles prácticos, haz pruebas con código en vivo y mide tu progreso frente a otros estudiantes.",
+  "start": "Comenzar a Aprender",
+  
+  "feature.title.high": "Cursos Interactivos",
+  "feature.text.high": "Domina HTML, CSS, JavaScript, PHP, Node.js y SQL con lecciones claras y prácticas paso a paso.",
+  
+  "feature.title.progress": "Progreso Personal",
+  "feature.text.progress": "Haz un seguimiento detallado de tus niveles completados y mantén la motivación para seguir aprendiendo.",
+  
+  "feature.title.limit": "Supera tus Límites",
+  "feature.text.limit": "Ponte a prueba con retos y proyectos prácticos. Escribe código real y mira el resultado en tiempo real.",
+  
+  "feature.title.ranking": "Ranking Global",
+  "feature.text.ranking": "Compite de manera amistosa con otros estudiantes y asciende en la tabla de clasificación de la comunidad.",
+  
+  "feature.title.create": "Creación de Contenido",
+  "feature.text.create": "Accede a herramientas exclusivas para editores para diseñar, actualizar y expandir el temario de los cursos.",
+  
+  "feature.title.list": "Gestión de Usuarios",
+  "feature.text.list": "Herramientas administrativas para gestionar la lista de estudiantes registrados y asegurar el buen funcionamiento."
 }
