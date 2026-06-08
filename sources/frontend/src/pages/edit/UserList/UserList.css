@@ -1,0 +1,100 @@
+#userlist-section
+{
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.userlist-controls
+{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 24px 0;
+}
+
+.userlist-search
+{
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--secondary-bg-hover);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg-form);
+    color: var(--text-color);
+    font-size: 0.95rem;
+}
+
+.userlist-filters
+{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.userlist-table
+{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.userlist-row
+{
+    display: grid;
+    grid-template-columns: 50px 1fr 1.4fr 130px 90px 200px;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--bg-form);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+}
+
+.userlist-head
+{
+    background-color: var(--secondary-bg-color);
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-color-soft);
+    box-shadow: none;
+}
+
+.userlist-email { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.userlist-select
+{
+    padding: 6px 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--secondary-bg-hover);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.userlist-actions { display: flex; gap: 6px; }
+.userlist-actions .btn { padding: 6px 12px; font-size: 0.85rem; }
+
+@media (max-width: 820px)
+{
+    .userlist-head { display: none; }
+    .userlist-row
+    {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    .userlist-row span
+    {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .userlist-row span::before
+    {
+        content: attr(data-label);
+        font-weight: 600;
+        color: var(--text-color-soft);
+        font-size: 0.8rem;
+    }
+    .userlist-actions { justify-content: flex-end; }
+}

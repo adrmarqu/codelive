@@ -67,6 +67,9 @@ function Home({ role })
         <main>
             <section id='hero'>
                 <div id='hero-card'>
+                    <span className='hero-eyebrow'>
+                        <span className='hero-dot' /> HTML · CSS · JS · PHP · Node · SQL
+                    </span>
                     <h1>{t('welcome')}</h1>
                     <p>{t('intro')}</p>
                     <Link 

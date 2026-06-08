@@ -130,9 +130,9 @@ function Header({role, setRole, setIsLogged})
 
     return (
         <header className='header'>
-            <Link to={PATHS.HOME}>
-                Home
-                {/* <img src="@/../public/assets/icons/codelive.png" alt="CodeLive" title='CodeLive' className='header-icon' /> */}
+            <Link to={PATHS.HOME} className='brand' aria-label="CodeLive home">
+                <span className='brand-mark'>&lt;/&gt;</span>
+                <span className='brand-name'>Code<span className='brand-accent'>Live</span></span>
             </Link>
 
             <nav ref={navRef}>

@@ -2,11 +2,11 @@ export const PATHS =
 {
     HOME: '/',
     ERROR: '/error',
-    CONTACT: '/contact/:rol',
+    CONTACT: '/contact',
     TERMS: '/terms-and-services',
     
     RANKING: '/ranking',
-    PROGRESS: '/progress/:username',
+    PROGRESS: '/progress',
 
     /* User list */
     LIST: '/user-list',

@@ -1,0 +1,39 @@
+#update-section
+{
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.update-form
+{
+    background-color: var(--bg-form);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    padding: 36px 32px;
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.update-form h1 { margin-bottom: 6px; }
+
+.update-msg
+{
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    text-align: center;
+}
+.update-error   { background-color: rgba(239,68,68,0.12);  color: var(--danger-bg-color); }
+.update-success { background-color: rgba(34,197,94,0.14);  color: #16a34a; }
+
+.update-btns
+{
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+}
+.update-btns .btn { flex: 1; }
