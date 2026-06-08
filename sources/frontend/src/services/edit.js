@@ -1,8 +1,10 @@
 import axios from 'axios'
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 const api = axios.create(
 {
-    baseURL: 'http://localhost:3000/api/edit' 
+    baseURL: `${API_URL}/api/edit` 
 });
 
 // Courses -> /courses/:id
@@ -28,7 +30,7 @@ export const getCourseRequest = (courseName) =>
     api.get(`/courses/course/${courseName}`);
 
 
-// Modules -> /modules/:id
+// Modules -> /modules/:id 
 
 // Conseguir todos los modulos
 export const getAllModulesRequest = (courseId) => 

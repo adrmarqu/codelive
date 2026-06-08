@@ -50,7 +50,7 @@ function Home({ role })
 
             {(role === 'editor' || role === 'admin') && (
             <Feature 
-                path={PATHS.EDIT}
+                path={PATHS.CREATE}
                 icon={ICON_MAP.CREATE}
                 title={t('feature.title.create')}
                 text={t('feature.text.create')}

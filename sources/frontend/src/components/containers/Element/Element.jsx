@@ -39,7 +39,7 @@ const Element = ({ title, onSave, onDel, onNavigate }) =>
             {isEditing ? (
                 <div className='element-info'>
                     <input 
-                        type={inputType} 
+                        type="text" 
                         value={name} 
                         onChange={(e) => setName(e.target.value)} 
                         autoFocus 

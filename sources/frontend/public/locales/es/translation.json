@@ -93,13 +93,6 @@
             }
         },
 
-        "a":
-        {
-            "welcome": "",
-            "intro": "",
-            "title": ""
-        },
-
         "user": "Introduce tu nombre de usuario",
         "email": "Introduce tu correo electronico",
         "pass": "Introduce tu contraseña",

@@ -29,9 +29,9 @@ function Create()
 
     const getRenderContent = () =>
     {
-        if (level) return <Lesson course={course} module={module} level={level} />;
-        if (module) return <Levels course={course} module={module} />;
-        if (course) return <Modules course={course} />;
+        if (level) return <Lesson />;
+        if (module) return <Levels />;
+        if (course) return <Modules />;
         return <Courses />;
     };
 

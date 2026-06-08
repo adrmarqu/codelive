@@ -33,6 +33,7 @@ const {
     putOneLesson
 } = require('../controllers/lesson.js');
 
+
 /* Courses */
 router.get('/courses', getAllCourses);
 router.get('/courses/course/:courseName', getOneCourse); 
@@ -55,10 +56,10 @@ router.put('/modules/:moduleId', putOneModule);
 router.delete('/modules/:moduleId', deleteOneModule);
 
 
+
 /* Levels */
 router.get('/levels/:moduleId', getAllLevels);
 router.get('/levels/:moduleId/:level', getOneLevel);
-router.get(`/levels/${moduleId}/${level}`);
 
 router.post('/levels/:moduleId', postOneLevel);
 
@@ -69,9 +70,10 @@ router.delete('/levels/:levelId', deleteOneLevel);
 
 
 /* Lesson */
+router.get('/lesson/:levelId', getOneLesson);
 
-router.put('/lesson/:levelId', getOneLesson);
 router.post('/lesson/:levelId', postOneLesson);
+
 router.put('/lesson/:levelId', putOneLesson);
 
 module.exports = router;

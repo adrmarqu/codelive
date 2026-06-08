@@ -36,11 +36,11 @@ const getOneModule = async (req, res) =>
 const postOneModule = async (req, res) =>
 {
     const { courseId } = req.params;
-    const { name } = req.body;
+    const { moduleName } = req.body;
     
     try
     {
-        const result = await postModule(courseId, name);
+        const result = await postModule(courseId, moduleName);
         
         if (!result)
             return res.status(400).json({message: "Ese modulo ya existe"});
@@ -57,11 +57,11 @@ const postOneModule = async (req, res) =>
 const putOneModule = async (req, res) =>
 {
     const { moduleId } = req.params;
-    const { name } = req.body;
+    const { moduleNewName } = req.body;
 
     try
     {
-        const result = await putModule(moduleId, name);
+        const result = await putModule(moduleId, moduleNewName);
         if (!result)
             return res.status(400).json({message: "El modulo no se ha actualizado"});
 

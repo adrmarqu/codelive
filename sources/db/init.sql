@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS progress, content, contact, lessons, modules, courses, users, "session" CASCADE;
+DROP TYPE IF EXISTS user_rol, lesson_type, lang_type, prog_lang CASCADE;
+
 CREATE TYPE user_rol AS ENUM ('user', 'editor', 'admin');
 CREATE TYPE lesson_type AS ENUM ('theory', 'game');
 CREATE TYPE lang_type AS ENUM ('en', 'ca', 'es');
@@ -36,8 +39,7 @@ CREATE TABLE lessons
     level           INT NOT NULL, 
     id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
 
-    UNIQUE(id_module, level),
-    UNIQUE(id_module, name)
+    UNIQUE(id_module, level)
 );
 
 CREATE TABLE content
@@ -45,7 +47,7 @@ CREATE TABLE content
     id              SERIAL PRIMARY KEY,
     id_lesson       INT REFERENCES lessons(id) ON DELETE CASCADE,
     lang            lang_type NOT NULL,
-    title           VARCHAR(50) NOT NULL
+    title           VARCHAR(50) NOT NULL,
     content         TEXT NOT NULL,
     code            TEXT,
     code_language   prog_lang,

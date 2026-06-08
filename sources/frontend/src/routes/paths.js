@@ -12,6 +12,7 @@ export const PATHS =
     LIST: '/user-list',
 
     /* Create */
+    CREATE: '/edit/courses',
     EDIT: '/edit/courses/:course?/:module?/:level?',
     LEARN: '/learn/courses/:course?/:module?/:level?',
 

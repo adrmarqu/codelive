@@ -104,10 +104,10 @@ const Courses = () =>
         <hr />
         <div className='edit-content'>
             <form action="" onSubmit={createCourse} className={newCourse ? '' : 'hidden'}>
-                <input type="text" placeholder={t('form.name')} value={name} onChange={(e) => setName(e.target.value)} />
+                <input className='edit-input' type="text" placeholder={t('form.name')} value={name} onChange={(e) => setName(e.target.value)} />
 
-                <button type='button' onClick={cancelForm}>{t('cancel')}</button>
-                <button type='submit'>{t('create')}</button>
+                <button className='btn btn-secondary' type='button' onClick={cancelForm}>{t('cancel')}</button>
+                <button className='btn btn-primary' type='submit'>{t('create')}</button>
             </form>
 
             {courses && courses.map((course) => (

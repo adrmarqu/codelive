@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react' // 🔥 CORREGIDO: Importado useEffect
 
 import Input from '@/components/Forms/Input/Input.jsx'
 import Button from '@/components/Common/Button/Button.jsx'
@@ -8,12 +8,13 @@ import Button from '@/components/Common/Button/Button.jsx'
 import {
     getCourseRequest,
     getModuleRequest,
+    getLevelRequest,
     getLessonRequest,
     postLessonRequest, 
     putLessonRequest 
 } from '@/services/edit.js'
 
-function Lesson({course, module, level})
+function Lesson()
 {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -31,71 +32,71 @@ function Lesson({course, module, level})
     const [levelId, setLevelId] = useState("");
     const [lessonId, setLessonId] = useState();
 
-    useEffect(() =>
-        {
-            const init = async () =>
-            {
-                try
-                {
-                    const res = await getCourseRequest(course);
-                    if (res && res.data)
-                    {
-                        setCourseId(res.data.id);
-    
-                        const response = await getModuleRequest(courseId, module);
-                        if (response && response.data)
-                        {
-                            setModuleId(response.data.id);
-                            
-                            const r = await getLevelRequest(moduleId, level);
-                            if (r && r.data) setLevelId(r.data.id);
+    // Traer IDs iniciales del curso, módulo y nivel
+    useEffect(() => {
+        const init = async () => {
+            try {
+                const res = await getCourseRequest(course);
+                if (res && res.data) {
+                    const fetchedCourseId = res.data.id;
+                    setCourseId(fetchedCourseId);
+
+                    const response = await getModuleRequest(fetchedCourseId, module);
+                    if (response && response.data) {
+                        const fetchedModuleId = response.data.id;
+                        setModuleId(fetchedModuleId);
+                        
+                        const r = await getLevelRequest(fetchedModuleId, level);
+                        if (r && r.data) {
+                            setLevelId(r.data.id);
                         }
                     }
-                } 
-                catch (error) { console.error("Error al obtener el módulo:", error); }
-            };
-            init();
-        }, [module, course]);
-
-    const fecthLesson = async () =>
-    {
-        try
-        {
-            /* Devuleve las lessons de todos los idiomas */
-            const r = await getLessonRequest(levelId);
-
-            if (r && r.data)
-            {
-                setState("put");
-                setLessonId(r.data.id);
-                setTitle(r.data.title);
-                setContent(r.data.content);
-                setCode(r.data.code);
+                }
+            } 
+            catch (error) { 
+                console.error("Error al obtener los datos iniciales:", error); 
             }
-        }
-        catch (error) { console.error("Error al cargar contenido:", error); }
-    };
+        };
+        init();
+    }, [module, course, level]); 
 
-    const createLesson = async () =>
-    {
-        try
-        {
+    // 🔥 CORRECCIÓN: Nuevo useEffect para disparar fetchLesson automáticamente cuando levelId cambie
+    useEffect(() => {
+        const fetchLesson = async () => {
+            if (!levelId) return;
+            try {
+                const r = await getLessonRequest(levelId);
+                if (r && r.data) {
+                    setState("put");
+                    setLessonId(r.data.id);
+                    setTitle(r.data.title);
+                    setContent(r.data.content);
+                    setCode(r.data.code);
+                }
+            }
+            catch (error) { 
+                console.error("Error al cargar contenido:", error); 
+            }
+        };
+
+        fetchLesson();
+    }, [levelId]); // Se ejecuta cada vez que levelId tenga un valor válido
+
+    const createLesson = async () => {
+        try {
             await postLessonRequest(levelId, t('lang_sub'), title, content, code);
         }
         catch (error) { console.error("Error al crear contenido:", error); }
     };
 
-    const updateLesson = async () =>
-    {
-        try
-        {
+    const updateLesson = async () => {
+        try {
             await putLessonRequest(levelId, t('lang_sub'), title, content, code);
         }
         catch (error) { console.error("Error al actualizar contenido:", error); }
     };
 
-    const handleSave = () =>
-    {
+    const handleSave = () => {
         if (state === 'post') createLesson();
         else if (state === 'put') updateLesson();
     };
@@ -106,14 +107,22 @@ function Lesson({course, module, level})
             <Button className="btn btn-secondary" onClick={() => navigate(-1)} >
                 {t('return')}
             </Button>
-            <h2>{t('level')}{level}</h2>
+            <h2>{t('level')} {level}</h2>
             <div></div>
         </div>
         <hr />
         <div className='edit-lesson'>
-            <Input />
-            <textarea name="" id=""></textarea>
-            <textarea name="" id=""></textarea>
+            <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t('title')}/>
+            <textarea 
+                value={content} 
+                onChange={(e) => setContent(e.target.value)} 
+                placeholder={t('content')}
+            ></textarea>
+            <textarea 
+                value={code} 
+                onChange={(e) => setCode(e.target.value)} 
+                placeholder={t('code')}
+            ></textarea>
 
             <div className='lesson-btn'>
                 <Button className="btn btn-secondary" onClick={() => navigate(-1)}>
@@ -128,4 +137,4 @@ function Lesson({course, module, level})
     );
 }
 
-export default Lesson
+export default Lesson;

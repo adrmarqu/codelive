@@ -68,12 +68,6 @@ const ElementLevel = ({ lvl, lvlType, onSave, onDel, onNavigate, onUp, onDown })
                     </select>
                     
                     <div className='element-btn'>
-                        <Button className="btn btn-warning" onClick={handleUp}>
-                            ▲
-                        </Button>
-                        <Button className="btn btn-warning" onClick={handleDown}>
-                            ▼
-                        </Button>
                         <Button className="btn btn-primary" onClick={handleSave}>
                             {t('form.save')}
                         </Button>
@@ -84,9 +78,15 @@ const ElementLevel = ({ lvl, lvlType, onSave, onDel, onNavigate, onUp, onDown })
                 </div>
             ) : (
                 <div className='element-info click' onClick={onNavigate}>
-                    <h3>{lvl}</h3>
+                    <h3>Level {lvl}</h3>
                     <h3>{lvlType}</h3>
                     <div className='element-btn'>
+                        <Button className="btn btn-secondary" onClick={handleUp}>
+                            ▲
+                        </Button>
+                        <Button className="btn btn-secondary" onClick={handleDown}>
+                            ▼
+                        </Button>
                         <Button className="btn btn-warning" onClick={handleEdit}>{t('form.edit')}</Button>
                         <Button className="btn btn-danger" onClick={handleDelete}>{t('form.delete')}</Button>
                     </div>
