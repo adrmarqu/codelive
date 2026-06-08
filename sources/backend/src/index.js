@@ -10,9 +10,7 @@ const app = express();
 app.use(helmet());
 
 // Dynamic CORS configurations
-const allowedOrigins = process.env.CORS_ORIGINS
-  ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
-  : ['http://localhost:5173', 'https://www.codelive.com'];
+const allowedOrigins = process.env.CORS_ORIGINS || 'https://codelive-pvo7.vercel.app';
 
 app.use(cors({
   origin: (origin, callback) => {
@@ -25,7 +23,7 @@ app.use(cors({
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
