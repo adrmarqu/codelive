@@ -7,7 +7,7 @@ backend/node_modules/
 # --- Archivos de Entorno (¡MUY IMPORTANTE!) ---
 # Nunca subas tus claves de acceso a MongoDB o secretos de JWT
 .env
-.env.local
+!.env.local
 .env.*.local
 
 # --- Compilación y Builds ---
