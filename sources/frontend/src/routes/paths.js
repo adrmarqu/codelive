@@ -33,7 +33,7 @@ export const PATHS =
     }
 };
 
-const iconURL = '@/../public/assets/icons/home';
+const iconURL = '/assets/icons/home';
 
 export const ICON_MAP =
 {
