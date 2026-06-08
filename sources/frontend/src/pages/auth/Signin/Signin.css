@@ -1,9 +1,6 @@
-#form-terms
-{
-    margin-top: 20px;
-}
+/* Auth form layout is handled by Form.css and Input.css.
+   Signin-specific tweaks only. */
 
-#form-terms input
-{
-    margin-right: 5px;
-}
+#form-terms label { cursor: pointer; }
+#form-terms a { color: var(--primary-bg-color); text-decoration: none; }
+#form-terms a:hover { text-decoration: underline; }

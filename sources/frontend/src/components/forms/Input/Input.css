@@ -1,16 +1,47 @@
 .form-container
 {
-    margin-top: 15px;
+    margin-top: 4px;
     display: flex;
     flex-direction: column;
+    gap: 7px;
+    text-align: left;
 }
 
 .form-label
 {
-    margin-bottom: 5px;
+    font-size: 0.84rem;
+    font-weight: 600;
+    color: var(--text-color-soft);
+    letter-spacing: 0.01em;
 }
 
 .form-input
 {
-    padding: 10px;
+    width: 100%;
+    padding: 13px 16px;
+    font-size: 0.98rem;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+    outline: none;
+}
+
+.form-input::placeholder
+{
+    color: var(--text-color-soft);
+    opacity: 0.7;
+}
+
+.form-input:hover
+{
+    border-color: color-mix(in srgb, var(--primary-bg-color) 35%, var(--border-color));
+}
+
+.form-input:focus
+{
+    border-color: var(--primary-bg-color);
+    background-color: var(--bg-card);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-bg-color) 16%, transparent);
 }

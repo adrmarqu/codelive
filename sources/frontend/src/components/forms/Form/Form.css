@@ -1,45 +1,130 @@
 #section-form
 {
-    height: 80vh;
+    min-height: calc(100vh - 220px);
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    gap: 4px;
+    padding: 48px 20px;
+    text-align: center;
+}
 
-    gap: 10px;
+/* "Welcome" headline (h1) styled by global display rule; tighten spacing */
+#section-form > h1 { margin-bottom: 2px; }
+
+/* Intro subtitle (h3) — softer, body font, not a bold heading */
+#section-form > h3
+{
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 1rem;
+    color: var(--text-color-soft);
+    max-width: 440px;
+    line-height: 1.5;
 }
 
 #form
 {
-    width: 45%;
+    width: 100%;
+    max-width: 440px;
+    margin-top: 26px;
 
-    padding: 20px 50px;
-    margin-top: 40px;
+    padding: 34px 32px;
+
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: 0 24px 60px -24px rgba(12, 19, 34, 0.28);
 
     display: flex;
     flex-direction: column;
+    gap: 6px;
+}
+
+/* Form title inside the card */
+#form > h3
+{
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+}
+
+#form-error
+{
+    background-color: rgba(239, 68, 68, 0.12);
+    color: var(--danger-bg-color);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    text-align: center;
+    margin-bottom: 6px;
 }
 
 #form-btn-container
 {
-    margin-top: 20px;
-
+    margin-top: 22px;
     display: flex;
-    justify-content: space-between;
+    gap: 12px;
 }
 
 #form-btn-container button
 {
-    width: 45%;
+    flex: 1;
+    width: auto;
 }
+
+/* Checkbox rows (remember / terms) */
+#form-box,
+#form-terms
+{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    text-align: left;
+    font-size: 0.9rem;
+    color: var(--text-color-soft);
+}
+
+#form-box input,
+#form-terms input
+{
+    width: 17px;
+    height: 17px;
+    accent-color: var(--primary-bg-color);
+    cursor: pointer;
+}
+
+#forgot
+{
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--primary-bg-color);
+    text-decoration: none;
+}
+#forgot:hover { text-decoration: underline; }
 
 #sign-text
 {
-    margin-top: 10px;
+    margin-top: 18px;
     text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-color-soft);
 }
 
 #login-signin
 {
     margin-left: 5px;
+    font-weight: 600;
+    color: var(--primary-bg-color);
+    text-decoration: none;
+}
+#login-signin:hover { text-decoration: underline; }
+
+@media (max-width: 480px)
+{
+    #form { padding: 26px 20px; }
 }

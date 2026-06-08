@@ -1,0 +1,86 @@
+.error-page
+{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+    background:
+        radial-gradient(900px 480px at 50% 0%, rgba(99, 102, 241, 0.16), transparent 60%),
+        var(--bg-color);
+    overflow: hidden;
+}
+
+.error-glow
+{
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.18), transparent 70%);
+    bottom: -160px;
+    pointer-events: none;
+}
+
+.error-brand
+{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--text-color);
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    z-index: 1;
+}
+.error-mark
+{
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary-bg-color), #8b5cf6);
+    padding: 4px 7px;
+    border-radius: 8px;
+    line-height: 1;
+}
+.error-accent { color: var(--primary-bg-color); }
+
+.error-code
+{
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(5rem, 4rem + 12vw, 11rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, var(--primary-bg-color), #8b5cf6 55%, var(--accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    z-index: 1;
+}
+
+.error-title
+{
+    font-size: clamp(1.3rem, 1rem + 1.4vw, 1.8rem);
+    margin: 14px 0 8px;
+    z-index: 1;
+}
+
+.error-path
+{
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-color-soft);
+    margin-bottom: 32px;
+    word-break: break-all;
+    z-index: 1;
+}
+
+.error-home { z-index: 1; }

@@ -1,17 +1,4 @@
-#login-container
-{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
+/* Auth form layout is handled by Form.css and Input.css.
+   Login-specific tweaks only. */
 
-#form-box input
-{
-    margin-right: 5px;
-}
-
-#forgot
-{
-    width: 100%;
-}
-
+#forgot { align-self: flex-start; }
