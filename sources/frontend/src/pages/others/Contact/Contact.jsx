@@ -10,10 +10,10 @@ import './Contact.css'
 /* Dispatcher: el admin ve la bandeja, el resto el formulario */
 function Contact({ role })
 {
-    return role === 'admin' ? <ContactInbox /> : <ContactForm />;
+    return role === 'admin' ? <ContactInbox /> : <ContactForm role={role} />;
 }
 
-function ContactForm()
+function ContactForm({role})
 {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -21,6 +21,7 @@ function ContactForm()
     const [comment, setComment] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [email, setEmail] = useState("");
 
     const handleSubmit = async (e) =>
     {
@@ -30,9 +31,20 @@ function ContactForm()
 
         if (!comment.trim()) { setError(t('contact.empty')); return; }
 
+        if (role === 'guest' && !email.trim())
+        { 
+            setError(t('contact.empty')); return; 
+        }
+
         try
         {
-            await sendContactRequest(comment.trim());
+            if (!email)
+            {
+                setError(t('contact.error'));
+                return ;
+            }
+
+            await sendContactRequest(comment.trim(), email.trim());
             setSuccess(t('contact.success'));
             setComment("");
         }
@@ -50,6 +62,10 @@ function ContactForm()
 
                 {error && <output className="update-msg update-error">{error}</output>}
                 {success && <output className="update-msg update-success">{success}</output>}
+
+                {role==='guest' && (
+                    <input type="email" name='email' placeholder={t('form.email')} value={email} onChange={(e) => setEmail(e.target.value)} />
+                )}
 
                 <textarea
                     className="contact-textarea"
@@ -100,7 +116,7 @@ function ContactInbox()
                     ? messages.map((m) => (
                         <article key={m.id} className="contact-message">
                             <header>
-                                <strong>{m.username || t('contact.deleted_user')}</strong>
+                                <strong>{m.username || m.email_guest || t('contact.deleted_user')}</strong>
                                 <span>{fmt(m.send_at)}</span>
                             </header>
                             <p>{m.comment}</p>

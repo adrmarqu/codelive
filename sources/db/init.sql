@@ -69,6 +69,7 @@ CREATE TABLE contact
 (
     id              SERIAL PRIMARY KEY,
     id_user         INT REFERENCES users(id) ON DELETE CASCADE,
+    email_guest     VARCHAR(100),
     comment         TEXT NOT NULL,
     send_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

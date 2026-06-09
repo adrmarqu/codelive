@@ -1,10 +1,11 @@
 /* Contacto: enviar mensaje (usuario) y listar mensajes (admin) */
 
 const { createContact, getAllContacts } = require('../models/contact.js');
+const { getUserData } = require('../models/user.js');
 
 const postContact = async (req, res) =>
 {
-    const { comment } = req.body;
+    const { comment, email } = req.body;
 
     if (!comment || !comment.trim())
         return res.status(400).json({ message: "El mensaje no puede estar vacío" });
@@ -14,7 +15,26 @@ const postContact = async (req, res) =>
 
     try
     {
-        await createContact(req.user.id, comment.trim());
+        let userId = null;
+        let emailGuest = null;
+
+        if (req.user && req.user.id)
+            userId = req.user.id;
+        else
+        {
+            if (!email || !email.trim())
+                return res.status(400).json({ message: "El correo electrónico es obligatorio para invitados" });
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.trim()))
+            {
+                return res.status(400).json({ message: "El formato del correo electrónico no es válido" });
+            }
+            emailGuest = email.trim();
+        }
+
+        await createContact(userId, comment.trim(), emailGuest);
+
         return res.status(201).json({ message: "Mensaje enviado con éxito" });
     }
     catch (error)

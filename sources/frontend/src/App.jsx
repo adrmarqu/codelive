@@ -89,7 +89,7 @@ function App()
 
                 {/* Aprendizaje — requiere sesión */}
                 <Route path={PATHS.LEARN} element={
-                    <Guard ready={ready} role={role} allow={['user', 'editor', 'admin']}><Learn /></Guard>
+                    <Guard ready={ready} role={role} allow={['guest', 'user', 'editor', 'admin']}><Learn /></Guard>
                 }/>
 
                 {/* Estadísticas — requiere sesión */}
@@ -112,7 +112,7 @@ function App()
 
                 {/* Contacto — cualquier sesión (admin ve bandeja, resto formulario) */}
                 <Route path={PATHS.CONTACT} element={
-                    <Guard ready={ready} role={role} allow={['user', 'editor', 'admin']}><Contact role={role} /></Guard>
+                    <Guard ready={ready} role={role} allow={['guest', 'user', 'editor', 'admin']}><Contact role={role} /></Guard>
                 }/>
 
                 {/* Crear contenido — editor y admin */}
