@@ -61,8 +61,8 @@ router.delete('/modules/:moduleId', deleteOneModule);
 
 
 /* Levels */
-router.get('/levels/:moduleId', getAllLevels);
-router.get('/levels/:moduleId/:level', getOneLevel);
+router.get('/levels/:lang/:moduleId', getAllLevels);
+router.get('/levels/:lang/:moduleId/:level', getOneLevel);
 
 router.post('/levels/:moduleId', postOneLevel);
 

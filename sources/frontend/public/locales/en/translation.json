@@ -19,10 +19,10 @@
   "form.edit": "Edit",
   "form.delete": "Delete",
   
-  "lang": "Language",
-  "es": "Español",
+  "lang": "English",
+  "es": "Spanish",
   "en": "English",
-  "ca": "Català",
+  "ca": "Catalan",
   
   "header.login": "Log In",
   "header.signin": "Sign Up",

@@ -42,7 +42,7 @@ function Lesson()
                     if (response && response.data) {
                         const fetchedModuleId = response.data.id;
                         
-                        const r = await getLevelRequest(fetchedModuleId, level);
+                        const r = await getLevelRequest(fetchedModuleId, level, t('lang_sub'));
                         if (r && r.data) {
                             setLevelId(r.data.id);
                         }

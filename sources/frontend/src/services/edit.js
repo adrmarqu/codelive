@@ -49,11 +49,11 @@ export const getModuleRequest = (courseId, moduleName) =>
 // Levels -> /api/edit/levels
 
 // Obtener todos los niveles de un módulo
-export const getAllLevelsRequest = (moduleId) => 
-    api.get(`/api/edit/levels/${moduleId}`);
+export const getAllLevelsRequest = (moduleId, lang) => 
+    api.get(`/api/edit/levels/${lang}/${moduleId}`);
 
-export const getLevelRequest = (moduleId, level) =>
-    api.get(`/api/edit/levels/${moduleId}/${level}`);
+export const getLevelRequest = (moduleId, level, lang) =>
+    api.get(`/api/edit/levels/${lang}/${moduleId}/${level}`);
 
 // Crear un nuevo nivel
 export const postLevelRequest = (moduleId, level, type) => 

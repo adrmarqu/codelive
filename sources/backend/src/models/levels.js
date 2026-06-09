@@ -1,18 +1,43 @@
 const pool = require('../config/db');
 
-/* Conseguir todos los modulos de un curso, si no hay modulos devuelve null */
-const getLevels = async (moduleId) =>
+/* Conseguir todos los niveles de un módulo con su título traducido (Sin contenido ni código) */
+const getLevels = async (moduleId, lang) =>
 {
-    const result = await pool.query('SELECT * FROM lessons WHERE id_module=$1', [moduleId]);
+    const query = `
+        SELECT 
+            l.id,
+            l.type,
+            l.level,
+            l.id_module,
+            c.title
+        FROM lessons l
+        INNER JOIN content c ON l.id = c.id_lesson
+        WHERE l.id_module = $1 AND c.lang = $2
+        ORDER BY l.level ASC;
+    `;
+
+    const result = await pool.query(query, [moduleId, lang]);
 
     if (result.rows.length === 0) return null;
     return result.rows;
 };
 
-/* Conseguir un modulo de un curso, sino lo encuentra devuelve null */
-const getLevel = async (moduleId, level) =>
+/* Conseguir un nivel específico de un módulo con SOLO su título (Sin contenido ni código) */
+const getLevel = async (moduleId, level, lang) =>
 {
-    const result = await pool.query('SELECT * FROM lessons WHERE id_module=$1 AND level=$2', [moduleId, level]);
+    const query = `
+        SELECT 
+            l.id,
+            l.type,
+            l.level,
+            l.id_module,
+            c.title
+        FROM lessons l
+        INNER JOIN content c ON l.id = c.id_lesson
+        WHERE l.id_module = $1 AND l.level = $2 AND c.lang = $3;
+    `;
+
+    const result = await pool.query(query, [moduleId, level, lang]);
 
     if (result.rows.length === 0) return null;
     return result.rows[0];

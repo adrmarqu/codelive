@@ -10,11 +10,11 @@ const {
 
 const getAllLevels = async (req, res) =>
 {
-    const { moduleId } = req.params;
+    const { lang, moduleId } = req.params;
     
     try
     {
-        const result = await getLevels(moduleId);
+        const result = await getLevels(moduleId, lang);
         return res.status(200).json(result || []);
     }
     catch (error)
@@ -25,11 +25,11 @@ const getAllLevels = async (req, res) =>
 
 const getOneLevel = async (req, res) =>
 {
-    const { moduleId, level } = req.params;
+    const { lang, moduleId, level } = req.params;
     
     try
     {
-        const result = await getLevel(moduleId, level);
+        const result = await getLevel(moduleId, level, lang);
         if (!result)
             return res.status(409).json({message: "Ese nivel no existe"});
         return res.status(200).json(result);
