@@ -64,7 +64,7 @@ function ContactForm({role})
                 {success && <output className="update-msg update-success">{success}</output>}
 
                 {role==='guest' && (
-                    <input type="email" name='email' placeholder={t('form.email')} value={email} onChange={(e) => setEmail(e.target.value)} />
+                    <input className='form-input' type="email" name='email' placeholder={t('form.email')} value={email} onChange={(e) => setEmail(e.target.value)} />
                 )}
 
                 <textarea
