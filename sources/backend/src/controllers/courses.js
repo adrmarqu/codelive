@@ -9,6 +9,7 @@ const getAllCourses = async (req, res) =>
     }
     catch (error)
     {
+        console.error("❌ ERROR REAL EN SIGNIN:", error);
         return res.status(500).json({message: "Internal error"});
     }
 };
@@ -26,6 +27,7 @@ const getOneCourse = async (req, res) =>
     }
     catch (error)
     {
+        console.error("❌ ERROR REAL EN SIGNIN:", error);
         return res.status(500).json({message: "Internal error"});
     }
 };
@@ -65,6 +67,7 @@ const putOneCourse = async (req, res) =>
     }
     catch (error)
     {
+        console.error("❌ ERROR REAL EN SIGNIN:", error);
         return res.status(500).json({message: "Internal error"});
     }
 };
@@ -82,6 +85,7 @@ const deleteOneCourse = async (req, res) =>
     }
     catch (error)
     {
+        console.error("❌ ERROR REAL EN SIGNIN:", error);
         return res.status(500).json({message: "Internal error"});
     }
 };
