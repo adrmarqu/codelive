@@ -45,7 +45,7 @@ function Guard({ ready, role, allow, children })
 
 function App()
 {
-    const [role, setRole] = useState('guest');
+    const [role, setRole] = useState('admin');
     const [isLogged, setIsLogged] = useState(false);
     const [ready, setReady] = useState(false);
 
