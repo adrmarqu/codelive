@@ -13,6 +13,8 @@ import {
     putLessonRequest 
 } from '@/services/edit.js'
 
+import './Lesson.css'
+
 function Lesson()
 {
     const { t } = useTranslation();
