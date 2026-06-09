@@ -13,6 +13,7 @@ export const PATHS =
 
     /* Create */
     CREATE: '/edit/courses',
+    SEE: '/learn/courses',
     EDIT: '/edit/courses/:course?/:module?/:level?',
     LEARN: '/learn/courses/:course?/:module?/:level?',
 

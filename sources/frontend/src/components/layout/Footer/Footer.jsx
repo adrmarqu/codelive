@@ -19,7 +19,7 @@ function Footer()
 
                 <nav className="footer-links">
                     <Link to={PATHS.TERMS} target="_blank" rel="noopener noreferrer">
-                        {t('form.terms')}
+                        {t('terms')}
                     </Link>
                     <Link to={PATHS.CONTACT}>{t('contact')}</Link>
                 </nav>

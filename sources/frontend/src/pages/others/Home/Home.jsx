@@ -12,7 +12,7 @@ function Home({ role })
     const featureContent = (
         <>
         <Feature 
-            path={PATHS.LEARN}
+            path={PATHS.SEE}
             icon={ICON_MAP.HIGH}
             title={t('feature.title.high')}
             text={t('feature.text.high')}
@@ -24,7 +24,7 @@ function Home({ role })
             text={t('feature.text.progress')}
         />
         <Feature 
-            path={PATHS.LEARN}
+            path={PATHS.SEE}
             icon={ICON_MAP.LIMIT}
             title={t('feature.title.limit')}
             text={t('feature.text.limit')}
@@ -73,7 +73,7 @@ function Home({ role })
                     <h1>{t('welcome')}</h1>
                     <p>{t('intro')}</p>
                     <Link 
-                        to={PATHS.LEARN}
+                        to={PATHS.SEE}
                         id='home-link'
                         className='btn btn-primary'
                     >
