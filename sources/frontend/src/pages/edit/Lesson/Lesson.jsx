@@ -80,6 +80,8 @@ function Lesson()
     const createLesson = async () => {
         try {
             await postLessonRequest(levelId, t('lang_sub'), title, content, code);
+
+            navigate(-1);
         }
         catch (error) { console.error("Error al crear contenido:", error); }
     };
@@ -87,6 +89,8 @@ function Lesson()
     const updateLesson = async () => {
         try {
             await putLessonRequest(levelId, t('lang_sub'), title, content, code);
+
+            navigate(-1);
         }
         catch (error) { console.error("Error al actualizar contenido:", error); }
     };
