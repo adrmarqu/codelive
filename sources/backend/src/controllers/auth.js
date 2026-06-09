@@ -45,8 +45,8 @@ const login = async (req, res) =>
             token: token
         });
     }
-    catch (error)
-    {
+    catch (error) {
+        console.error("❌ ERROR REAL EN SIGNIN:", error); // <--- AÑADE ESTA LÍNEA AQUÍ
         return res.status(500).json({message: "Internal error"});
     }
 };
@@ -84,8 +84,8 @@ const signin = async (req, res) =>
 
         return res.status(201).json({ message: "Usuario registrado con éxito." });
     }
-    catch (error)
-    {
+    catch (error) {
+        console.error("❌ ERROR REAL EN SIGNIN:", error); // <--- AÑADE ESTA LÍNEA AQUÍ
         return res.status(500).json({message: "Internal error"});
     }
 };
