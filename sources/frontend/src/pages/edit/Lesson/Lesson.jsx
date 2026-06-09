@@ -15,6 +15,26 @@ import {
 
 import './Lesson.css'
 
+const translateAndDetectText = async (text, toLang) =>
+{
+    if (!text || !toLang) return "";
+
+    try
+    {
+        const response = await fetch(
+            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=|${toLang}`
+        );
+        const data = await response.json();
+        
+        return data?.responseData?.translatedText || text;
+    } 
+    catch (error)
+    {
+        console.error("Error al detectar y traducir:", error);
+        return text;
+    }
+};
+
 function Lesson()
 {
     const { t } = useTranslation();
@@ -29,6 +49,8 @@ function Lesson()
     const [code, setCode] = useState("");
 
     const [levelId, setLevelId] = useState("");
+
+    const [isSaving, setIsSaving] = useState(false);
 
     // Traer IDs iniciales del curso, módulo y nivel
     useEffect(() => {
@@ -56,12 +78,14 @@ function Lesson()
         init();
     }, [module, course, level]); 
 
-    // 🔥 CORRECCIÓN: Nuevo useEffect para disparar fetchLesson automáticamente cuando levelId cambie
-    useEffect(() => {
-        const fetchLesson = async () => {
+    useEffect(() =>
+    {
+        const fetchLesson = async () =>
+        {
             if (!levelId) return;
-            try {
-                const r = await getLessonRequest(levelId);
+            try
+            {
+                const r = await getLessonRequest(levelId, t('lang_sub'));
                 if (r && r.data) {
                     setState("put");
                     setTitle(r.data.title);
@@ -69,30 +93,53 @@ function Lesson()
                     setCode(r.data.code);
                 }
             }
-            catch (error) { 
+            catch (error)
+            { 
                 console.error("Error al cargar contenido:", error); 
             }
         };
 
         fetchLesson();
-    }, [levelId]); // Se ejecuta cada vez que levelId tenga un valor válido
+    }, [levelId, t]);
 
-    const createLesson = async () => {
-        try {
-            await postLessonRequest(levelId, t('lang_sub'), title, content, code);
+    const createLesson = async () =>
+    {
+        setIsSaving(true);
+        try
+        {
+            const languages = ['es', 'ca', 'en'];
 
+            for (const lang of languages)
+            {
+                const langTit = await translateAndDetectText(title, lang);
+                const langCon = await translateAndDetectText(content, lang);
+
+                await postLessonRequest(levelId, lang, langTit, langCon, code);
+            }
             navigate(-1);
         }
         catch (error) { console.error("Error al crear contenido:", error); }
+        finally { setIsSaving(false); }
     };
 
-    const updateLesson = async () => {
-        try {
-            await putLessonRequest(levelId, t('lang_sub'), title, content, code);
+    const updateLesson = async () =>
+    {
+        setIsSaving(true);
+        try
+        {
+            const languages = ['es', 'ca', 'en'];
 
+            for (const lang of languages)
+            {
+                const langTit = await translateAndDetectText(title, lang);
+                const langCon = await translateAndDetectText(content, lang);
+
+                await putLessonRequest(levelId, lang, langTit, langCon, code);
+            }
             navigate(-1);
         }
         catch (error) { console.error("Error al actualizar contenido:", error); }
+        finally { setIsSaving(false); }
     };
 
     const handleSave = () => {

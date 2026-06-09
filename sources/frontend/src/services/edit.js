@@ -74,8 +74,8 @@ export const deleteLevelRequest = (levelId) =>
 
 // Lesson -> /api/edit/lesson
 
-export const getLessonRequest = (levelId) =>
-    api.get(`/api/edit/lesson/${levelId}`);
+export const getLessonRequest = (levelId, lang) =>
+    api.get(`/api/edit/lesson/${lang}/${levelId}`);
 
 export const postLessonRequest = (levelId, lang, title, content, code) =>
     api.post(`/api/edit/lesson/${levelId}`, {lang, title, content, code});

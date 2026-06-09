@@ -6,11 +6,11 @@ const {
 
 const getOneLesson = async (req, res) =>
 {
-    const { levelId } = req.params;
+    const { lang, levelId } = req.params;
     
     try
     {
-        const result = await getLesson(levelId);
+        const result = await getLesson(levelId, lang);
         if (!result)
             return res.status(404).json({message: "No se encontró contenido para esta lección"});
 

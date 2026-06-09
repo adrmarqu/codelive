@@ -74,7 +74,7 @@ router.delete('/levels/:levelId', deleteOneLevel);
 
 
 /* Lesson */
-router.get('/lesson/:levelId', getOneLesson);
+router.get('/lesson/:lang/:levelId', getOneLesson);
 
 router.post('/lesson/:levelId', postOneLesson);
 

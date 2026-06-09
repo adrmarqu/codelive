@@ -1,15 +1,11 @@
 const pool = require('../config/db');
 
-const getLesson = async (lessonId) =>
+const getLesson = async (lessonId, lang) =>
 {
-    // Fetch the translation from the content table for this lesson/level ID
-    // We prioritize Spanish/English if multiple exist, or just return the first one
     const result = await pool.query(
         `SELECT * FROM content 
-         WHERE id_lesson = $1 
-         ORDER BY CASE WHEN lang = 'es' THEN 1 WHEN lang = 'en' THEN 2 ELSE 3 END 
-         LIMIT 1`, 
-        [lessonId]
+         WHERE id_lesson = $1 AND lang = $2`, 
+        [lessonId, lang]
     );
 
     if (result.rows.length === 0) return null;
