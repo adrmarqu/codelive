@@ -140,6 +140,7 @@ const Levels = () =>
                 <ElementLevel 
                     key={lvl.id}
                     lvl={lvl.level}
+                    lvlName={lvl.title}
                     lvlType={lvl.type}
                     onSave={(newL, newT) => handleUpdate(lvl.id, lvl.level, newL, newT)}
                     onDel={() => handleDelete(lvl.id)}

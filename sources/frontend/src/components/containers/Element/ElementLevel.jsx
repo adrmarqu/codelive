@@ -5,7 +5,7 @@ import Button from '@/components/common/Button/Button.jsx'
 
 import './Element.css'
 
-const ElementLevel = ({ lvl, lvlType, onSave, onDel, onNavigate, onUp, onDown }) =>
+const ElementLevel = ({ lvl, lvlName, lvlType, onSave, onDel, onNavigate, onUp, onDown }) =>
 {
     const [isEditing, setIsEditing] = useState(false);
     const [level, setLevel] = useState(lvl);
@@ -79,6 +79,7 @@ const ElementLevel = ({ lvl, lvlType, onSave, onDel, onNavigate, onUp, onDown })
             ) : (
                 <div className='element-info click' onClick={onNavigate}>
                     <h3>Level {lvl}</h3>
+                    <h3>{lvlName}</h3>
                     <h3>{lvlType}</h3>
                     <div className='element-btn'>
                         <Button className="btn btn-secondary" onClick={handleUp}>
