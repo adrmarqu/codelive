@@ -78,6 +78,8 @@ CREATE INDEX idx_modules_course ON modules(id_course);
 CREATE INDEX idx_lessons_module ON lessons(id_module);
 CREATE INDEX idx_progress_user ON progress(id_user);
 
+INSERT INTO courses (name) VALUES ("Html"), ("Css"), ("JavaScript"), ("PHP"), ("NodeJs"), ("MySQL");
+
 CREATE TABLE IF NOT EXISTS "session" (
   "sid" varchar NOT NULL PRIMARY KEY,
   "sess" json NOT NULL,
