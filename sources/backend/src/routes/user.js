@@ -16,8 +16,9 @@ const { getRanking, getProgress, getProgressByUsername } = require('../controlle
 const { listUsers, changeRole, removeUser } = require('../controllers/userList.js');
 const { postContact, getContacts } = require('../controllers/others.js');
 
-/* Todas las rutas de usuario requieren estar autenticado */
-router.use(protect);
+
+/* Contacto: cualquier usuario autenticado puede enviar */
+router.post('/contact', postContact);
 
 /* Datos básicos del usuario autenticado (rol, etc.) */
 router.get('/me', (req, res) =>
@@ -35,6 +36,9 @@ router.get('/me', (req, res) =>
     return res.json({ rol: 'guest' });
 });
 
+/* Todas las rutas de usuario requieren estar autenticado */
+router.use(protect);
+
 /* Perfil y actualización de cuenta */
 router.get('/profile', getProfile);
 router.put('/profile/username', changeUsername);
@@ -46,9 +50,6 @@ router.delete('/profile', deleteAccount);
 router.get('/progress', getProgress);
 router.get('/progress/:username', restrictTo('admin'), getProgressByUsername);
 router.get('/ranking', getRanking);
-
-/* Contacto: cualquier usuario autenticado puede enviar */
-router.post('/contact', postContact);
 
 /* Administración (solo admin) */
 router.get('/contact', restrictTo('admin'), getContacts);
