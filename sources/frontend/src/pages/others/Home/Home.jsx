@@ -18,7 +18,7 @@ function Home({ role })
             text={t('feature.text.high')}
         />
         <Feature 
-            path={role === 'guest' ? PATHS.LEARN : PATHS.PROGRESS}
+            path={role === 'guest' ? PATHS.SEE : PATHS.PROGRESS}
             icon={ICON_MAP.PROGRESS}
             title={t('feature.title.progress')}
             text={t('feature.text.progress')}
