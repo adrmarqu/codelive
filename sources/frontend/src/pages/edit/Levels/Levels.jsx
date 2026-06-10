@@ -72,7 +72,10 @@ const Levels = () =>
         if (!moduleId) return;
 
         try {
-            await postLevelRequest(moduleId, levels.length + 1, levelType);
+
+            const maxLevel = Math.max(...levels.map(l => l.level), 0);
+
+            await postLevelRequest(moduleId, maxLevel + 1, levelType);
             setLevelType("theory");
             setNewLevel(false);
             await fetchLevels();

@@ -21,7 +21,7 @@ export const deleteCourseRequest = (courseId) =>
 // Conseguir un curso
 export const getCourseRequest = (courseName) => 
     api.get(`/api/edit/courses/course/${courseName}`);
-
+ 
 
 // Modules -> /api/edit/modules
 
