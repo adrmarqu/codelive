@@ -34,10 +34,10 @@ const getOneLevel = async (req, res) =>
         const result = await getLevel(moduleId, level, lang);
         if (!result)
         {
-            return res.status(200).json({
-                id: null,
-                title: ""
-            });
+            const r = await getLevelModel(moduleId, level);
+            if (!r)
+                return res.status(400).json({message: "Ese nivel no existe"});
+            return r.status(200).json(r);
         }
             
         return res.status(200).json(result);
