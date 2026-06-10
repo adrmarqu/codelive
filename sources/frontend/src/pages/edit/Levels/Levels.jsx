@@ -53,7 +53,10 @@ const Levels = () =>
         if (!moduleId) return; // Seguridad por si no hay módulo cargado
         try {
             const response = await getAllLevelsRequest(moduleId, t('lang_sub'));
-            if (response && response.data) {
+            console.log("IDIOMA:",t('lang_sub'));
+            if (response && response.data)
+            {
+                console.log("Llegue:", response.data);
                 const sorted = response.data.sort((a, b) => a.level - b.level);
                 setLevels(sorted); // Ahora sí llamará al set de arriba
             }
