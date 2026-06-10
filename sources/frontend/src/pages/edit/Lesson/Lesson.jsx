@@ -142,7 +142,9 @@ function Lesson()
         finally { setIsSaving(false); }
     };
 
-    const handleSave = () => {
+    const handleSave = () =>
+    {
+        if (!levelId) console.warn("Nivel no cargado");
         if (state === 'post') createLesson();
         else if (state === 'put') updateLesson();
     };
