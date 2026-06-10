@@ -9,15 +9,17 @@ const getLevels = async (moduleId, lang) =>
             l.type,
             l.level,
             l.id_module,
-            c.title
+            COALESCE(c.title, '') AS title
         FROM lessons l
-        LEFT JOIN content c ON l.id = c.id_lesson
-        WHERE l.id_module = $1 AND c.lang = $2
+        LEFT JOIN content c 
+            ON l.id = c.id_lesson 
+            AND c.lang = $2
+        WHERE l.id_module = $1
         ORDER BY l.level ASC;
     `;
 
     const result = await pool.query(query, [moduleId, lang]);
-
+    
     if (result.rows.length === 0) return null;
     return result.rows;
 };
