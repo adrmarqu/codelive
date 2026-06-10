@@ -17,6 +17,9 @@ const { listUsers, changeRole, removeUser } = require('../controllers/userList.j
 const { postContact, getContacts } = require('../controllers/others.js');
 
 
+/* Todas las rutas de usuario requieren estar autenticado */
+router.use(protect);
+
 /* Contacto: cualquier usuario autenticado puede enviar */
 router.post('/contact', postContact);
 
@@ -35,9 +38,6 @@ router.get('/me', (req, res) =>
     }
     return res.json({ rol: 'guest' });
 });
-
-/* Todas las rutas de usuario requieren estar autenticado */
-router.use(protect);
 
 /* Perfil y actualización de cuenta */
 router.get('/profile', getProfile);
