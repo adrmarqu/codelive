@@ -76,7 +76,7 @@ function Lesson()
             }
         };
         init();
-    }, [module, course, level]); 
+    }, [module, course, level, t]); 
 
     useEffect(() =>
     {
