@@ -11,7 +11,7 @@ const getLevels = async (moduleId, lang) =>
             l.id_module,
             c.title
         FROM lessons l
-        INNER JOIN content c ON l.id = c.id_lesson
+        LEFT JOIN content c ON l.id = c.id_lesson
         WHERE l.id_module = $1 AND c.lang = $2
         ORDER BY l.level ASC;
     `;
