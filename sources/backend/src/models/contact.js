@@ -18,7 +18,7 @@ const createContact = async (userId, comment, email) =>
 const getAllContacts = async () =>
 {
     const result = await pool.query(
-        `SELECT c.id, c.comment, c.send_at, c.email_guest, u.username
+        `SELECT c.id, c.comment, c.send_at, c.email_guest, u.username, u.email
          FROM contact c
          LEFT JOIN users u ON u.id = c.id_user
          ORDER BY c.send_at DESC`

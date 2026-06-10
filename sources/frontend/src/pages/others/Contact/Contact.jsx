@@ -111,7 +111,8 @@ function ContactInbox()
                     ? messages.map((m) => (
                         <article key={m.id} className="contact-message">
                             <header>
-                                <strong>{m.username || m.email_guest || t('contact.deleted_user')}</strong>
+                                <strong>{m.username || 'guest'}</strong>
+                                <strong>{m.email || m.email_guest || t('contact.deleted.user')}</strong>
                                 <span>{fmt(m.send_at)}</span>
                             </header>
                             <p>{m.comment}</p>
