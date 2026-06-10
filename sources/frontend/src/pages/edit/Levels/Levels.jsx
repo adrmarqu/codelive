@@ -49,11 +49,13 @@ const Levels = () =>
         init();
     }, [module, course]);
 
-    const fetchLevels = useCallback(async () => {
+    const fetchLevels = useCallback(async () =>
+    {
         if (!moduleId) return; // Seguridad por si no hay módulo cargado
         try {
             const response = await getAllLevelsRequest(moduleId, t('lang_sub'));
             console.log("IDIOMA:",t('lang_sub'));
+            console.log("MODULE:",moduleId);
             if (response && response.data)
             {
                 console.log("Llegue:", response.data);
@@ -64,7 +66,7 @@ const Levels = () =>
         catch (error) { 
             console.error("Error al cargar niveles:", error); 
         }
-    }, [moduleId]);
+    }, [moduleId, t]);
 
     useEffect(() => {
         if (moduleId) fetchLevels();
