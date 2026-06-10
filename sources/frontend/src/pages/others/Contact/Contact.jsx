@@ -118,8 +118,6 @@ function ContactInbox()
                             </header>
                             <p>{m.comment}</p>
                         </article>
-                        adria@gmail.com (adrmarqu)
-                        adrmarqu (adria@gmail.com)
                     ))
                     : !error && <p className="stats-empty">{t('contact.inbox_empty')}</p>}
             </div>
