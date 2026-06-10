@@ -9,7 +9,7 @@ const { getLesson } = require('../models/lessons.js');
 const { saveProgress, getUserProgress } = require('../models/progres.js');
 
 // Apply protection to all learn routes - users must be logged in to access learning content
-router.use(protect);
+/* router.use(protect); */
 
 /* Courses */
 router.get('/courses', async (req, res) => {
@@ -96,7 +96,7 @@ router.get('/lesson/:levelId', async (req, res) => {
 });
 
 /* Progress */
-router.get('/progress', async (req, res) => {
+router.get('/progress', protect, async (req, res) => {
     try {
         const completedIds = await getUserProgress(req.user.id);
         return res.status(200).json(completedIds || []);
@@ -106,7 +106,7 @@ router.get('/progress', async (req, res) => {
     }
 });
 
-router.post('/progress/:levelId', async (req, res) => {
+router.post('/progress/:levelId', protect, async (req, res) => {
     const { levelId } = req.params;
     try {
         await saveProgress(req.user.id, levelId);

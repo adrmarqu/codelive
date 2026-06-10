@@ -16,12 +16,13 @@ const { getRanking, getProgress, getProgressByUsername } = require('../controlle
 const { listUsers, changeRole, removeUser } = require('../controllers/userList.js');
 const { postContact, getContacts } = require('../controllers/others.js');
 
-
-/* Todas las rutas de usuario requieren estar autenticado */
-router.use(protect);
+/* Todas las rutas en las que no necesitas estar logged */
 
 /* Contacto: cualquier usuario autenticado puede enviar */
 router.post('/contact', postContact);
+
+/* Todas las rutas de usuario requieren estar autenticado */
+router.use(protect);
 
 /* Datos básicos del usuario autenticado (rol, etc.) */
 router.get('/me', (req, res) =>
