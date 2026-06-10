@@ -71,7 +71,12 @@ CREATE TABLE contact
     id_user         INT REFERENCES users(id) ON DELETE CASCADE,
     email_guest     VARCHAR(100),
     comment         TEXT NOT NULL,
-    send_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    send_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT chk_contact_author CHECK (
+        (id_user IS NOT NULL AND email_guest IS NULL) OR
+        (id_user IS NULL AND email_guest IS NOT NULL)
+    )
 );
 
 CREATE INDEX idx_content_lesson_lang ON content(id_lesson, lang);

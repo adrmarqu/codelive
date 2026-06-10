@@ -38,12 +38,6 @@ function ContactForm({role})
 
         try
         {
-            if (!email)
-            {
-                setError(t('contact.error'));
-                return ;
-            }
-
             await sendContactRequest(comment.trim(), email.trim());
             setSuccess(t('contact.success'));
             setComment("");
@@ -79,7 +73,7 @@ function ContactForm({role})
                     <Button className="btn btn-secondary" onClick={() => navigate('/')}>
                         {t('form.cancel')}
                     </Button>
-                    <Button className="btn btn-primary" type="submit" onClick={handleSubmit}>
+                    <Button className="btn btn-primary" type="submit">
                         {t('form.send')}
                     </Button>
                 </div>
