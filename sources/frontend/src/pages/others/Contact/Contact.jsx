@@ -111,12 +111,15 @@ function ContactInbox()
                     ? messages.map((m) => (
                         <article key={m.id} className="contact-message">
                             <header>
-                                <strong>{m.username || 'guest'}</strong>
-                                <strong>{m.email || m.email_guest || t('contact.deleted.user')}</strong>
+                                <strong>
+                                    {m.username || t('guest')} ({m.email || m.email_guest || t('contact.deleted.user')})
+                                </strong>
                                 <span>{fmt(m.send_at)}</span>
                             </header>
                             <p>{m.comment}</p>
                         </article>
+                        adria@gmail.com (adrmarqu)
+                        adrmarqu (adria@gmail.com)
                     ))
                     : !error && <p className="stats-empty">{t('contact.inbox_empty')}</p>}
             </div>
