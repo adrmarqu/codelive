@@ -69,6 +69,7 @@ function Header({role, setRole, setIsLogged})
     const userLinks = (
         <>
             <Link to={PATHS.USER.PROFILE}>{t('header.profile')}</Link>
+            <Link to={PATHS.SEE}>{t('header.courses')}</Link>
             <Link to={PATHS.PROGRESS}>{t('header.progress')}</Link>
             <Link to={PATHS.RANKING}>{t('header.ranking')}</Link>
         </>
