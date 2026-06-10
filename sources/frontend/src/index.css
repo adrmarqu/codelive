@@ -102,5 +102,5 @@ body
 
 .main-content
 {
-    height: 1000px;
+    min-height: 90vh;
 }
