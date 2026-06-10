@@ -43,21 +43,21 @@ const getLevel = async (moduleId, level, lang) =>
     return result.rows[0];
 };
 
+CREATE TABLE lessons
+(
+    id              SERIAL PRIMARY KEY,
+    type            lesson_type NOT NULL,
+    level           INT NOT NULL, 
+    id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
+
+    UNIQUE(id_module, level)
+);
+
 const getLevelModel = async (moduleId, level) =>
 {
-    const query = `
-        SELECT 
-            l.id,
-            l.type,
-            l.level,
-            l.id_module,
-            c.title
-        FROM lessons l
-        INNER JOIN content c ON l.id = c.id_lesson
-        WHERE l.id_module = $1 AND l.level = $2 AND c.lang = $3;
-    `;
+    const query = `SELECT * FROM lessons WHERE id_module=$1 AND level=$2`;
 
-    const result = await pool.query(query, [moduleId, level, lang]);
+    const result = await pool.query(query, [moduleId, level]);
 
     if (result.rows.length === 0) return null;
     return result.rows[0];
