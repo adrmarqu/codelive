@@ -42,13 +42,12 @@ function Lesson()
 
     const { course, module, level } = useParams();
 
-    const [state, setState] = useState("post");
-
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [code, setCode] = useState("");
 
-    const [levelId, setLevelId] = useState("");
+    const [levelId, setLevelId] = useState(null);
+    const [lessonID, setLessonId] = useState(null);
 
     const [isSaving, setIsSaving] = useState(false);
 
@@ -83,14 +82,25 @@ function Lesson()
         const fetchLesson = async () =>
         {
             if (!levelId) return;
+
             try
             {
-                const r = await getLessonRequest(levelId, t('lang_sub'));
-                if (r && r.data) {
-                    setState("put");
+                const lang = t('lang_sub') || 'en';
+
+                const r = await getLessonRequest(levelId, lang);
+                if (r?.data) 
+                {
+                    setLessonId(r.data.id);
                     setTitle(r.data.title);
                     setContent(r.data.content);
                     setCode(r.data.code);
+                }
+                else
+                {
+                    setLessonId(null);
+                    setTitle("");
+                    setContent("");
+                    setCode("");
                 }
             }
             catch (error)
@@ -102,7 +112,7 @@ function Lesson()
         fetchLesson();
     }, [levelId, t]);
 
-    const createLesson = async () =>
+    const setLesson = async () =>
     {
         setIsSaving(true);
         try
@@ -114,27 +124,7 @@ function Lesson()
                 const langTit = await translateAndDetectText(title, lang);
                 const langCon = await translateAndDetectText(content, lang);
 
-                await postLessonRequest(levelId, lang, langTit, langCon, code);
-            }
-            navigate(-1);
-        }
-        catch (error) { console.error("Error al crear contenido:", error); }
-        finally { setIsSaving(false); }
-    };
-
-    const updateLesson = async () =>
-    {
-        setIsSaving(true);
-        try
-        {
-            const languages = ['es', 'ca', 'en'];
-
-            for (const lang of languages)
-            {
-                const langTit = await translateAndDetectText(title, lang);
-                const langCon = await translateAndDetectText(content, lang);
-
-                await putLessonRequest(levelId, lang, langTit, langCon, code);
+                await setLessonRequest(levelId, lang, langTit, langCon, code);
             }
             navigate(-1);
         }
@@ -145,8 +135,7 @@ function Lesson()
     const handleSave = () =>
     {
         if (!levelId) console.warn("Nivel no cargado");
-        if (state === 'post') createLesson();
-        else if (state === 'put') updateLesson();
+        setLesson();
     };
 
     return (

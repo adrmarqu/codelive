@@ -78,6 +78,4 @@ router.get('/lesson/:lang/:levelId', getOneLesson);
 
 router.post('/lesson/:levelId', postOneLesson);
 
-router.put('/lesson/:levelId', putOneLesson);
-
 module.exports = router;

@@ -113,6 +113,9 @@ const swapTwoLevels = async (req, res) =>
         if (!levelA)
             return res.status(400).json({message: "Ese nivel no existe"});
 
+        if (levelA.id_module !== parseInt(moduleId))
+            return res.status(400).json({message: "Invalid module"});
+
         /* Save levels */
         const currLevel = levelA.level;
         const targetLevel = direction === 'up' ? currLevel - 1 : currLevel + 1;

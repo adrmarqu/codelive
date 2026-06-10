@@ -20,7 +20,6 @@ const getLevels = async (moduleId, lang) =>
 
     const result = await pool.query(query, [moduleId, lang]);
     
-    if (result.rows.length === 0) return null;
     return result.rows;
 };
 
@@ -42,8 +41,10 @@ const getLevel = async (moduleId, level, lang) =>
             l.id_module,
             c.title
         FROM lessons l
-        INNER JOIN content c ON l.id = c.id_lesson
-        WHERE l.id_module = $1 AND l.level = $2 AND c.lang = $3;
+        LEFT JOIN content c 
+            ON l.id = c.id_lesson 
+            AND c.lang = $3
+        WHERE l.id_module = $1 AND l.level = $2;
     `;
 
     const result = await pool.query(query, [moduleId, level, lang]);
