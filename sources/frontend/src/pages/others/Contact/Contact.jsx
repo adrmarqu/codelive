@@ -112,7 +112,7 @@ function ContactInbox()
                         <article key={m.id} className="contact-message">
                             <header>
                                 <strong>
-                                    {m.username || t('guest')} - {m.email || m.email_guest || t('contact.deleted.user')}
+                                    {m.username || t('guest')} -- {m.email || m.email_guest || t('contact.deleted.user')}
                                 </strong>
                                 <span>{fmt(m.send_at)}</span>
                             </header>
