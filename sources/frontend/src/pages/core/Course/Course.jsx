@@ -73,7 +73,7 @@ function Course() {
                     courses.map((course) => {
                         const themeClass = getCourseColor(course.name);
                         return (
-                            <div key={course.id} className={`course-card ${themeClass}`}>
+                            <div key={course.id} className={`course-card ${themeClass}`} onClick={() => navigate(`/learn/courses/${course.name}`)}>
                                 <div className="course-card-content">
                                     <div className="course-icon-container">
                                         <span className="course-badge">{course.name.toUpperCase()}</span>
@@ -82,7 +82,6 @@ function Course() {
                                     <p>{t('course_card_desc', { name: course.name }) || `Domina ${course.name} paso a paso con lecciones teóricas y ejercicios prácticos interactivos en tiempo real.`}</p>
                                     <Button 
                                         className="btn btn-primary start-course-btn"
-                                        onClick={() => navigate(`/learn/courses/${course.name}`)}
                                     >
                                         {t('start_learning') || "Comenzar a aprender"}
                                     </Button>
