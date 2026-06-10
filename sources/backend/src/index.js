@@ -46,10 +46,18 @@ app.use('/api/edit', editRoutes);
 app.use('/api/learn', learnRoutes);
 
 
-pool.query('SELECT NOW()')
+/* pool.query('SELECT NOW()')
   .then(() => console.log('🐘 Conectado exitosamente a PostgreSQL'))
-  .catch(err => console.error('❌ Error al conectar a PostgreSQL:', err));
+  .catch(err => console.error('❌ Error al conectar a PostgreSQL:', err)); */
 
+pool.connect((err, client, release) =>
+{
+  if (err)
+    return console.error('❌ Error al conectar a PostgreSQL:', err.message);
+
+  console.log('🐘 Conectado exitosamente a PostgreSQL');
+  release();
+});
 
 /* Listen */
 
