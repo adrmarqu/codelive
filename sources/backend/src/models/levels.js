@@ -22,6 +22,13 @@ const getLevels = async (moduleId, lang) =>
     return result.rows;
 };
 
+const getMaxLevel = async (moduleId) =>
+{
+    const level = await pool.query(`SELECT MAX(level) FROM lessons WHERE id_module=$1`, [moduleId]);
+
+    return level.rows[0].max || 0;
+};
+
 /* Conseguir un nivel específico de un módulo con SOLO su título (Sin contenido ni código) */
 const getLevel = async (moduleId, level, lang) =>
 {
@@ -122,4 +129,4 @@ const deleteLevel = async (levelId) =>
     return result.rowCount > 0;
 };
 
-module.exports = { getLevels, getLevelModel, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };
+module.exports = { getMaxLevel, getLevels, getLevelModel, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };

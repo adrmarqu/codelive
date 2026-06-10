@@ -6,7 +6,8 @@ const {
     postLevel, 
     putType, 
     deleteLevel, 
-    changeLevel 
+    changeLevel,
+    getMaxLevel
 } = require('../models/levels.js');
 
 const getAllLevels = async (req, res) =>
@@ -44,10 +45,12 @@ const getOneLevel = async (req, res) =>
 const postOneLevel = async (req, res) =>
 {
     const { moduleId } = req.params;
-    const { level, type } = req.body;
+    const { type } = req.body;
     
     try
     {
+        const level = await getMaxLevel(moduleId) + 1;
+
         const result = await postLevel(moduleId, level, type);
         
         if (!result)

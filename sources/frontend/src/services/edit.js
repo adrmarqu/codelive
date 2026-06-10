@@ -56,8 +56,8 @@ export const getLevelRequest = (moduleId, level, lang) =>
     api.get(`/api/edit/levels/${lang}/${moduleId}/${level}`);
 
 // Crear un nuevo nivel
-export const postLevelRequest = (moduleId, level, type) => 
-    api.post(`/api/edit/levels/${moduleId}`, { level, type });
+export const postLevelRequest = (moduleId, type) => 
+    api.post(`/api/edit/levels/${moduleId}`, { type });
 
 // Mover un nivel una posicion (Swap)
 export const swapLevelRequest = (moduleId, levelId, direction) => 
