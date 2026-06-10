@@ -43,16 +43,6 @@ const getLevel = async (moduleId, level, lang) =>
     return result.rows[0];
 };
 
-CREATE TABLE lessons
-(
-    id              SERIAL PRIMARY KEY,
-    type            lesson_type NOT NULL,
-    level           INT NOT NULL, 
-    id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
-
-    UNIQUE(id_module, level)
-);
-
 const getLevelModel = async (moduleId, level) =>
 {
     const query = `SELECT * FROM lessons WHERE id_module=$1 AND level=$2`;
