@@ -1,5 +1,6 @@
 const {
-    getLevel, 
+    getLevel,
+    getLevelModel,
     getLevelById, 
     getLevels, 
     postLevel, 
@@ -74,7 +75,7 @@ const putTwoLevels = async (req, res) =>
         
         if (level !== newLevel)
         {
-            const levelB = await getLevel(moduleId, newLevel);
+            const levelB = await getLevelModel(moduleId, newLevel);
             if (!levelB)
                 return res.status(400).json({message: "Ese nivel no existe"});
 
@@ -108,7 +109,7 @@ const swapTwoLevels = async (req, res) =>
         const targetLevel = direction === 'up' ? currLevel - 1 : currLevel + 1;
 
         /* Get level B */
-        const levelB = await getLevel(moduleId, targetLevel);
+        const levelB = await getLevelModel(moduleId, targetLevel);
         if (!levelB)
             return res.status(400).json({message: "No hay nivel en esa direccion"});
 

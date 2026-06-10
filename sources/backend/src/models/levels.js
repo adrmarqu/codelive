@@ -43,6 +43,26 @@ const getLevel = async (moduleId, level, lang) =>
     return result.rows[0];
 };
 
+const getLevelModel = async (moduleId, level) =>
+{
+    const query = `
+        SELECT 
+            l.id,
+            l.type,
+            l.level,
+            l.id_module,
+            c.title
+        FROM lessons l
+        INNER JOIN content c ON l.id = c.id_lesson
+        WHERE l.id_module = $1 AND l.level = $2 AND c.lang = $3;
+    `;
+
+    const result = await pool.query(query, [moduleId, level, lang]);
+
+    if (result.rows.length === 0) return null;
+    return result.rows[0];
+};
+
 const getLevelById = async (levelId) =>
 {
     const result = await pool.query('SELECT * FROM lessons WHERE id=$1', [levelId]);
@@ -56,7 +76,7 @@ const postLevel = async (moduleId, level, type) =>
 {
     try
     {
-        const module = await getLevel(moduleId, level);
+        const module = await getLevelModel(moduleId, level);
         if (module) return false;
 
         const result = await pool.query('INSERT INTO lessons (type, level, id_module) VALUES ($1, $2, $3)', [type, level, moduleId]);
@@ -112,4 +132,4 @@ const deleteLevel = async (levelId) =>
     return result.rowCount > 0;
 };
 
-module.exports = { getLevels, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };
+module.exports = { getLevels, getLevelModel, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };
