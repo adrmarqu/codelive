@@ -36,6 +36,10 @@ const userRoutes = require('./routes/user.js');
 const editRoutes = require('./routes/edit.js');
 
 /* Check routes */
+app.get('/', (req, res) =>
+{
+    res.status(200).json({ status: "alive", message: "Backend funcionando correctamente" });
+});
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/edit', editRoutes);
