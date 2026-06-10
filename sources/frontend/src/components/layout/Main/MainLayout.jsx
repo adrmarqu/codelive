@@ -8,7 +8,7 @@ function MainLayout({ role, setRole, setIsLogged })
     return (
         <>
         <Header role={role} setRole={setRole} setIsLogged={setIsLogged}/>
-        <main>
+        <main className="main-content">
             <Outlet />
         </main>
         <Footer />
