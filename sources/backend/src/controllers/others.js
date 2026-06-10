@@ -19,7 +19,10 @@ const postContact = async (req, res) =>
         let emailGuest = null;
 
         if (req.user && req.user.id)
+        {
             userId = req.user.id;
+            emailGuest = null;
+        }
         else
         {
             if (!email || !email.trim())

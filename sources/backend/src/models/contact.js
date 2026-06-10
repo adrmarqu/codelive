@@ -5,11 +5,11 @@ const pool = require('../config/db');
 /* Guardar un mensaje de contacto enviado por un usuario */
 const createContact = async (userId, comment, email) =>
 {
-    if (!email) email = null;
+    const finalEmail = (email && email.trim() !== "") ? email.trim() : null;
 
     const result = await pool.query(
         'INSERT INTO contact (id_user, comment, email_guest) VALUES ($1, $2, $3) RETURNING id',
-        [userId, comment, email]
+        [userId, comment, finalEmail]
     );
     return result.rowCount > 0;
 };

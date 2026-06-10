@@ -38,6 +38,7 @@ function ContactForm({role})
 
         try
         {
+            const emailToSend = role === 'guest' ? email.trim() : "";
             await sendContactRequest(comment.trim(), email.trim());
             setSuccess(t('contact.success'));
             setComment("");
