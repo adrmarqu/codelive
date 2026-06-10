@@ -12,14 +12,7 @@ const getOneLesson = async (req, res) =>
     {
         const result = await getLesson(levelId, lang);
         if (!result)
-        {
-            return res.status(200).json({
-                id: null,
-                title: "",
-                content: "",
-                code: ""
-            });
-        }
+            return res.status(200).json(null);
 
         return res.status(200).json(result);
     }
