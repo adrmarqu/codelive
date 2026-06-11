@@ -38,6 +38,7 @@ function ContactForm({ role })
 
         try
         {
+            console.log("ROLE:", role);
             await sendContactRequest(comment.trim(), email.trim(), role);
             setSuccess(t('contact.success'));
             setComment("");
