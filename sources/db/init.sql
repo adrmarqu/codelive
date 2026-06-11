@@ -91,6 +91,7 @@ CREATE TABLE IF NOT EXISTS "session" (
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
 INSERT INTO courses (name) VALUES ('HTML'), ('CSS'), ('JavaScript');
+INSERT INTO courses (name) VALUES ('PHP'), ('NodeJS'), ('MySQL');
 
 UPDATE users SET rol = 'admin' WHERE username='admin';
 UPDATE users SET rol = 'editor' WHERE username='editor';
