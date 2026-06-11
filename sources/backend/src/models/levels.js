@@ -20,9 +20,15 @@ const getLevels = async (moduleId) =>
 const getMaxLevel = async (moduleId) =>
 {
     console.log("-> Executing MAX(level) query for moduleId:", moduleId);
-    const level = await pool.query(`SELECT MAX(level) FROM lessons WHERE id_module=$1`, [moduleId]);
-    console.log("-> MAX(level) query result:", level.rows);
-    return level.rows[0].max || 0;
+
+    const query = `SELECT MAX(level) AS max_level FROM lessons WHERE id_module = $1`;
+    const result = await pool.query(query, [moduleId]);
+
+    const valor = result.rows[0].max_level;
+
+    console.log("-> MAX(level) query result:", valor);
+
+    return valor !== null ? parseInt(valor, 10) : 0;
 };
 
 /* Conseguir un nivel específico de un módulo con SOLO su título (Sin contenido ni código) */
