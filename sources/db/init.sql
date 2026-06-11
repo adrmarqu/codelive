@@ -1,20 +1,18 @@
-DROP TABLE IF EXISTS progress, content, contact, lessons, modules, courses, users, "session" CASCADE;
+DROP TABLE IF EXISTS progress, content, lesson_content, contact, lessons, modules, courses, users, "session" CASCADE;
 DROP TYPE IF EXISTS user_rol, lesson_type, lang_type, prog_lang CASCADE;
 
 CREATE TYPE user_rol AS ENUM ('user', 'editor', 'admin');
 CREATE TYPE lesson_type AS ENUM ('theory', 'game');
-CREATE TYPE lang_type AS ENUM ('en', 'ca', 'es');
 CREATE TYPE prog_lang AS ENUM ('html', 'css', 'js', 'php', 'node', 'sql');
 
 CREATE TABLE users
 (
     id              SERIAL PRIMARY KEY,
-    username        VARCHAR(50) NOT NULL,
+    username        VARCHAR(50) UNIQUE NOT NULL,
     email           VARCHAR(100) UNIQUE NOT NULL,
     password_hash   VARCHAR(255) NOT NULL,
     rol             user_rol DEFAULT 'user',
-    active          BOOLEAN DEFAULT FALSE,
-    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE courses
@@ -27,7 +25,7 @@ CREATE TABLE modules
 (
     id              SERIAL PRIMARY KEY,
     name            VARCHAR(150) NOT NULL,
-    id_course       INT REFERENCES courses(id) ON DELETE CASCADE,
+    id_course       INT NOT NULL REFERENCES courses(id) ON DELETE CASCADE,
 
     UNIQUE(name, id_course)
 );
@@ -37,30 +35,32 @@ CREATE TABLE lessons
     id              SERIAL PRIMARY KEY,
     type            lesson_type NOT NULL,
     level           INT NOT NULL, 
-    id_module       INT REFERENCES modules(id) ON DELETE CASCADE,
+    id_module       INT NOT NULL REFERENCES modules(id) ON DELETE CASCADE,
 
     UNIQUE(id_module, level)
 );
 
-CREATE TABLE content
+CREATE TABLE lesson_content
 (
     id              SERIAL PRIMARY KEY,
-    id_lesson       INT REFERENCES lessons(id) ON DELETE CASCADE,
-    lang            lang_type NOT NULL,
+    id_lesson       INT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
     title           VARCHAR(50) NOT NULL,
     content         TEXT NOT NULL,
     code            TEXT,
-    code_language   prog_lang,
+    code_lang       prog_lang,
 
-    UNIQUE (id_lesson, lang)
+    CONSTRAINT chk_code_lang CHECK (
+        (code IS NULL AND code_lang IS NULL) OR
+        (code IS NOT NULL AND code_lang IS NOT NULL)
+    )
 );
 
 CREATE TABLE progress
 (
     id              SERIAL PRIMARY KEY,
-    id_user         INT REFERENCES users(id) ON DELETE CASCADE,
-    id_lesson       INT REFERENCES lessons(id) ON DELETE CASCADE,
-    completed_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    id_user         INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    id_lesson       INT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+    completed_at    TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     
     UNIQUE(id_user, id_lesson)
 );
@@ -71,7 +71,7 @@ CREATE TABLE contact
     id_user         INT REFERENCES users(id) ON DELETE CASCADE,
     email_guest     VARCHAR(100),
     comment         TEXT NOT NULL,
-    send_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    send_at         TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT chk_contact_author CHECK (
         (id_user IS NOT NULL AND email_guest IS NULL) OR
@@ -79,7 +79,7 @@ CREATE TABLE contact
     )
 );
 
-CREATE INDEX idx_content_lesson_lang ON content(id_lesson, lang);
+CREATE INDEX idx_content_lesson_lang ON lesson_content(id_lesson);
 CREATE INDEX idx_modules_course ON modules(id_course);
 CREATE INDEX idx_lessons_module ON lessons(id_module);
 CREATE INDEX idx_progress_user ON progress(id_user);
@@ -87,7 +87,12 @@ CREATE INDEX idx_progress_user ON progress(id_user);
 CREATE TABLE IF NOT EXISTS "session" (
   "sid" varchar NOT NULL PRIMARY KEY,
   "sess" json NOT NULL,
-  "expire" timestamp(6) NOT NULL
+  "expire" timestamptz(6) NOT NULL
 );
 
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+
+INSERT INTO courses (name) VALUES ('HTML'), ('CSS'), ('JavaScript');
+
+UPDATE users SET rol = 'admin' WHERE username='admin';
+UPDATE users SET rol = 'editor' WHERE username='editor';
