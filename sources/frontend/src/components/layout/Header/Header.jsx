@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState, useRef } from 'react'
 
@@ -12,6 +12,7 @@ function Header({role, setRole, setIsLogged})
     const { t, i18n } = useTranslation();
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const [isOpen, setIsOpen] = useState(false);
     const [isOpenLang, setIsOpenLang] = useState(false);
@@ -51,6 +52,13 @@ function Header({role, setRole, setIsLogged})
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
     }, [isOpen, isOpenLang]);
+
+    /* Close dropdowns on route change */
+    useEffect(() =>
+    {
+        setIsOpen(false);
+        setIsOpenLang(false);
+    }, [location.pathname]);
 
     /* Language */
     const handleLanguage = async (lng) =>
