@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS progress, content, lesson_content, contact, lessons, modules, courses, users, "session" CASCADE;
+DROP TABLE IF EXISTS password_resets, progress, content, lesson_content, contact, lessons, modules, courses, users, "session" CASCADE;
 DROP TYPE IF EXISTS user_rol, lesson_type, lang_type, prog_lang CASCADE;
 
 CREATE TYPE user_rol AS ENUM ('user', 'editor', 'admin');
@@ -41,7 +41,7 @@ CREATE TABLE lessons
 CREATE TABLE lesson_content
 (
     id              SERIAL PRIMARY KEY,
-    id_lesson       INT NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+    id_lesson       INT UNIQUE NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
     title           VARCHAR(50) NOT NULL,
     content         TEXT NOT NULL,
     code            TEXT,
@@ -76,6 +76,19 @@ CREATE TABLE contact
         (id_user IS NULL AND email_guest IS NOT NULL)
     )
 );
+
+CREATE TABLE password_resets
+(
+    id              SERIAL PRIMARY KEY,
+    id_user         INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token           VARCHAR(255) UNIQUE NOT NULL,
+    expires_at      TIMESTAMPTZ NOT NULL,
+    used            BOOLEAN DEFAULT FALSE,
+    created_at      TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_password_resets_token ON password_resets(token);
+CREATE INDEX idx_password_resets_user ON password_resets(id_user);
 
 CREATE INDEX idx_content_lesson_lang ON lesson_content(id_lesson);
 CREATE INDEX idx_modules_course ON modules(id_course);

@@ -1,0 +1,72 @@
+/* Reset page — extiende los estilos de Form.css + Recover.css */
+
+.reset-card
+{
+    margin-top: 26px;
+}
+
+.reset-status-msg
+{
+    margin-top: 32px;
+    color: var(--text-color-soft);
+    font-size: 1rem;
+}
+
+.reset-hint
+{
+    font-size: 0.8rem;
+    color: var(--text-color-soft);
+    margin-top: 4px;
+    text-align: left;
+}
+
+/* Reutiliza .input-group, #form-error.success y #form-btn-container de Recover.css */
+.input-group
+{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+    margin-top: 8px;
+}
+
+.input-group label
+{
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--text-color-soft);
+}
+
+.input-group input
+{
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    background: var(--bg-input, var(--bg-card));
+    color: var(--text-color);
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.input-group input:focus
+{
+    border-color: var(--primary-bg-color);
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+}
+
+#form-error.success
+{
+    background-color: rgba(34, 197, 94, 0.12);
+    color: #22c55e;
+    border-color: rgba(34, 197, 94, 0.3);
+}
+
+#form-btn-container a
+{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}

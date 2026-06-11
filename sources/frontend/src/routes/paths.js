@@ -23,6 +23,7 @@ export const PATHS =
         LOGIN: '/auth/login',
         SIGNIN: '/auth/signin',
         RECOVER: '/auth/recover',
+        RESET: '/auth/reset/:token',
         VERIFY: '/auth/verify/:type'
     },
 

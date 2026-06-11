@@ -5,7 +5,7 @@ const { getUserData } = require('../models/user.js');
 
 const postContact = async (req, res) =>
 {
-    const { userRole } = req.params;
+    const userRole = req.params.userRole || 'guest';
     const { comment, email } = req.body;
 
     if (!comment || !comment.trim())

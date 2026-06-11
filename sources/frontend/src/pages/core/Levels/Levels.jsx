@@ -40,10 +40,16 @@ function Levels() {
                     }
                 }
 
-                // 4. Obtener progreso del usuario (IDs de lecciones completadas)
-                const progressResponse = await getProgressLearn();
-                if (progressResponse && progressResponse.data) {
-                    setProgress(progressResponse.data);
+                // 4. Obtener progreso del usuario (IDs de lecciones completadas) si está logueado
+                if (localStorage.getItem('token')) {
+                    try {
+                        const progressResponse = await getProgressLearn();
+                        if (progressResponse && progressResponse.data) {
+                            setProgress(progressResponse.data);
+                        }
+                    } catch (progressErr) {
+                        console.error("Error al cargar progreso del usuario:", progressErr);
+                    }
                 }
             } catch (err) {
                 console.error("Error al cargar temas:", err);

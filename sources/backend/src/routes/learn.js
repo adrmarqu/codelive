@@ -7,6 +7,7 @@ const { getModules, getModule } = require('../models/modules.js');
 const { getLevels, getLevel } = require('../models/levels.js');
 const { getLesson } = require('../models/lessons.js');
 const { saveProgress, getUserProgress } = require('../models/progres.js');
+const { runCode } = require('../controllers/runner.js');
 
 // Apply protection to all learn routes - users must be logged in to access learning content
 /* router.use(protect); */
@@ -116,5 +117,8 @@ router.post('/progress/:levelId', protect, async (req, res) => {
         return res.status(500).json({ error: "Internal error" });
     }
 });
+
+/* Code Runner playground execution */
+router.post('/run', runCode);
 
 module.exports = router;

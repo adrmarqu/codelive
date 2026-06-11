@@ -13,9 +13,11 @@ import Terms from './pages/others/Terms/Terms.jsx'
 import Contact from './pages/others/Contact/Contact.jsx'
 
 /* Auth */
-import Signin from './pages/auth/Signin/Signin.jsx'
-import Login from './pages/auth/Login/Login.jsx'
-import Verify from './pages/auth/Verify/Verify.jsx'
+import Signin  from './pages/auth/Signin/Signin.jsx'
+import Login   from './pages/auth/Login/Login.jsx'
+import Recover from './pages/auth/Recover/Recover.jsx'
+import Reset   from './pages/auth/Reset/Reset.jsx'
+import Verify  from './pages/auth/Verify/Verify.jsx'
 
 /* Core (learn) */
 import Learn from './pages/core/Learn.jsx'
@@ -85,6 +87,10 @@ function App()
                 <Route path={PATHS.AUTH.LOGIN} element={
                     <Guard ready={ready} role={role} allow={['guest', 'admin']}><Login setIsLogged={setIsLogged} /></Guard>
                 }/>
+                <Route path={PATHS.AUTH.RECOVER} element={
+                    <Guard ready={ready} role={role} allow={['guest', 'admin']}><Recover /></Guard>
+                }/>
+                <Route path={PATHS.AUTH.RESET} element={<Reset />}/>
                 <Route path={PATHS.AUTH.VERIFY} element={<Verify />}/>
 
                 {/* Aprendizaje — requiere sesión */}

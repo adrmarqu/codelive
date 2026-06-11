@@ -19,7 +19,20 @@ services:
           name: codelive-postgres-db
           property: connectionString
       - key: CORS_ORIGINS
-        value: "*" # Change to your frontend Vercel domain in production
+        value: "https://codelive-pvo7.vercel.app"
+      - key: FRONTEND_URL
+        value: "https://codelive-pvo7.vercel.app"
+      # ── Email (rellena estos valores en el Dashboard de Render) ──
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_SECURE
+        value: "false"
+      - key: SMTP_USER
+        sync: false   # rellena en el Dashboard: tu cuenta de Gmail
+      - key: SMTP_PASS
+        sync: false   # rellena en el Dashboard: App Password de Gmail
 
 databases:
   # 🐘 DATABASE: PostgreSQL Database

@@ -27,7 +27,7 @@ function Login({setIsLogged})
                     {t('form.login.remember')}
                 </label>
             </div>
-            <Link id='forgot' to={`${PATHS.AUTH.VERIFY}/password`}>
+            <Link id='forgot' to={PATHS.AUTH.RECOVER}>
                 {t('form.login.forgot')}
             </Link>
         </Form>

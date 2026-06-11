@@ -16,7 +16,7 @@ const getUserData = async (email) =>
 const getUserById = async (id) =>
 {
     const result = await pool.query(
-        'SELECT id, username, email, rol, active, created_at FROM users WHERE id = $1',
+        'SELECT id, username, email, rol, created_at FROM users WHERE id = $1',
         [id]
     );
 
@@ -120,7 +120,7 @@ const updateRole = async (id, rol) =>
 const getAllUsers = async () =>
 {
     const result = await pool.query(
-        `SELECT u.id, u.username, u.email, u.rol, u.active,
+        `SELECT u.id, u.username, u.email, u.rol,
                 COUNT(p.id)::int AS progress
          FROM users u
          LEFT JOIN progress p ON p.id_user = u.id

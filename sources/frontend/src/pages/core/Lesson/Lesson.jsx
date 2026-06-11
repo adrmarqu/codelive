@@ -9,6 +9,7 @@ import {
     getProgressLearn, 
     saveProgressLearn 
 } from '@/services/learn.js'
+import api from '@/services/api.js'
 import Button from '@/components/common/Button/Button.jsx'
 import '../dashboard.css'
 
@@ -31,6 +32,11 @@ function Lesson() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [showPlayground, setShowPlayground] = useState(false);
+
+    // Estados del Code Runner
+    const [runnerOutput, setRunnerOutput] = useState("");
+    const [sqlResult, setSqlResult] = useState(null);
+    const [isRunning, setIsRunning] = useState(false);
 
     // Cargar estructura general del curso
     useEffect(() => {
@@ -60,10 +66,16 @@ function Lesson() {
                     }
                 }
 
-                // Cargar progreso del usuario
-                const progressResponse = await getProgressLearn();
-                if (progressResponse && progressResponse.data) {
-                    setProgress(progressResponse.data);
+                // Cargar progreso del usuario si está logueado
+                if (localStorage.getItem('token')) {
+                    try {
+                        const progressResponse = await getProgressLearn();
+                        if (progressResponse && progressResponse.data) {
+                            setProgress(progressResponse.data);
+                        }
+                    } catch (progressErr) {
+                        console.error("Error al cargar progreso de lección:", progressErr);
+                    }
                 }
             } catch (err) {
                 console.error("Error al cargar temario de lección:", err);
@@ -102,9 +114,94 @@ function Lesson() {
         fetchLessonContent();
     }, [currentLevelId]);
 
-    // Ejecutar código en el iframe
-    const handleRunCode = () => {
-        setPreviewSrcDoc(editableCode);
+    // Ejecutar código en el iframe (HTML/CSS/JS) o en el backend (PHP/Node/SQL)
+    const handleRunCode = async () => {
+        const lang = lessonData?.code_lang || 'html';
+        
+        if (lang === 'html') {
+            setPreviewSrcDoc(editableCode);
+        } else if (lang === 'css') {
+            const html = `
+                <html>
+                    <head>
+                        <style>
+                            ${editableCode}
+                        </style>
+                    </head>
+                    <body style="font-family: sans-serif; padding: 20px; color: #333; background: #fff;">
+                        <h1>Título de Prueba (h1)</h1>
+                        <p>Este es un párrafo de ejemplo (p) para que puedas probar tus estilos CSS.</p>
+                        <button style="padding: 8px 16px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">Botón de ejemplo</button>
+                        <div class="box" style="margin-top: 15px; padding: 20px; border: 1px dashed #ccc; text-align: center;">
+                            Caja de ejemplo (clase: .box)
+                        </div>
+                    </body>
+                </html>
+            `;
+            setPreviewSrcDoc(html);
+        } else if (lang === 'js') {
+            const wrappedCode = `
+                <html>
+                    <body style="margin: 0; padding: 0;">
+                        <div id="console-output" style="font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; padding: 15px; color: #e0e0e0; background: #1e1e1e; min-height: 100vh; box-sizing: border-box; overflow-y: auto;"></div>
+                        <script>
+                            (function() {
+                                const output = document.getElementById('console-output');
+                                const originalLog = console.log;
+                                const originalError = console.error;
+                                
+                                console.log = function(...args) {
+                                    originalLog.apply(console, args);
+                                    const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg).join(' ');
+                                    output.textContent += msg + '\\n';
+                                };
+                                
+                                console.error = function(...args) {
+                                    originalError.apply(console, args);
+                                    const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg).join(' ');
+                                    output.innerHTML += '<span style="color: #ff6b6b; font-weight: bold;">Error: ' + msg + '</span>\\n';
+                                };
+                                
+                                window.onerror = function(message, source, lineno, colno, error) {
+                                    output.innerHTML += '<span style="color: #ff6b6b; font-weight: bold;">Error: ' + message + '</span>\\n';
+                                };
+                                
+                                try {
+                                    ${editableCode}
+                                } catch(err) {
+                                    output.innerHTML += '<span style="color: #ff6b6b; font-weight: bold;">Error: ' + err.message + '</span>\\n';
+                                }
+                            })();
+                        </script>
+                    </body>
+                </html>
+            `;
+            setPreviewSrcDoc(wrappedCode);
+        } else {
+            setIsRunning(true);
+            setRunnerOutput("Ejecutando código...");
+            setSqlResult(null);
+            try {
+                const response = await api.post('/api/learn/run', {
+                    code: editableCode,
+                    lang: lang
+                });
+                if (lang === 'sql' && response.data.type === 'table') {
+                    setSqlResult({
+                        columns: response.data.columns,
+                        rows: response.data.rows
+                    });
+                    setRunnerOutput("");
+                } else {
+                    setRunnerOutput(response.data.output || response.data.message || "Ejecución completada sin salida.");
+                }
+            } catch (err) {
+                console.error("Error al ejecutar código:", err);
+                setRunnerOutput(err.response?.data?.error || "Error al ejecutar el código en el servidor.");
+            } finally {
+                setIsRunning(false);
+            }
+        }
     };
 
     // Marcar lección como completada
@@ -251,12 +348,73 @@ function Lesson() {
                                             <div className="pane-header">
                                                 <span>{t('result') || "Vista previa"}</span>
                                             </div>
-                                            <iframe
-                                                title="CodeLive Live Preview"
-                                                className="playground-iframe"
-                                                srcDoc={previewSrcDoc}
-                                                sandbox="allow-scripts"
-                                            ></iframe>
+                                            {!lessonData.code_lang || ['html', 'css', 'js'].includes(lessonData.code_lang) ? (
+                                                <iframe
+                                                    title="CodeLive Live Preview"
+                                                    className="playground-iframe"
+                                                    srcDoc={previewSrcDoc}
+                                                    sandbox="allow-scripts"
+                                                ></iframe>
+                                            ) : (
+                                                <div className="terminal-preview" style={{
+                                                    fontFamily: "'Courier New', Courier, monospace",
+                                                    fontSize: '14px',
+                                                    padding: '15px',
+                                                    color: '#e0e0e0',
+                                                    background: '#1e1e1e',
+                                                    height: 'calc(100% - 40px)',
+                                                    boxSizing: 'border-box',
+                                                    overflow: 'auto',
+                                                    whiteSpace: 'pre-wrap'
+                                                }}>
+                                                    {isRunning ? (
+                                                        <div className="loading-output">Ejecutando...</div>
+                                                    ) : sqlResult ? (
+                                                        <div className="sql-table-wrapper" style={{ overflowX: 'auto' }}>
+                                                            {sqlResult.rows.length === 0 ? (
+                                                                <div>Consulta ejecutada con éxito. 0 filas devueltas.</div>
+                                                            ) : (
+                                                                <table style={{
+                                                                    width: '100%',
+                                                                    borderCollapse: 'collapse',
+                                                                    marginTop: '10px',
+                                                                    border: '1px solid #444'
+                                                                }}>
+                                                                    <thead>
+                                                                        <tr style={{ background: '#333' }}>
+                                                                            {sqlResult.columns.map((col, idx) => (
+                                                                                <th key={idx} style={{
+                                                                                    padding: '8px',
+                                                                                    border: '1px solid #444',
+                                                                                    textAlign: 'left'
+                                                                                }}>{col}</th>
+                                                                            ))}
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {sqlResult.rows.map((row, rIdx) => (
+                                                                            <tr key={rIdx} style={{
+                                                                                background: rIdx % 2 === 0 ? '#1e1e1e' : '#252525'
+                                                                            }}>
+                                                                                {sqlResult.columns.map((col, cIdx) => (
+                                                                                    <td key={cIdx} style={{
+                                                                                        padding: '8px',
+                                                                                        border: '1px solid #444'
+                                                                                    }}>
+                                                                                        {typeof row[col] === 'object' ? JSON.stringify(row[col]) : String(row[col] ?? 'NULL')}
+                                                                                    </td>
+                                                                                ))}
+                                                                            </tr>
+                                                                        ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            )}
+                                                        </div>
+                                                    ) : (
+                                                        <div>{runnerOutput || "Haz clic en 'Ejecutar' para ver la salida aquí."}</div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                 )}
