@@ -78,7 +78,7 @@ function Lesson()
 
         try 
         {
-            await putLessonRequest(levelId, title, content, code);
+            await setLessonRequest(levelId, title, content, code);
         }
         catch (error) { console.error("Error al actualizar contenido:", error); }
     };
