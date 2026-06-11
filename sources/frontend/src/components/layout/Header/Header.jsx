@@ -36,18 +36,21 @@ function Header({role, setRole, setIsLogged})
         }, 0);
     };
 
-    /* Close dropdown */
+    /* Close dropdowns on outside click */
     useEffect(() =>
     {
         const handleClickOutside = (event) =>
         {
             if (isOpen && navRef.current && !navRef.current.contains(event.target))
                 setIsOpen(false);
+                
+            if (isOpenLang)
+                setIsOpenLang(false);
         };
 
         document.addEventListener('click', handleClickOutside);
         return () => document.removeEventListener('click', handleClickOutside);
-    }, [isOpen]);
+    }, [isOpen, isOpenLang]);
 
     /* Language */
     const handleLanguage = async (lng) =>
