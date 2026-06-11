@@ -68,7 +68,28 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, '0.0.0.0', () =>
+const server = app.listen(PORT, '0.0.0.0', () =>
 {
     console.log(`💻 Servidor corriendo en el puerto ${PORT}`);
+});
+
+/* --- Graceful Shutdown para evitar errores SIGTERM en Render --- */
+process.on('SIGTERM', () => {
+    console.info('Recibido SIGTERM (Render apagando el servicio). Cerrando con gracia...');
+    server.close(() => {
+        console.log('Servidor HTTP cerrado.');
+        pool.end(() => {
+            console.log('Conexión a PostgreSQL cerrada.');
+            process.exit(0);
+        });
+    });
+});
+
+process.on('SIGINT', () => {
+    console.info('Recibido SIGINT (Ctrl+C). Cerrando con gracia...');
+    server.close(() => {
+        pool.end(() => {
+            process.exit(0);
+        });
+    });
 });
