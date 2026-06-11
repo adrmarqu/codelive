@@ -15,7 +15,7 @@ const requestRecovery = async (req, res) =>
 {
     const { email } = req.body;
 
-    if (!email || !emailRegex.test(email))
+    if (email || emailRegex.test(email))
         return res.status(400).json({ message: 'Email inválido.' });
 
     try
