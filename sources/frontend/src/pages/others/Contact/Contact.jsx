@@ -13,7 +13,7 @@ function Contact({ role })
     return role === 'admin' ? <ContactInbox /> : <ContactForm role={role} />;
 }
 
-function ContactForm({role})
+function ContactForm({ role })
 {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -38,6 +38,7 @@ function ContactForm({role})
 
         try
         {
+            console.log("ROLE:", role);
             const emailToSend = role === 'guest' ? email.trim() : "";
             await sendContactRequest(comment.trim(), email.trim());
             setSuccess(t('contact.success'));
