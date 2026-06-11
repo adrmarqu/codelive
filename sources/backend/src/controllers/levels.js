@@ -109,7 +109,7 @@ const swapTwoLevels = async (req, res) =>
         const targetLevel = direction === 'up' ? currLevel - 1 : currLevel + 1;
 
         /* Get level B */
-        const levelB = await getLevelModel(moduleId, targetLevel);
+        const levelB = await getLevel(moduleId, targetLevel);
         if (!levelB)
             return res.status(400).json({message: "No hay nivel en esa direccion"});
 

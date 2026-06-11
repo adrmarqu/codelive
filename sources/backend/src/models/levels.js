@@ -3,7 +3,14 @@ const pool = require('../config/db');
 /* Conseguir todos los modulos de un curso, si no hay modulos devuelve null */
 const getLevels = async (moduleId) =>
 {
-    const result = await pool.query('SELECT * FROM lessons WHERE id_module=$1', [moduleId]);
+    const query = `
+        SELECT l.*, lc.title 
+        FROM lessons l 
+        LEFT JOIN lesson_content lc ON l.id = lc.id_lesson 
+        WHERE l.id_module=$1
+        ORDER BY l.level ASC
+    `;
+    const result = await pool.query(query, [moduleId]);
 
     if (result.rows.length === 0) return null;
     return result.rows;
@@ -41,7 +48,7 @@ const postLevel = async (moduleId, level) =>
 {
     try
     {
-        const module = await getLevelModel(moduleId, level);
+        const module = await getLevel(moduleId, level);
         if (module) return false;
 
         const result = await pool.query('INSERT INTO lessons (level, id_module) VALUES ($1, $2)', [level, moduleId]);
