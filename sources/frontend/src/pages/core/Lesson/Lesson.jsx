@@ -13,7 +13,8 @@ import api from '@/services/api.js'
 import Button from '@/components/common/Button/Button.jsx'
 import '../dashboard.css'
 
-function Lesson() {
+function Lesson()
+{
     const { t } = useTranslation();
     const { course, module, level } = useParams();
     const navigate = useNavigate();
@@ -350,6 +351,7 @@ function Lesson() {
                                             </div>
                                             {!lessonData.code_lang || ['html', 'css', 'js'].includes(lessonData.code_lang) ? (
                                                 <iframe
+                                                key={previewSrcDoc}
                                                     title="CodeLive Live Preview"
                                                     className="playground-iframe"
                                                     srcDoc={previewSrcDoc}
