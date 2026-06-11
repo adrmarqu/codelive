@@ -30,7 +30,6 @@ DROP TYPE IF EXISTS user_rol, prog_lang CASCADE;
 -- Roles de usuario
 CREATE TYPE user_rol AS ENUM ('user', 'editor', 'admin');
 
--- Lenguajes de programación soportados en los ejercicios de código
 CREATE TYPE prog_lang AS ENUM ('html', 'css', 'js', 'php', 'node', 'sql');
 
 
@@ -85,7 +84,6 @@ CREATE TABLE lesson_content
     code        TEXT,
     code_lang   prog_lang,
 
-    -- Either both code fields are present or both are NULL
     CONSTRAINT chk_code_lang CHECK (
         (code IS NULL AND code_lang IS NULL) OR
         (code IS NOT NULL AND code_lang IS NOT NULL)
@@ -112,7 +110,6 @@ CREATE TABLE contact
     comment         TEXT NOT NULL,
     send_at         TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
 
-    -- Message must come from a logged-in user OR an anonymous email, never both
     CONSTRAINT chk_contact_author CHECK (
         (id_user IS NOT NULL AND email_guest IS NULL) OR
         (id_user IS NULL     AND email_guest IS NOT NULL)
