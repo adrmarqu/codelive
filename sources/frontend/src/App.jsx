@@ -41,7 +41,15 @@ import './App.css'
 function Guard({ ready, role, allow, children })
 {
     if (!ready) return <div className="route-loading">Cargando…</div>;
-    if (!allow.includes(role)) return <Navigate to={PATHS.ERROR} replace />;
+    
+    if (!allow.includes(role))
+    {
+        if (role === 'guest')
+            return <Navigate to={PATHS.AUTH.LOGIN} replace />;
+        else
+            return <Navigate to={PATHS.UNAUTHORIZED} state={{ status: '403' }} replace />;
+    }
+    
     return children;
 }
 
@@ -137,6 +145,7 @@ function App()
 
             <Route path={PATHS.TERMS} element={<Terms />}/>
 
+            <Route path={PATHS.UNAUTHORIZED} element={<Error />}/>
             <Route path={PATHS.ERROR} element={<Error />}/>
             <Route path="*" element={<Error />}/>
         </Routes>

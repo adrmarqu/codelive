@@ -2,6 +2,7 @@ export const PATHS =
 {
     HOME: '/',
     ERROR: '/error',
+    UNAUTHORIZED: '/unauthorized',
     CONTACT: '/contact',
     TERMS: '/terms-and-services',
     

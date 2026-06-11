@@ -26,9 +26,14 @@ function Header({role, setRole, setIsLogged})
     {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        setIsLogged(false);
-        setRole('guest');
         navigate(PATHS.HOME);
+        
+        // Retrasamos la limpieza de estado un tick para evitar que el Guard 
+        // intercepte la redirección y mande a 404/Login
+        setTimeout(() => {
+            setIsLogged(false);
+            setRole('guest');
+        }, 0);
     };
 
     /* Close dropdown */
