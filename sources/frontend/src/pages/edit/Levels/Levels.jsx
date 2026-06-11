@@ -49,16 +49,11 @@ const Levels = () =>
         init();
     }, [module, course]);
 
-    const fetchLevels = useCallback(async () =>
-    {
+    const fetchLevels = useCallback(async () => {
         if (!moduleId) return; // Seguridad por si no hay módulo cargado
         try {
-            const response = await getAllLevelsRequest(moduleId, t('lang_sub'));
-            console.log("IDIOMA:",t('lang_sub'));
-            console.log("MODULE:",moduleId);
-            if (response && response.data)
-            {
-                console.log("Llegue:", response.data);
+            const response = await getAllLevelsRequest(moduleId);
+            if (response && response.data) {
                 const sorted = response.data.sort((a, b) => a.level - b.level);
                 setLevels(sorted); // Ahora sí llamará al set de arriba
             }
@@ -66,7 +61,7 @@ const Levels = () =>
         catch (error) { 
             console.error("Error al cargar niveles:", error); 
         }
-    }, [moduleId, t]);
+    }, [moduleId]);
 
     useEffect(() => {
         if (moduleId) fetchLevels();
@@ -77,7 +72,6 @@ const Levels = () =>
         if (!moduleId) return;
 
         try {
-
             await postLevelRequest(moduleId, levelType);
             setLevelType("theory");
             setNewLevel(false);
@@ -146,7 +140,6 @@ const Levels = () =>
                 <ElementLevel 
                     key={lvl.id}
                     lvl={lvl.level}
-                    lvlName={lvl.title}
                     lvlType={lvl.type}
                     onSave={(newL, newT) => handleUpdate(lvl.id, lvl.level, newL, newT)}
                     onDel={() => handleDelete(lvl.id)}

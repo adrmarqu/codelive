@@ -1,6 +1,5 @@
 const {
     getLevel,
-    getLevelModel,
     getLevelById, 
     getLevels, 
     postLevel, 
@@ -12,11 +11,11 @@ const {
 
 const getAllLevels = async (req, res) =>
 {
-    const { lang, moduleId } = req.params;
+    const { moduleId } = req.params;
     
     try
     {
-        const result = await getLevels(moduleId, lang);
+        const result = await getLevels(moduleId);
         return res.status(200).json(result || []);
     }
     catch (error)
@@ -27,18 +26,13 @@ const getAllLevels = async (req, res) =>
 
 const getOneLevel = async (req, res) =>
 {
-    const { lang, moduleId, level } = req.params;
+    const { moduleId, level } = req.params;
     
     try
     {
-        const result = await getLevel(moduleId, level, lang);
+        const result = await getLevel(moduleId, level);
         if (!result)
-        {
-            const r = await getLevelModel(moduleId, level);
-            if (!r)
-                return res.status(400).json({message: "Ese nivel no existe"});
-            return res.status(200).json(r);
-        }
+            return res.status(404).json({message: "Ese nivel no existe"});
             
         return res.status(200).json(result);
     }
@@ -84,7 +78,7 @@ const putTwoLevels = async (req, res) =>
         
         if (level !== newLevel)
         {
-            const levelB = await getLevelModel(moduleId, newLevel);
+            const levelB = await getLevel(moduleId, newLevel);
             if (!levelB)
                 return res.status(400).json({message: "Ese nivel no existe"});
 

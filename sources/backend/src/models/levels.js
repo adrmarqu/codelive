@@ -1,27 +1,14 @@
 const pool = require('../config/db');
 
-/* Conseguir todos los niveles de un módulo con su título traducido (Sin contenido ni código) */
-const getLevels = async (moduleId, lang) =>
+/* Conseguir todos los modulos de un curso, si no hay modulos devuelve null */
+const getLevels = async (moduleId) =>
 {
-    const query = `
-        SELECT 
-            l.id,
-            l.type,
-            l.level,
-            l.id_module,
-            COALESCE(c.title, '') AS title
-        FROM lessons l
-        LEFT JOIN content c 
-            ON l.id = c.id_lesson 
-            AND c.lang = $2
-        WHERE l.id_module = $1
-        ORDER BY l.level ASC;
-    `;
+    const result = await pool.query('SELECT * FROM lessons WHERE id_module=$1', [moduleId]);
 
-    const result = await pool.query(query, [moduleId, lang]);
-    
+    if (result.rows.length === 0) return null;
     return result.rows;
 };
+
 
 const getMaxLevel = async (moduleId) =>
 {
@@ -31,29 +18,7 @@ const getMaxLevel = async (moduleId) =>
 };
 
 /* Conseguir un nivel específico de un módulo con SOLO su título (Sin contenido ni código) */
-const getLevel = async (moduleId, level, lang) =>
-{
-    const query = `
-        SELECT 
-            l.id,
-            l.type,
-            l.level,
-            l.id_module,
-            c.title
-        FROM lessons l
-        LEFT JOIN content c 
-            ON l.id = c.id_lesson 
-            AND c.lang = $3
-        WHERE l.id_module = $1 AND l.level = $2;
-    `;
-
-    const result = await pool.query(query, [moduleId, level, lang]);
-
-    if (result.rows.length === 0) return null;
-    return result.rows[0];
-};
-
-const getLevelModel = async (moduleId, level) =>
+const getLevel = async (moduleId, level) =>
 {
     const query = `SELECT * FROM lessons WHERE id_module=$1 AND level=$2`;
 
@@ -132,4 +97,4 @@ const deleteLevel = async (levelId) =>
     return result.rowCount > 0;
 };
 
-module.exports = { getMaxLevel, getLevels, getLevelModel, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };
+module.exports = { getMaxLevel, getLevels, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };

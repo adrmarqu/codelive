@@ -5,7 +5,7 @@ const { protect, restrictTo } = require('../middleware/middleware');
 
 const { 
     getOneCourse, 
-    getAllCourses, 
+    getAllCourses,  
     postOneCourse, 
     putOneCourse, 
     deleteOneCourse 
@@ -61,8 +61,8 @@ router.delete('/modules/:moduleId', deleteOneModule);
 
 
 /* Levels */
-router.get('/levels/:lang/:moduleId', getAllLevels);
-router.get('/levels/:lang/:moduleId/:level', getOneLevel);
+router.get('/levels/:moduleId', getAllLevels);
+router.get('/levels/:moduleId/:level', getOneLevel);
 
 router.post('/levels/:moduleId', postOneLevel);
 
@@ -74,7 +74,7 @@ router.delete('/levels/:levelId', deleteOneLevel);
 
 
 /* Lesson */
-router.get('/lesson/:lang/:levelId', getOneLesson);
+router.get('/lesson/:levelId', getOneLesson);
 
 router.post('/lesson/:levelId', postOneLesson);
 

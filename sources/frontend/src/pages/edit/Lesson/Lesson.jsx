@@ -13,28 +13,6 @@ import {
     putLessonRequest 
 } from '@/services/edit.js'
 
-import './Lesson.css'
-
-const translateAndDetectText = async (text, toLang) =>
-{
-    if (!text || !toLang) return "";
-
-    try
-    {
-        const response = await fetch(
-            `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=|${toLang}`
-        );
-        const data = await response.json();
-        
-        return data?.responseData?.translatedText || text;
-    } 
-    catch (error)
-    {
-        console.error("Error al detectar y traducir:", error);
-        return text;
-    }
-};
-
 function Lesson()
 {
     const { t } = useTranslation();
@@ -46,10 +24,7 @@ function Lesson()
     const [content, setContent] = useState("");
     const [code, setCode] = useState("");
 
-    const [levelId, setLevelId] = useState(null);
-    const [lessonID, setLessonId] = useState(null);
-
-    const [isSaving, setIsSaving] = useState(false);
+    const [levelId, setLevelId] = useState("");
 
     // Traer IDs iniciales del curso, módulo y nivel
     useEffect(() => {
@@ -63,7 +38,7 @@ function Lesson()
                     if (response && response.data) {
                         const fetchedModuleId = response.data.id;
                         
-                        const r = await getLevelRequest(fetchedModuleId, level, t('lang_sub'));
+                        const r = await getLevelRequest(fetchedModuleId, level);
                         if (r && r.data) {
                             setLevelId(r.data.id);
                         }
@@ -75,67 +50,38 @@ function Lesson()
             }
         };
         init();
-    }, [module, course, level, t]); 
+    }, [module, course, level]); 
 
-    useEffect(() =>
-    {
-        const fetchLesson = async () =>
-        {
+    // 🔥 CORRECCIÓN: Nuevo useEffect para disparar fetchLesson automáticamente cuando levelId cambie
+    useEffect(() => {
+        const fetchLesson = async () => {
             if (!levelId) return;
-
-            try
-            {
-                const lang = t('lang_sub') || 'en';
-
-                const r = await getLessonRequest(levelId, lang);
-                if (r?.data) 
+            try {
+                const r = await getLessonRequest(levelId);
+                if (r && r.data)
                 {
-                    setLessonId(r.data.id);
                     setTitle(r.data.title);
                     setContent(r.data.content);
                     setCode(r.data.code);
                 }
-                else
-                {
-                    setLessonId(null);
-                    setTitle("");
-                    setContent("");
-                    setCode("");
-                }
             }
-            catch (error)
-            { 
+            catch (error) { 
                 console.error("Error al cargar contenido:", error); 
             }
         };
 
         fetchLesson();
-    }, [levelId, t]);
+    }, [levelId]); // Se ejecuta cada vez que levelId tenga un valor válido
 
-    const setLesson = async () =>
+    const handleSave = async () =>
     {
-        setIsSaving(true);
-        try
+        if (!levelId) { console.error("No existe levelID"); return ; }
+
+        try 
         {
-            const languages = ['es', 'ca', 'en'];
-
-            for (const lang of languages)
-            {
-                const langTit = await translateAndDetectText(title, lang);
-                const langCon = await translateAndDetectText(content, lang);
-
-                await setLessonRequest(levelId, lang, langTit, langCon, code);
-            }
-            navigate(-1);
+            await putLessonRequest(levelId, title, content, code);
         }
         catch (error) { console.error("Error al actualizar contenido:", error); }
-        finally { setIsSaving(false); }
-    };
-
-    const handleSave = () =>
-    {
-        if (!levelId) console.warn("Nivel no cargado");
-        setLesson();
     };
 
     return (

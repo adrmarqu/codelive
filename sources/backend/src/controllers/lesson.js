@@ -5,11 +5,11 @@ const {
 
 const getOneLesson = async (req, res) =>
 {
-    const { lang, levelId } = req.params;
+    const { levelId } = req.params;
     
     try
     {
-        const result = await getLesson(levelId, lang);
+        const result = await getLesson(levelId);
         if (!result)
             return res.status(200).json(null);
 
@@ -25,11 +25,11 @@ const getOneLesson = async (req, res) =>
 const postOneLesson = async (req, res) =>
 {
     const { levelId } = req.params;
-    const { lang, title, content, code } = req.body;
+    const { title, content, code } = req.body;
     
     try
     {
-        const result = await postLesson(levelId, lang, title, content, code);
+        const result = await postLesson(levelId, title, content, code);
         if (!result)
             return res.status(400).json({message: "Error al subir contenido"});
 
