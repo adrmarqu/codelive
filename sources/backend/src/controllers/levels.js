@@ -44,22 +44,32 @@ const getOneLevel = async (req, res) =>
 const postOneLevel = async (req, res) =>
 {
     const { moduleId } = req.params;
+    console.log("-> postOneLevel called with moduleId:", moduleId);
     
     try
     {
+        console.log("-> Getting max level...");
         const level = await getMaxLevel(moduleId) + 1;
+        console.log("-> Next level calculated:", level);
 
+        console.log("-> Calling postLevel model...");
         const result = await postLevel(moduleId, level);
+        console.log("-> postLevel model result:", result);
         
         if (!result)
+        {
+            console.log("-> Returning 400 because result is false");
             return res.status(400).json({message: "Ese nivel ya existe"});
+        }
 
+        console.log("-> Returning 200 success");
         return res.status(200).json({message: "Nivel creado con exito"});
     }
     catch (error)
     {
-        console.error("ERROR DETALLADO:", error); 
-        return res.status(500).json({message: error});
+        console.error("-> ERROR EN postOneLevel:", error); 
+        console.error("-> Stack trace:", error.stack);
+        return res.status(500).json({message: error.toString()});
     }
 };
 

@@ -19,17 +19,20 @@ const getLevels = async (moduleId) =>
 
 const getMaxLevel = async (moduleId) =>
 {
+    console.log("-> Executing MAX(level) query for moduleId:", moduleId);
     const level = await pool.query(`SELECT MAX(level) FROM lessons WHERE id_module=$1`, [moduleId]);
-
+    console.log("-> MAX(level) query result:", level.rows);
     return level.rows[0].max || 0;
 };
 
 /* Conseguir un nivel específico de un módulo con SOLO su título (Sin contenido ni código) */
 const getLevel = async (moduleId, level) =>
 {
+    console.log(`-> getLevel called with moduleId: ${moduleId}, level: ${level}`);
     const query = `SELECT * FROM lessons WHERE id_module=$1 AND level=$2`;
 
     const result = await pool.query(query, [moduleId, level]);
+    console.log(`-> getLevel result rowCount:`, result.rowCount);
 
     if (result.rows.length === 0) return null;
     return result.rows[0];
@@ -48,17 +51,24 @@ const postLevel = async (moduleId, level) =>
 {
     try
     {
+        console.log("-> Checking if level already exists...");
         const module = await getLevel(moduleId, level);
-        if (module) return false;
+        if (module) {
+            console.log("-> Level already exists, returning false");
+            return false;
+        }
 
+        console.log(`-> Executing INSERT INTO lessons (level, id_module) VALUES (${level}, ${moduleId})`);
         const result = await pool.query('INSERT INTO lessons (level, id_module) VALUES ($1, $2)', [level, moduleId]);
+        console.log("-> INSERT result rowCount:", result.rowCount);
 
         return result.rowCount > 0;
     }
     catch (error) {
-        // ESTO ES LO MÁS IMPORTANTE
-        console.error("ERROR SQL DETALLADO:", error.message);
-        throw error; // Lanza el error para verlo en la terminal
+        console.error("-> ERROR SQL EN postLevel:", error.message);
+        console.error("-> Error code:", error.code);
+        console.error("-> Error detail:", error.detail);
+        throw error;
     }
 };
 
