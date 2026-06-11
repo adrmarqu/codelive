@@ -3,74 +3,108 @@ const fs = require('fs');
 const path = require('path');
 const pool = require('../config/db');
 
+// ──────────────────────────────────────────────────────────────
+//  Piston API  (https://piston.rocks)
+//  Free, no API key required. Sandboxes PHP and Node execution.
+// ──────────────────────────────────────────────────────────────
+const PISTON_URL = 'https://emkc.org/api/v2/piston/execute';
+
+const runViaPiston = async (language, version, code) => {
+    const response = await fetch(PISTON_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            language,
+            version,
+            files: [{ content: code }]
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error(`Piston API error: ${response.status}`);
+    }
+
+    const result = await response.json();
+    const output = (result.run?.stdout || '') + (result.run?.stderr || '');
+
+    if (result.run?.code !== 0 && !output) {
+        return `Error: el proceso terminó con código ${result.run?.code}`;
+    }
+    return output || 'Ejecución completada sin salida.';
+};
+
+// ──────────────────────────────────────────────────────────────
+//  Main controller
+// ──────────────────────────────────────────────────────────────
 const runCode = async (req, res) => {
     const { code, lang } = req.body;
 
-    if (!code) {
-        return res.status(400).json({ error: "No se proporcionó código para ejecutar" });
+    if (!code || !lang) {
+        return res.status(400).json({ error: 'Se requieren los campos code y lang.' });
     }
 
+    // ── Node.js  (child_process — Node ya está instalado en Render) ──
     if (lang === 'node') {
-        const tempFile = path.join(__dirname, `temp_${Date.now()}_${Math.random().toString(36).substr(2, 5)}.js`);
+        const tempFile = path.join(__dirname, `tmp_${Date.now()}_${Math.random().toString(36).substr(2, 5)}.js`);
         try {
             fs.writeFileSync(tempFile, code);
-            exec(`node ${tempFile}`, { timeout: 3000 }, (error, stdout, stderr) => {
-                try { fs.unlinkSync(tempFile); } catch(e) {}
+            exec(`node "${tempFile}"`, { timeout: 5000 }, (error, stdout, stderr) => {
+                try { fs.unlinkSync(tempFile); } catch (_) {}
 
-                if (error && error.killed) {
-                    return res.status(200).json({ output: "Error: Límite de tiempo excedido (3 segundos)" });
+                if (error?.killed) {
+                    return res.status(200).json({ output: 'Error: tiempo límite excedido (5 s).' });
                 }
-                return res.status(200).json({ output: stdout + stderr });
+                return res.status(200).json({ output: (stdout + stderr) || 'Ejecución completada sin salida.' });
             });
         } catch (err) {
-            try { fs.unlinkSync(tempFile); } catch(e) {}
-            return res.status(500).json({ error: "Error al escribir el archivo temporal" });
+            try { fs.unlinkSync(tempFile); } catch (_) {}
+            return res.status(500).json({ error: 'Error al crear el archivo temporal.' });
         }
-    } 
+    }
+
+    // ── PHP  (via Piston API — PHP no está instalado en Render) ──
     else if (lang === 'php') {
-        const tempFile = path.join(__dirname, `temp_${Date.now()}_${Math.random().toString(36).substr(2, 5)}.php`);
         try {
-            // Prepend <?php tag if missing
+            // Ensure <?php tag is present
             let finalCode = code.trim();
             if (!finalCode.startsWith('<?php') && !finalCode.startsWith('<?')) {
                 finalCode = '<?php\n' + finalCode;
             }
-            fs.writeFileSync(tempFile, finalCode);
 
-            // Determine correct PHP execution command
-            const phpCmd = fs.existsSync('/usr/bin/php82') ? 'php82' 
-                         : fs.existsSync('/usr/bin/php83') ? 'php83' 
-                         : 'php';
-
-            exec(`${phpCmd} ${tempFile}`, { timeout: 3000 }, (error, stdout, stderr) => {
-                try { fs.unlinkSync(tempFile); } catch(e) {}
-
-                if (error && error.killed) {
-                    return res.status(200).json({ output: "Error: Límite de tiempo excedido (3 segundos)" });
-                }
-                return res.status(200).json({ output: stdout + stderr });
-            });
+            const output = await runViaPiston('php', '8.2', finalCode);
+            return res.status(200).json({ output });
         } catch (err) {
-            try { fs.unlinkSync(tempFile); } catch(e) {}
-            return res.status(500).json({ error: "Error al escribir el archivo temporal" });
+            console.error('PHP Piston error:', err.message);
+            return res.status(500).json({ error: 'Error al conectar con el servidor de ejecución de PHP. Inténtalo de nuevo.' });
         }
-    } 
+    }
+
+    // ── SQL  (PostgreSQL sandbox — always ROLLBACK, changes are never saved) ──
     else if (lang === 'sql') {
+        // Basic guard against destructive DDL
+        const dangerous = /\b(DROP\s+TABLE|DROP\s+DATABASE|TRUNCATE|ALTER\s+TABLE)\b/i;
+        if (dangerous.test(code)) {
+            return res.status(200).json({
+                type: 'status',
+                output: 'Error: operaciones DROP TABLE, DROP DATABASE, TRUNCATE y ALTER TABLE no están permitidas en el sandbox.'
+            });
+        }
+
         let client;
         try {
             client = await pool.connect();
             await client.query('BEGIN');
 
-            // Split statements by semicolon and filter empty lines
-            const queries = code.split(';').map(q => q.trim()).filter(q => q.length > 0);
+            // Execute each statement separated by semicolon
+            const statements = code.split(';').map(q => q.trim()).filter(q => q.length > 0);
             let lastResult = null;
 
-            for (const query of queries) {
-                lastResult = await client.query(query);
+            for (const stmt of statements) {
+                lastResult = await client.query(stmt);
             }
 
             if (!lastResult) {
-                return res.status(200).json({ type: 'status', message: 'No se ejecutaron consultas' });
+                return res.status(200).json({ type: 'status', output: 'No se ejecutaron consultas.' });
             }
 
             if (lastResult.command === 'SELECT') {
@@ -82,25 +116,21 @@ const runCode = async (req, res) => {
             } else {
                 return res.status(200).json({
                     type: 'status',
-                    message: `Consulta OK, ${lastResult.rowCount} filas afectadas (${lastResult.command})`
+                    output: `Consulta OK — ${lastResult.rowCount} fila(s) afectada(s) [${lastResult.command}]`
                 });
             }
         } catch (err) {
-            return res.status(200).json({ 
-                type: 'status', 
-                output: `Error de SQL: ${err.message}` 
-            });
+            return res.status(200).json({ type: 'status', output: `Error SQL: ${err.message}` });
         } finally {
             if (client) {
-                try {
-                    await client.query('ROLLBACK');
-                } catch (e) {}
+                try { await client.query('ROLLBACK'); } catch (_) {}
                 client.release();
             }
         }
-    } 
+    }
+
     else {
-        return res.status(400).json({ error: `Lenguaje de ejecución no soportado: ${lang}` });
+        return res.status(400).json({ error: `Lenguaje no soportado: ${lang}` });
     }
 };
 
