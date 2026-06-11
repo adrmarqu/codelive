@@ -369,10 +369,11 @@ function Lesson()
                                                     overflow: 'auto',
                                                     whiteSpace: 'pre-wrap'
                                                 }}>
+                                                <div className="terminal-preview">
                                                     {isRunning ? (
                                                         <div className="loading-output">Ejecutando...</div>
                                                     ) : sqlResult ? (
-                                                        <div className="sql-table-wrapper" style={{ overflowX: 'auto' }}>
+                                                        <div className="sql-table-wrapper">
                                                             {sqlResult.rows.length === 0 ? (
                                                                 <div>Consulta ejecutada con éxito. 0 filas devueltas.</div>
                                                             ) : (
@@ -415,6 +416,7 @@ function Lesson()
                                                     ) : (
                                                         <div>{runnerOutput || "Haz clic en 'Ejecutar' para ver la salida aquí."}</div>
                                                     )}
+                                                    </div>
                                                 </div>
                                             )}
                                         </div>

@@ -312,7 +312,8 @@
 }
 
 /* ── Lesson Page Layout ── */
-.lesson-page-layout {
+.lesson-page-layout
+{
   display: grid;
   grid-template-columns: 280px 1fr;
   min-height: calc(100vh - 64px);
@@ -412,7 +413,7 @@
 }
 
 .lesson-article {
-  max-width: 800px;
+  max-width: 90%;
   margin: 0 auto;
 }
 
@@ -548,6 +549,7 @@
   border: none;
   background: #ffffff;
   min-height: 300px;
+  overflow: auto;
 }
 
 /* Footer Navigation Buttons */
@@ -580,4 +582,37 @@
   .live-playground {
     grid-template-columns: 1fr;
   }
+}
+
+/* Añade esto al final de tu archivo CSS */
+
+.preview-pane {
+  overflow: hidden; /* Evita que el contenedor padre se rompa */
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-preview {
+  flex-grow: 1;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  padding: 15px;
+  color: #e0e0e0;
+  background: #1e1e1e;
+  height: calc(100% - 40px);
+  box-sizing: border-box;
+  
+  /* Habilitamos scroll tanto vertical como horizontal si el resultado es gigante */
+  overflow: auto; 
+  white-space: pre; /* Mantiene saltos de línea y respeta anchos reales */
+}
+
+.sql-table-wrapper {
+  width: 100%;
+  overflow-x: auto; /* Forzar scroll horizontal exclusivo si la tabla tiene muchas columnas */
+  -webkit-overflow-scrolling: touch;
+}
+
+.sql-table-wrapper table {
+  min-width: 600px; /* Asegura un ancho mínimo para que la tabla no se aplaste y use el scroll */
 }

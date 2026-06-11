@@ -63,12 +63,21 @@ const sendRecoveryEmail = async (to, token) =>
     </html>
     `;
 
-    await transporter.sendMail({
-        from:    `"CodeLive" <${process.env.SMTP_USER}>`,
-        to,
-        subject: '🔐 Recupera tu contraseña de CodeLive',
-        html
-    });
+    try
+    {
+        const info = await transporter.sendMail(
+        {
+            from:    `"CodeLive" <${process.env.SMTP_USER}>`,
+            to,
+            subject: '🔐 Recupera tu contraseña de CodeLive',
+            html
+        });
+    }
+    catch (error)
+    {
+        console.error("❌ Error crítico al enviar el correo:", error);
+        throw error;
+    }
 };
 
 module.exports = { sendRecoveryEmail };
