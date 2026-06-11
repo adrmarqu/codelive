@@ -19,7 +19,7 @@ const { postContact, getContacts } = require('../controllers/others.js');
 /* Todas las rutas en las que no necesitas estar logged */
 
 /* Contacto: cualquier usuario autenticado puede enviar */
-router.post('/contact', postContact);
+router.post('/contact/:userRole', postContact);
 
 /* Todas las rutas de usuario requieren estar autenticado */
 router.use(protect);

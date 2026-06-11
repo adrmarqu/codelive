@@ -5,6 +5,7 @@ const { getUserData } = require('../models/user.js');
 
 const postContact = async (req, res) =>
 {
+    const { userRole } = req.params;
     const { comment, email } = req.body;
 
     if (!comment || !comment.trim())
@@ -18,7 +19,7 @@ const postContact = async (req, res) =>
         let userId = null;
         let emailGuest = null;
 
-        if (req.user && req.user.id)
+        if (userRole !== 'guest')
         {
             userId = req.user.id;
             emailGuest = null;

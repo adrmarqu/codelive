@@ -64,8 +64,8 @@ export const getRankingRequest = (type = 'global') =>
     api.get(`/api/user/ranking?type=${type}`);
 
 /* ---- Contacto ---- */
-export const sendContactRequest = (comment, email) =>
-    api.post('/api/user/contact', { comment, email });
+export const sendContactRequest = (comment, email, role) =>
+    api.post(`/api/user/contact/${role}`, { comment, email });
 
 export const getContactsRequest = () =>
     api.get('/api/user/contact');
