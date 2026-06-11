@@ -9,8 +9,7 @@ import {
     getModuleRequest,
     getLevelRequest,
     getLessonRequest,
-    postLessonRequest, 
-    putLessonRequest 
+    setLessonRequest
 } from '@/services/edit.js'
 
 function Lesson()
