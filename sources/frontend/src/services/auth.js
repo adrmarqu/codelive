@@ -17,7 +17,12 @@ export const checkForm = async (name, formData) =>
         const { data } = response;
 
         if (name === 'login' && data.token)
-            localStorage.setItem('token', data.token);
+        {
+            if (payload.remember)
+                localStorage.setItem('token', data.token);
+            else
+                sessionStorage.setItem('token', data.token);
+        }
 
         return { success: true, data };
     } 

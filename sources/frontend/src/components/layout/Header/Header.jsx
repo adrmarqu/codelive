@@ -26,7 +26,9 @@ function Header({role, setRole, setIsLogged})
     const logout = () =>
     {
         localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         localStorage.removeItem('user');
+        sessionStorage.removeItem('user');
         navigate(PATHS.HOME);
         
         // Retrasamos la limpieza de estado un tick para evitar que el Guard 

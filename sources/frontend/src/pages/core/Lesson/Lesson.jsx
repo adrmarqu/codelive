@@ -67,7 +67,7 @@ function Lesson() {
                 }
 
                 // Cargar progreso del usuario si está logueado
-                if (localStorage.getItem('token')) {
+                if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
                     try {
                         const progressResponse = await getProgressLearn();
                         if (progressResponse && progressResponse.data) {

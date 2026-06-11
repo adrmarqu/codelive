@@ -4,7 +4,7 @@ export const getUserData = async () =>
 {
     try
     {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         if (!token) return 'guest';
 
         const response = await api.get('/api/user/me');
@@ -17,6 +17,7 @@ export const getUserData = async () =>
         console.error("Error al obtener datos:", error);
         // If the token is invalid or expired, clear it
         localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
         return 'guest';
     }
 };
@@ -24,7 +25,7 @@ export const getFullUserData = async () =>
 {
     try
     {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         if (!token) return null;
 
         const response = await api.get('/api/user/me');

@@ -41,7 +41,7 @@ function Levels() {
                 }
 
                 // 4. Obtener progreso del usuario (IDs de lecciones completadas) si está logueado
-                if (localStorage.getItem('token')) {
+                if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
                     try {
                         const progressResponse = await getProgressLearn();
                         if (progressResponse && progressResponse.data) {

@@ -42,7 +42,9 @@ function Profile({ setRole, setIsLogged })
         {
             await deleteAccountRequest();
             localStorage.removeItem('token');
+            sessionStorage.removeItem('token');
             localStorage.removeItem('user');
+            sessionStorage.removeItem('user');
             if (setIsLogged) setIsLogged(false);
             if (setRole) setRole('guest');
             navigate('/');
