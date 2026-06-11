@@ -5,25 +5,23 @@ import Button from '@/components/common/Button/Button.jsx'
 
 import './Element.css'
 
-const ElementLevel = ({ lvl, lvlName, lvlType, onSave, onDel, onNavigate, onUp, onDown }) =>
+const ElementLevel = ({ lvl, lvlName, onSave, onDel, onNavigate, onUp, onDown }) =>
 {
     const [isEditing, setIsEditing] = useState(false);
     const [level, setLevel] = useState(lvl);
-    const [tipo, setTipo] = useState(lvlType);
 
     const { t } = useTranslation();
 
     /* Save button */
     const handleSave = () =>
     {
-        onSave(level, tipo);
+        onSave(level);
         setIsEditing(false);
     };
     /* Cancel button */
     const handleCancel = () =>
     {
         setLevel(lvl);
-        setTipo(lvlType);
         setIsEditing(false);
     };
     /* Edit button */
@@ -62,10 +60,6 @@ const ElementLevel = ({ lvl, lvlName, lvlType, onSave, onDel, onNavigate, onUp, 
                         onChange={(e) => setLevel(e.target.value)} 
                         autoFocus 
                     />
-                    <select onChange={(e) => setTipo(e.target.value)}>
-                        <option value="theory">{t('edit.theory')}</option>
-                        <option value="game">{t('edit.game')}</option>
-                    </select>
                     
                     <div className='element-btn'>
                         <Button className="btn btn-primary" onClick={handleSave}>
@@ -80,7 +74,6 @@ const ElementLevel = ({ lvl, lvlName, lvlType, onSave, onDel, onNavigate, onUp, 
                 <div className='element-info click' onClick={onNavigate}>
                     <h3>Level {lvl}</h3>
                     <h3>{lvlName}</h3>
-                    <h3>{lvlType}</h3>
                     <div className='element-btn'>
                         <Button className="btn btn-secondary" onClick={handleUp}>
                             ▲

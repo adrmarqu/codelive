@@ -37,14 +37,14 @@ const getLevelById = async (levelId) =>
 };
 
 /* Crear niveles */
-const postLevel = async (moduleId, level, type) =>
+const postLevel = async (moduleId, level) =>
 {
     try
     {
         const module = await getLevelModel(moduleId, level);
         if (module) return false;
 
-        const result = await pool.query('INSERT INTO lessons (type, level, id_module) VALUES ($1, $2, $3)', [type, level, moduleId]);
+        const result = await pool.query('INSERT INTO lessons (level, id_module) VALUES ($1, $2)', [level, moduleId]);
 
         return result.rowCount > 0;
     }
@@ -53,17 +53,6 @@ const postLevel = async (moduleId, level, type) =>
         console.error("ERROR SQL DETALLADO:", error.message);
         throw error; // Lanza el error para verlo en la terminal
     }
-};
-
-/* Actualizar el tipo de un modulo */
-const putType = async (id, newType) =>
-{
-    const result = await pool.query(
-        `UPDATE lessons SET type = $1
-         WHERE id=$2`, [newType, id]
-    );
-
-    return result.rowCount > 0;
 };
 
 const changeLevel = async (a, b, levelA, levelB) =>
@@ -97,4 +86,4 @@ const deleteLevel = async (levelId) =>
     return result.rowCount > 0;
 };
 
-module.exports = { getMaxLevel, getLevels, getLevel, getLevelById, postLevel, putType, deleteLevel, changeLevel };
+module.exports = { getMaxLevel, getLevels, getLevel, getLevelById, postLevel, deleteLevel, changeLevel };

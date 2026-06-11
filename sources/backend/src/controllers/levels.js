@@ -3,7 +3,6 @@ const {
     getLevelById, 
     getLevels, 
     postLevel, 
-    putType, 
     deleteLevel, 
     changeLevel,
     getMaxLevel
@@ -45,13 +44,12 @@ const getOneLevel = async (req, res) =>
 const postOneLevel = async (req, res) =>
 {
     const { moduleId } = req.params;
-    const { type } = req.body;
     
     try
     {
         const level = await getMaxLevel(moduleId) + 1;
 
-        const result = await postLevel(moduleId, level, type);
+        const result = await postLevel(moduleId, level);
         
         if (!result)
             return res.status(400).json({message: "Ese nivel ya existe"});
@@ -68,14 +66,10 @@ const postOneLevel = async (req, res) =>
 const putTwoLevels = async (req, res) =>
 {
     const { moduleId } = req.params;
-    const { levelId, level, newLevel, newType } = req.body;
+    const { levelId, level, newLevel } = req.body;
     
     try
     {
-        const result = await putType(levelId, newType);
-        if (!result)
-            return res.status(400).json({message: "El tipo no se ha actualizado"});
-        
         if (level !== newLevel)
         {
             const levelB = await getLevel(moduleId, newLevel);

@@ -21,9 +21,7 @@ const Levels = () =>
     const { course, module } = useParams();
     const navigate = useNavigate();
 
-    const [newLevel, setNewLevel] = useState(false); 
     const [levels, setLevels] = useState([]); // 1. CORREGIDO: Ahora es setLevels (plural)
-    const [levelType, setLevelType] = useState("theory");
     const [moduleId, setModuleId] = useState(null);
 
     // 2. CORREGIDO: Evitar el desfase asíncrono usando variables locales intermedias
@@ -67,14 +65,12 @@ const Levels = () =>
         if (moduleId) fetchLevels();
     }, [moduleId, fetchLevels]);
 
-    const createLevel = async (e) => {
-        e.preventDefault();
+    const createLevel = async (e) =>
+    {
         if (!moduleId) return;
 
         try {
-            await postLevelRequest(moduleId, levelType);
-            setLevelType("theory");
-            setNewLevel(false);
+            await postLevelRequest(moduleId);
             await fetchLevels();
         }
         catch (error) { 
@@ -83,11 +79,10 @@ const Levels = () =>
     };
 
     // 3. CORREGIDO: Añadida la palabra clave async
-    const handleUpdate = async (id, level, newLevel, newType) => {
-        try {
-            if (newLevel > levels.length) newLevel = levels.length;
-            
-            await putLevelRequest(moduleId, id, level, newLevel, newType); 
+    const handleUpdate = async (id, level, newLevel) => {
+        try
+        {            
+            await putLevelRequest(moduleId, id, level, newLevel); 
             await fetchLevels();
         } 
         catch (error) {
@@ -121,27 +116,16 @@ const Levels = () =>
         <div className='edit-header'>
             <Button className="btn btn-secondary" onClick={() => navigate(-1)}>{t('return')}</Button>
             <h2>{module}</h2>
-            <Button className="btn btn-primary" onClick={() => setNewLevel(true)}>{t('form.new')}</Button>
+            <Button className="btn btn-primary" onClick={createLevel}>{t('form.new')}</Button>
         </div>
         <hr />
         <div className='edit-content'>
-            <form onSubmit={createLevel} className={newLevel ? '' : 'hidden'}>
-                <select className='edit-input' value={levelType} onChange={(e) => setLevelType(e.target.value)}>
-                    <option value="theory">{t('edit.theory')}</option>
-                    <option value="game">{t('edit.game')}</option>
-                </select>
-                <Button className="btn btn-primary" type="submit">
-                    {t('form.create')}
-                </Button>
-            </form>
-
             {/* 5. CORREGIDO: Cambiado <Element> por <ElementLevel> que es tu componente real importado */}
             {levels && levels.map((lvl) => (
                 <ElementLevel 
                     key={lvl.id}
                     lvl={lvl.level}
-                    lvlType={lvl.type}
-                    onSave={(newL, newT) => handleUpdate(lvl.id, lvl.level, newL, newT)}
+                    onSave={(newLevel) => handleUpdate(lvl.id, lvl.level, newLevel)}
                     onDel={() => handleDelete(lvl.id)}
                     onUp={() => handleMove(lvl.id, 'up')}
                     onDown={() => handleMove(lvl.id, 'down')}

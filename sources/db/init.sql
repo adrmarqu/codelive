@@ -2,7 +2,6 @@ DROP TABLE IF EXISTS progress, content, lesson_content, contact, lessons, module
 DROP TYPE IF EXISTS user_rol, lesson_type, lang_type, prog_lang CASCADE;
 
 CREATE TYPE user_rol AS ENUM ('user', 'editor', 'admin');
-CREATE TYPE lesson_type AS ENUM ('theory', 'game');
 CREATE TYPE prog_lang AS ENUM ('html', 'css', 'js', 'php', 'node', 'sql');
 
 CREATE TABLE users
@@ -33,7 +32,6 @@ CREATE TABLE modules
 CREATE TABLE lessons
 (
     id              SERIAL PRIMARY KEY,
-    type            lesson_type NOT NULL,
     level           INT NOT NULL, 
     id_module       INT NOT NULL REFERENCES modules(id) ON DELETE CASCADE,
 

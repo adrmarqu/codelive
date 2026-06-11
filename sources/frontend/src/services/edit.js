@@ -56,16 +56,16 @@ export const getLevelRequest = (moduleId, level) =>
     api.get(`/api/edit/levels/${moduleId}/${level}`);
 
 // Crear un nuevo nivel
-export const postLevelRequest = (moduleId, type) => 
-    api.post(`/api/edit/levels/${moduleId}`, { type });
+export const postLevelRequest = (moduleId) => 
+    api.post(`/api/edit/levels/${moduleId}`);
 
 // Mover un nivel una posicion (Swap)
 export const swapLevelRequest = (moduleId, levelId, direction) => 
     api.put(`/api/edit/levels/swap/${moduleId}`, { levelId, direction });
 
 // Mover un nivel y actualizar type
-export const putLevelRequest = (moduleId, levelId, level, newLevel, newType) => 
-    api.put(`/api/edit/levels/${moduleId}`, { levelId, level, newLevel, newType });
+export const putLevelRequest = (moduleId, levelId, level, newLevel) => 
+    api.put(`/api/edit/levels/${moduleId}`, { levelId, level, newLevel });
 
 // Eliminar un nivel
 export const deleteLevelRequest = (levelId) => 
