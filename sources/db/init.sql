@@ -161,7 +161,7 @@ INSERT INTO courses (name) VALUES
     ('JavaScript'),
     ('PHP'),
     ('NodeJS'),
-    ('MySQL');
+    ('PostgreSQL');
 
 
 -- ─── Modules ────────────────────────────────────────────────
