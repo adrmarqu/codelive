@@ -28,11 +28,11 @@ services:
       - key: SMTP_PORT
         value: "587"
       - key: SMTP_SECURE
-        value: "false"
+        value: false
       - key: SMTP_USER
-        sync: false   # rellena en el Dashboard: tu cuenta de Gmail
+        sync: false
       - key: SMTP_PASS
-        sync: false   # rellena en el Dashboard: App Password de Gmail
+        sync: false
 
 databases:
   # 🐘 DATABASE: PostgreSQL Database

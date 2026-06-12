@@ -6,8 +6,9 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     host:   process.env.SMTP_HOST || 'smtp.gmail.com',
     port:   parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'false', // true para 465, false para 587
-    auth: {
+    secure: process.env.SMTP_SECURE || false,
+    auth:
+    {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS
     }
@@ -65,6 +66,12 @@ const sendRecoveryEmail = async (to, token) =>
 
     try
     {
+        console.log("host:", process.env.SMTP_HOST);
+        console.log("port:", process.env.SMTP_HOST);
+        console.log("secure:", process.env.SMTP_SECURE);
+        console.log("user:", process.env.SMTP_USER);
+        console.log("pass:", process.env.SMTP_PASS);
+        
         console.log("FROM:", `"CodeLive" <${process.env.SMTP_USER}>`);
         console.log("TO:", to);
         console.log("subject:", '🔐 Recupera tu contraseña de CodeLive');
