@@ -49,7 +49,7 @@ const sendRecoveryEmail = async (to, token) =>
 
     try {
         const data = await resend.emails.send({
-            from: 'CodeLive <onboarding@resend.dev>', // Te dan este de prueba
+            from: 'CodeLive <onboarding@resend.dev>',
             to: [to],
             subject: '🔐 Recupera tu contraseña de CodeLive',
             html: htmlText,
