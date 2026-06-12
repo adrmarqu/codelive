@@ -1,4 +1,3 @@
-
 const { Resend } = require('resend');
 
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -17,6 +16,9 @@ const sendRecoveryEmail = async (to, token) =>
         console.error("Error con la API de Resend:", error);
     }
 }
+
+module.exports = { sendRecoveryEmail };
+
 
 /* 
 const nodemailer = require('nodemailer');
