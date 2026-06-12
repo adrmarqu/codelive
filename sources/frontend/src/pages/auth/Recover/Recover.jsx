@@ -25,7 +25,9 @@ function Recover()
 
         try
         {
+            console.log("A");
             const { data } = await api.post('/api/auth/recover', { email });
+            console.log("B");
             setStatus('success');
             setMessage(data.message || t('form.recover_request.sent'));
         }
