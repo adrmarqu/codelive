@@ -5,9 +5,8 @@ const nodemailer = require('nodemailer');
    Para Gmail: usar una App Password (no la contraseña real) */
 const transporter = nodemailer.createTransport({
     host:   process.env.SMTP_HOST || 'smtp.gmail.com',
-    port:   parseInt(process.env.SMTP_PORT || '465'),
-    secure: process.env.SMTP_SECURE === 'true' || process.env.SMTP_SECURE === true || (!process.env.SMTP_PORT),
-    family: 4,
+    port:   parseInt(process.env.SMTP_PORT || '587'),
+    secure: process.env.SMTP_SECURE !== "false" || false,
     auth:
     {
         user: process.env.SMTP_USER,
@@ -83,7 +82,7 @@ const sendRecoveryEmail = async (to, token) =>
             subject: '🔐 Recupera tu contraseña de CodeLive',
             html
         });
-
+        
         console.log("Email enviado con exito!");
     }
     catch (error)
