@@ -1,11 +1,28 @@
+
+const { Resend } = require('resend');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
+
+const sendRecoveryEmail = async (to, token) =>
+{
+    try {
+        const data = await resend.emails.send({
+            from: 'CodeLive <onboarding@resend.dev>', // Te dan este de prueba
+            to: [to],
+            subject: '🔐 Recupera tu contraseña de CodeLive',
+            html: '<strong>Tu HTML aquí...</strong>',
+        });
+        console.log("¡Enviado con éxito a través de API!", data);
+    } catch (error) {
+        console.error("Error con la API de Resend:", error);
+    }
+}
+
+/* 
 const nodemailer = require('nodemailer');
 
-/* Transporter configurado via variables de entorno
-   SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
-   Para Gmail: usar una App Password (no la contraseña real) */
 const transporter = nodemailer.createTransport({
-    /* host:   process.env.SMTP_HOST || 'smtp.gmail.com', */
-    host:   '74.125.139.108',
+    host:   process.env.SMTP_HOST || 'smtp.gmail.com',
     port:   parseInt(process.env.SMTP_PORT),
     secure: process.env.SMTP_SECURE === "true" || process.env.SMTP_SECURE === true,
 
@@ -20,11 +37,6 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-/**
- * Envía un correo de recuperación de contraseña.
- * @param {string} to     - Dirección de email del destinatario
- * @param {string} token  - Token único de recuperación
- */
 const sendRecoveryEmail = async (to, token) =>
 {
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
@@ -98,4 +110,4 @@ const sendRecoveryEmail = async (to, token) =>
     }
 };
 
-module.exports = { sendRecoveryEmail };
+module.exports = { sendRecoveryEmail }; */
