@@ -67,11 +67,11 @@ const sendRecoveryEmail = async (to, token) =>
     try
     {
         console.log("host:", process.env.SMTP_HOST);
-        console.log("port:", process.env.SMTP_HOST);
+        console.log("port:", process.env.SMTP_PORT);
         console.log("secure:", process.env.SMTP_SECURE);
         console.log("user:", process.env.SMTP_USER);
         console.log("pass:", process.env.SMTP_PASS);
-        
+
         console.log("FROM:", `"CodeLive" <${process.env.SMTP_USER}>`);
         console.log("TO:", to);
         console.log("subject:", '🔐 Recupera tu contraseña de CodeLive');
@@ -82,6 +82,8 @@ const sendRecoveryEmail = async (to, token) =>
             subject: '🔐 Recupera tu contraseña de CodeLive',
             html
         });
+        
+        console.log("Email enviado con exito!");
     }
     catch (error)
     {
