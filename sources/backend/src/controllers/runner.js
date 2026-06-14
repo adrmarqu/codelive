@@ -33,6 +33,34 @@ const runViaPiston = async (language, version, code) => {
     return output || 'Ejecución completada sin salida.';
 };
 
+
+/* Check only permited tables */
+function esConsultaPermitidaW3(queryUsuario)
+{ 
+    const query = queryUsuario.toLowerCase();
+    // Tus 3 tablas exactas
+    const tablasPermitidas = ['clientes', 'productos', 'pedidos'];
+    
+    // Captura lo que vaya después de FROM, JOIN, UPDATE o INTO
+    const regexTablas = /(?:from|join|update|into)\s+([a-zA-Z0-9_]+)/g;
+    let matches;
+    let tablasEncontradas = [];
+    
+    while ((matches = regexTablas.exec(query)) !== null) {
+        tablasEncontradas.push(matches[1]);
+    }
+    
+    // Si encuentra tablas, validamos que pertenezcan estrictamente a tu lista de 3
+    if (tablasEncontradas.length > 0) {
+        for (let tabla of tablasEncontradas) {
+            if (!tablasPermitidas.includes(tabla)) {
+                return false; // Intento de acceder a datos reales de tu app
+            }
+        }
+    }
+    return true;
+}
+
 // ──────────────────────────────────────────────────────────────
 //  Main controller
 // ──────────────────────────────────────────────────────────────
@@ -80,7 +108,16 @@ const runCode = async (req, res) => {
     }
 
     // ── SQL  (PostgreSQL sandbox — always ROLLBACK, changes are never saved) ──
-    else if (lang === 'sql') {
+    else if (lang === 'sql')
+    {
+        if (!esConsultaPermitidaW3(code))
+        {
+            return res.status(200).json({
+                type: 'status',
+                output: 'Seguridad: En este entorno de pruebas solo puedes interactuar con las tablas "clientes", "productos" o "pedidos".'
+            });
+        }
+
         // Basic guard against destructive DDL
         const dangerous = /\b(DROP\s+TABLE|DROP\s+DATABASE|TRUNCATE|ALTER\s+TABLE)\b/i;
         if (dangerous.test(code)) {
