@@ -2,6 +2,8 @@
 
 Este documento describe la base de datos relacional de **CodeLive**, implementada en PostgreSQL 16. El esquema inicial y los datos semilla se definen en [init.sql](file:///Users/adria/Desktop/42Barcelona/codelive/sources/db/init.sql).
 
+La base de datos de la página web está en render.
+
 ---
 
 ## 📊 Tipos de Datos Personalizados (ENUM)
