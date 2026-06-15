@@ -28,7 +28,7 @@ graph TD
 ### 1. Frontend (Capa de Presentación)
 - **Tecnología**: Single Page Application (SPA) construida con React 19 y Vite 8.
 - **Enrutamiento**: Controlado en el cliente mediante `react-router-dom` (v7).
-- **Internacionalización**: Configurada con `i18next` para ofrecer soporte multiidioma en Español (`es`), Inglés (`en`) y próximamente Catalán (`ca`).
+- **Internacionalización**: Configurada con `i18next` para ofrecer soporte multiidioma en Español (`es`), Inglés (`en`) y Catalán (`ca`).
 - **Despliegue**: Optimizado para entornos estáticos y servido mediante Nginx en contenedor Docker o a través de Vercel.
 
 ### 2. Backend (Capa de Lógica de Negocio)
@@ -83,9 +83,9 @@ codelive/
 El sistema implementa control de acceso basado en roles (RBAC) a nivel de rutas tanto en el frontend como en el backend. 
 
 ### Roles Disponibles
-1. **`guest` (Invitado)**: Usuario no autenticado. Tiene acceso exclusivo a la landing page, el formulario de contacto y páginas de inicio de sesión/registro.
+1. **`guest` (Invitado)**: Usuario no autenticado. Tiene acceso exclusivo a la landing page, el formulario de contacto, páginas de inicio de sesión/registro y realizar lecciones.
 2. **`user` (Alumno)**: Usuario registrado. Puede ver su panel, realizar lecciones, guardar progresos y ver el ranking global.
-3. **`editor` (Creador de contenidos)**: Puede crear, modificar o eliminar cursos, módulos y niveles didácticos.
+3. **`editor` (Creador de contenidos)**: Tiene los mismo que 'user' y además puede crear, modificar o eliminar cursos, módulos y niveles didácticos.
 4. **`admin` (Administrador)**: Acceso a la suite completa de edición, lectura de los mensajes de contacto entrantes y control total del sistema.
 
 ### Flujo de Autenticación
