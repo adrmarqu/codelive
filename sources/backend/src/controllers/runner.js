@@ -90,20 +90,27 @@ const runCode = async (req, res) => {
         }
     }
 
-    // ── PHP  (via Piston API — PHP no está instalado en Render) ──
+    // ── PHP (ejecución local mediante child_process — instalado en el Dockerfile) ──
     else if (lang === 'php') {
-        try {
-            // Ensure <?php tag is present
-            let finalCode = code.trim();
-            if (!finalCode.startsWith('<?php') && !finalCode.startsWith('<?')) {
-                finalCode = '<?php\n' + finalCode;
-            }
+        let finalCode = code.trim();
+        if (!finalCode.startsWith('<?php') && !finalCode.startsWith('<?')) {
+            finalCode = '<?php\n' + finalCode;
+        }
 
-            const output = await runViaPiston('php', '8.2', finalCode);
-            return res.status(200).json({ output });
+        const tempFile = path.join(__dirname, `tmp_${Date.now()}_${Math.random().toString(36).substr(2, 5)}.php`);
+        try {
+            fs.writeFileSync(tempFile, finalCode);
+            exec(`php "${tempFile}"`, { timeout: 5000 }, (error, stdout, stderr) => {
+                try { fs.unlinkSync(tempFile); } catch (_) {}
+
+                if (error?.killed) {
+                    return res.status(200).json({ output: 'Error: tiempo límite excedido (5 s).' });
+                }
+                return res.status(200).json({ output: (stdout + stderr) || 'Ejecución completada sin salida.' });
+            });
         } catch (err) {
-            console.error('PHP Piston error:', err.message);
-            return res.status(500).json({ error: 'Error al conectar con el servidor de ejecución de PHP. Inténtalo de nuevo.' });
+            try { fs.unlinkSync(tempFile); } catch (_) {}
+            return res.status(500).json({ error: 'Error al crear el archivo temporal para PHP.' });
         }
     }
 

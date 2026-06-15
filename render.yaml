@@ -1,11 +1,10 @@
 services:
-  # 💻 BACKEND: Node.js Web Service on Render
+  # 💻 BACKEND: Docker Web Service on Render (Node.js + PHP)
   - type: web
     name: codelive-backend
-    env: node
-    rootDir: sources/backend
-    buildCommand: npm install
-    startCommand: npm start
+    runtime: docker
+    dockerContext: sources/backend
+    dockerfilePath: sources/backend/Dockerfile
     plan: free
     envVars:
       - key: PORT
