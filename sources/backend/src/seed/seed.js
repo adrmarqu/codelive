@@ -12,8 +12,8 @@ async function seedAdmin() {
             console.log('Admin no encontrado, creando admin...');
             const hash = await bcrypt.hash(process.env.ADMIN_PASSWORD || 'Admin123', 10);
             await pool.query(
-                'INSERT INTO users (username, email, password_hash, rol, active) VALUES ($1, $2, $3, $4, $5)',
-                ['admin', 'admin@admin.com', hash, 'admin', true]
+                'INSERT INTO users (username, email, password_hash, rol) VALUES ($1, $2, $3, $4)',
+                ['admin', 'admin@admin.com', hash, 'admin']
             );
             console.log('✅ Usuario admin creado exitosamente.');
         } else {
@@ -34,8 +34,8 @@ async function seedEditor() {
             console.log('Editor no encontrado, creando editor...');
             const hash = await bcrypt.hash(process.env.EDITOR_PASSWORD || 'Editor123', 10);
             await pool.query(
-                'INSERT INTO users (username, email, password_hash, rol, active) VALUES ($1, $2, $3, $4, $5)',
-                ['editor', 'editor@editor.com', hash, 'editor', true]
+                'INSERT INTO users (username, email, password_hash, rol) VALUES ($1, $2, $3, $4)',
+                ['editor', 'editor@editor.com', hash, 'editor']
             );
             console.log('✅ Usuario editor creado exitosamente.');
         } else {

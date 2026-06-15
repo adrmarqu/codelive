@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { PATHS } from '@/routes/paths'
 import api from '@/services/api.js'
@@ -9,7 +9,6 @@ function Reset()
 {
     const { t }       = useTranslation();
     const { token }   = useParams();
-    const navigate    = useNavigate();
 
     const [pass, setPass]       = useState('');
     const [rep, setRep]         = useState('');

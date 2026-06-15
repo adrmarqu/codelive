@@ -29,6 +29,8 @@ function Lesson()
     const [lessonData, setLessonData] = useState(null);
     const [editableCode, setEditableCode] = useState("");
     const [previewSrcDoc, setPreviewSrcDoc] = useState("");
+    const [editableHtml, setEditableHtml] = useState("");
+    const [activeTab, setActiveTab] = useState("code"); // "code" | "html"
 
     // Estados de UI
     const [loading, setLoading] = useState(true);
@@ -100,13 +102,94 @@ function Lesson()
                 if (response && response.data) {
                     setLessonData(response.data);
                     setEditableCode(response.data.code || "");
-                    setPreviewSrcDoc(response.data.code || "");
+                    setActiveTab("code");
+
+                    const lang = response.data.code_lang || 'html';
+                    let defaultHtml = "";
+                    if (lang === 'css') {
+                        defaultHtml = `<h1>Título de Prueba (h1)</h1>\n<p>Este es un párrafo de ejemplo (p) para que puedas probar tus estilos CSS.</p>\n<button>Botón de ejemplo</button>\n<div class="box">\n    Caja de ejemplo (clase: .box)\n</div>`;
+                        setEditableHtml(defaultHtml);
+                        const html = `
+                            <html>
+                                <head>
+                                    <style>
+                                        ${response.data.code || ""}
+                                    </style>
+                                </head>
+                                <body style="font-family: sans-serif; padding: 20px; color: #333; background: #fff;">
+                                    ${defaultHtml}
+                                </body>
+                            </html>
+                        `;
+                        setPreviewSrcDoc(html);
+                    } else if (lang === 'js') {
+                        defaultHtml = `<h1 id="title">Pruebas con JavaScript</h1>\n<p>Intenta cambiar este texto o agregar nuevos elementos.</p>\n<button id="btn">Haz clic aquí</button>`;
+                        setEditableHtml(defaultHtml);
+                        const wrappedCode = `
+                            <html>
+                                <body style="margin: 0; padding: 15px; font-family: sans-serif; background: #fff; color: #333;">
+                                    ${defaultHtml}
+                                    
+                                    <div id="console-output" style="margin-top: 20px; font-family: 'Courier New', Courier, monospace; font-size: 13px; white-space: pre-wrap; padding: 10px; color: #e0e0e0; background: #1e1e1e; border-radius: 4px; border: 1px solid #444; max-height: 200px; overflow-y: auto;">
+                                        <div style="color: #888; border-bottom: 1px solid #333; padding-bottom: 4px; margin-bottom: 6px;">Consola de salida:</div>
+                                    </div>
+                                    
+                                    <script>
+                                        (function() {
+                                            const output = document.getElementById('console-output');
+                                            
+                                            console.log = function(...args) {
+                                                const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg).join(' ');
+                                                const div = document.createElement('div');
+                                                div.textContent = msg;
+                                                output.appendChild(div);
+                                                output.scrollTop = output.scrollHeight;
+                                            };
+                                            
+                                            console.error = function(...args) {
+                                                const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg).join(' ');
+                                                const div = document.createElement('div');
+                                                div.style.color = '#ff6b6b';
+                                                div.style.fontWeight = 'bold';
+                                                div.textContent = 'Error: ' + msg;
+                                                output.appendChild(div);
+                                                output.scrollTop = output.scrollHeight;
+                                            };
+                                            
+                                            window.onerror = function(message, source, lineno, colno, error) {
+                                                const div = document.createElement('div');
+                                                div.style.color = '#ff6b6b';
+                                                div.style.fontWeight = 'bold';
+                                                div.textContent = 'Error: ' + message;
+                                                output.appendChild(div);
+                                                output.scrollTop = output.scrollHeight;
+                                            };
+                                            
+                                            try {
+                                                ${response.data.code || ""}
+                                            } catch(err) {
+                                                const div = document.createElement('div');
+                                                div.style.color = '#ff6b6b';
+                                                div.style.fontWeight = 'bold';
+                                                div.textContent = 'Error: ' + err.message;
+                                                output.appendChild(div);
+                                                output.scrollTop = output.scrollHeight;
+                                            }
+                                        })();
+                                    </script>
+                                </body>
+                            </html>
+                        `;
+                        setPreviewSrcDoc(wrappedCode);
+                    } else {
+                        setEditableHtml("");
+                        setPreviewSrcDoc(response.data.code || "");
+                    }
                 } else {
                     setLessonData(null);
                 }
             } catch (err) {
                 console.error("Error al obtener contenido de lección:", err);
-                // Si da 404 es que no tiene contenido creado aún
                 setLessonData(null);
             } finally {
                 setLoading(false);
@@ -131,12 +214,7 @@ function Lesson()
                         </style>
                     </head>
                     <body style="font-family: sans-serif; padding: 20px; color: #333; background: #fff;">
-                        <h1>Título de Prueba (h1)</h1>
-                        <p>Este es un párrafo de ejemplo (p) para que puedas probar tus estilos CSS.</p>
-                        <button style="padding: 8px 16px; cursor: pointer; border: 1px solid #ccc; border-radius: 4px; background: #f0f0f0;">Botón de ejemplo</button>
-                        <div class="box" style="margin-top: 15px; padding: 20px; border: 1px dashed #ccc; text-align: center;">
-                            Caja de ejemplo (clase: .box)
-                        </div>
+                        ${editableHtml}
                     </body>
                 </html>
             `;
@@ -144,34 +222,53 @@ function Lesson()
         } else if (lang === 'js') {
             const wrappedCode = `
                 <html>
-                    <body style="margin: 0; padding: 0;">
-                        <div id="console-output" style="font-family: 'Courier New', Courier, monospace; font-size: 14px; white-space: pre-wrap; padding: 15px; color: #e0e0e0; background: #1e1e1e; min-height: 100vh; box-sizing: border-box; overflow-y: auto;"></div>
+                    <body style="margin: 0; padding: 15px; font-family: sans-serif; background: #fff; color: #333;">
+                        ${editableHtml}
+                        
+                        <div id="console-output" style="margin-top: 20px; font-family: 'Courier New', Courier, monospace; font-size: 13px; white-space: pre-wrap; padding: 10px; color: #e0e0e0; background: #1e1e1e; border-radius: 4px; border: 1px solid #444; max-height: 200px; overflow-y: auto;">
+                            <div style="color: #888; border-bottom: 1px solid #333; padding-bottom: 4px; margin-bottom: 6px;">Consola de salida:</div>
+                        </div>
+                        
                         <script>
                             (function() {
                                 const output = document.getElementById('console-output');
-                                const originalLog = console.log;
-                                const originalError = console.error;
                                 
                                 console.log = function(...args) {
-                                    originalLog.apply(console, args);
                                     const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg).join(' ');
-                                    output.textContent += msg + '\\n';
+                                    const div = document.createElement('div');
+                                    div.textContent = msg;
+                                    output.appendChild(div);
+                                    output.scrollTop = output.scrollHeight;
                                 };
                                 
                                 console.error = function(...args) {
-                                    originalError.apply(console, args);
                                     const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg, null, 2) : arg).join(' ');
-                                    output.innerHTML += '<span style="color: #ff6b6b; font-weight: bold;">Error: ' + msg + '</span>\\n';
+                                    const div = document.createElement('div');
+                                    div.style.color = '#ff6b6b';
+                                    div.style.fontWeight = 'bold';
+                                    div.textContent = 'Error: ' + msg;
+                                    output.appendChild(div);
+                                    output.scrollTop = output.scrollHeight;
                                 };
                                 
                                 window.onerror = function(message, source, lineno, colno, error) {
-                                    output.innerHTML += '<span style="color: #ff6b6b; font-weight: bold;">Error: ' + message + '</span>\\n';
+                                    const div = document.createElement('div');
+                                    div.style.color = '#ff6b6b';
+                                    div.style.fontWeight = 'bold';
+                                    div.textContent = 'Error: ' + message;
+                                    output.appendChild(div);
+                                    output.scrollTop = output.scrollHeight;
                                 };
                                 
                                 try {
                                     ${editableCode}
                                 } catch(err) {
-                                    output.innerHTML += '<span style="color: #ff6b6b; font-weight: bold;">Error: ' + err.message + '</span>\\n';
+                                    const div = document.createElement('div');
+                                    div.style.color = '#ff6b6b';
+                                    div.style.fontWeight = 'bold';
+                                    div.textContent = 'Error: ' + err.message;
+                                    output.appendChild(div);
+                                    output.scrollTop = output.scrollHeight;
                                 }
                             })();
                         </script>
@@ -335,16 +432,42 @@ function Lesson()
                                     <div className="live-playground">
                                         <div className="playground-pane editor-pane">
                                             <div className="pane-header">
-                                                <span>{t('editor') || "Editor de código"}</span>
+                                                {['css', 'js'].includes(lessonData.code_lang) ? (
+                                                    <div className="playground-tabs">
+                                                        <button 
+                                                            className={`playground-tab ${activeTab === 'code' ? 'active' : ''}`}
+                                                            onClick={() => setActiveTab('code')}
+                                                        >
+                                                            {lessonData.code_lang.toUpperCase()}
+                                                        </button>
+                                                        <button 
+                                                            className={`playground-tab ${activeTab === 'html' ? 'active' : ''}`}
+                                                            onClick={() => setActiveTab('html')}
+                                                        >
+                                                            HTML
+                                                        </button>
+                                                    </div>
+                                                ) : (
+                                                    <span>{t('editor') || "Editor de código"}</span>
+                                                )}
                                                 <Button className="btn btn-primary run-btn" onClick={handleRunCode}>
                                                     {t('run') || "Ejecutar (Run)"}
                                                 </Button>
                                             </div>
-                                            <textarea 
-                                                className="playground-textarea"
-                                                value={editableCode}
-                                                onChange={(e) => setEditableCode(e.target.value)}
-                                            ></textarea>
+                                            {['css', 'js'].includes(lessonData.code_lang) && activeTab === 'html' ? (
+                                                <textarea 
+                                                    className="playground-textarea"
+                                                    value={editableHtml}
+                                                    onChange={(e) => setEditableHtml(e.target.value)}
+                                                    placeholder="Escribe tu HTML aquí..."
+                                                ></textarea>
+                                            ) : (
+                                                <textarea 
+                                                    className="playground-textarea"
+                                                    value={editableCode}
+                                                    onChange={(e) => setEditableCode(e.target.value)}
+                                                ></textarea>
+                                            )}
                                         </div>
                                         <div className="playground-pane preview-pane">
                                             <div className="pane-header">

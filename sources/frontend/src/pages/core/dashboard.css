@@ -616,3 +616,32 @@
 .sql-table-wrapper table {
   min-width: 600px; /* Asegura un ancho mínimo para que la tabla no se aplaste y use el scroll */
 }
+
+/* Pestañas del Editor */
+.playground-tabs {
+  display: flex;
+  gap: 12px;
+}
+
+.playground-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: #a0aec0;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 6px 4px;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  outline: none;
+}
+
+.playground-tab:hover {
+  color: #edf2f7;
+}
+
+.playground-tab.active {
+  color: #3182ce;
+  border-bottom-color: #3182ce;
+}

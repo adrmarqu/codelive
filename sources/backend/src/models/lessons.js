@@ -30,7 +30,7 @@ const postLesson = async (lessonId, title, content, code) =>
             const courseName = langResult.rows[0].name.toLowerCase();
             if (courseName === 'javascript') codeLang = 'js';
             else if (courseName === 'nodejs') codeLang = 'node';
-            else if (courseName === 'mysql') codeLang = 'sql';
+            else if (courseName === 'mysql' || courseName === 'postgresql') codeLang = 'sql';
             else codeLang = courseName; // 'html', 'css', 'php'
         }
     }

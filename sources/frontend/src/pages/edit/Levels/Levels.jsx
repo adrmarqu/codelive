@@ -65,7 +65,7 @@ const Levels = () =>
         if (moduleId) fetchLevels();
     }, [moduleId, fetchLevels]);
 
-    const createLevel = async (e) =>
+    const createLevel = async () =>
     {
         if (!moduleId) return;
 
