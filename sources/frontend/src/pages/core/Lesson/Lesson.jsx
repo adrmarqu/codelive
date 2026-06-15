@@ -101,7 +101,12 @@ function Lesson()
                 const response = await getLessonLearn(currentLevelId);
                 if (response && response.data) {
                     setLessonData(response.data);
-                    setEditableCode(response.data.code || "");
+                    
+                    const rawCode = response.data.code || "";
+                    // Reemplazar la secuencia de caracteres "\n" literal por saltos de línea reales
+                    const formattedCode = rawCode.replace(/\\n/g, '\n');
+                    
+                    setEditableCode(formattedCode);
                     setActiveTab("code");
 
                     const lang = response.data.code_lang || 'html';
@@ -113,7 +118,7 @@ function Lesson()
                             <html>
                                 <head>
                                     <style>
-                                        ${response.data.code || ""}
+                                        ${formattedCode}
                                     </style>
                                 </head>
                                 <body style="font-family: sans-serif; padding: 20px; color: #333; background: #fff;">
@@ -166,7 +171,7 @@ function Lesson()
                                             };
                                             
                                             try {
-                                                ${response.data.code || ""}
+                                                ${formattedCode}
                                             } catch(err) {
                                                 const div = document.createElement('div');
                                                 div.style.color = '#ff6b6b';
@@ -183,7 +188,7 @@ function Lesson()
                         setPreviewSrcDoc(wrappedCode);
                     } else {
                         setEditableHtml("");
-                        setPreviewSrcDoc(response.data.code || "");
+                        setPreviewSrcDoc(formattedCode);
                     }
                 } else {
                     setLessonData(null);
