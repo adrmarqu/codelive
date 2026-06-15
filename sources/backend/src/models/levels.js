@@ -109,4 +109,40 @@ const deleteLevel = async (levelId) =>
     return result.rowCount > 0;
 };
 
-module.exports = { getMaxLevel, getLevels, getLevel, getLevelById, postLevel, deleteLevel, changeLevel };
+const resequenceLevels = async (moduleId) => {
+    const client = await pool.connect();
+    try {
+        await client.query('BEGIN');
+        
+        // Fetch all levels for this module sorted by level
+        const res = await client.query('SELECT id, level FROM lessons WHERE id_module = $1 ORDER BY level ASC', [moduleId]);
+        
+        // Set all of them to a temporary negative/offset level first to avoid any unique constraint conflicts
+        for (let i = 0; i < res.rows.length; i++) {
+            const row = res.rows[i];
+            await client.query('UPDATE lessons SET level = $1 WHERE id = $2', [-(i + 1), row.id]);
+        }
+        
+        // Set them to their correct sequential level numbers (1, 2, 3, ...)
+        for (let i = 0; i < res.rows.length; i++) {
+            const row = res.rows[i];
+            await client.query('UPDATE lessons SET level = $1 WHERE id = $2', [i + 1, row.id]);
+        }
+        
+        await client.query('COMMIT');
+        return true;
+    } catch (e) {
+        await client.query('ROLLBACK');
+        console.error("Error resequencing levels:", e);
+        throw e;
+    } finally {
+        client.release();
+    }
+};
+
+const updateLevelNumber = async (levelId, newLevel) => {
+    const result = await pool.query('UPDATE lessons SET level = $1 WHERE id = $2', [newLevel, levelId]);
+    return result.rowCount > 0;
+};
+
+module.exports = { getMaxLevel, getLevels, getLevel, getLevelById, postLevel, deleteLevel, changeLevel, resequenceLevels, updateLevelNumber };

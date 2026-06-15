@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Button from '@/components/common/Button/Button.jsx'
@@ -10,12 +10,16 @@ const ElementLevel = ({ lvl, lvlName, onSave, onDel, onNavigate, onUp, onDown })
     const [isEditing, setIsEditing] = useState(false);
     const [level, setLevel] = useState(lvl);
 
+    useEffect(() => {
+        setLevel(lvl);
+    }, [lvl]);
+
     const { t } = useTranslation();
 
     /* Save button */
     const handleSave = () =>
     {
-        onSave(level);
+        onSave(parseInt(level, 10));
         setIsEditing(false);
     };
     /* Cancel button */
@@ -56,7 +60,7 @@ const ElementLevel = ({ lvl, lvlName, onSave, onDel, onNavigate, onUp, onDown })
                 <div className='element-info'>
                     <input 
                         type="number"
-                        value={lvl} 
+                        value={level} 
                         onChange={(e) => setLevel(e.target.value)} 
                         autoFocus 
                     />

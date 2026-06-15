@@ -5,7 +5,9 @@ const {
     postLevel, 
     deleteLevel, 
     changeLevel,
-    getMaxLevel
+    getMaxLevel,
+    resequenceLevels,
+    updateLevelNumber
 } = require('../models/levels.js');
 
 const getAllLevels = async (req, res) =>
@@ -84,17 +86,26 @@ const putTwoLevels = async (req, res) =>
         {
             const levelB = await getLevel(moduleId, newLevel);
             if (!levelB)
-                return res.status(400).json({message: "Ese nivel no existe"});
-
-            const result = await changeLevel(levelId, levelB.id, level, newLevel);
-            if (!result)
-                return res.status(400).json({message: "No se ha podido mover el nivel"});
+            {
+                // Si el nivel de destino no existe, lo actualizamos directamente
+                const result = await updateLevelNumber(levelId, newLevel);
+                if (!result)
+                    return res.status(400).json({message: "No se ha podido actualizar el nivel"});
+            }
+            else
+            {
+                // Si existe, los intercambiamos
+                const result = await changeLevel(levelId, levelB.id, level, newLevel);
+                if (!result)
+                    return res.status(400).json({message: "No se ha podido mover el nivel"});
+            }
         }
 
         return res.status(200).json({message: "Nivel actualizado con exito"});
     }
     catch (error)
     {
+        console.error("Error al actualizar nivel:", error);
         return res.status(500).json({message: "Internal error"});
     }
 };
@@ -143,14 +154,24 @@ const deleteOneLevel = async (req, res) =>
     
     try
     {
+        const level = await getLevelById(levelId);
+        if (!level)
+            return res.status(404).json({message: "Ese nivel no existe"});
+
+        const moduleId = level.id_module;
+
         const result = await deleteLevel(levelId);
         if (!result)
             return res.status(400).json({message: "Error al eliminar el nivel"});
+
+        // Reajustar la secuencia de los niveles restantes
+        await resequenceLevels(moduleId);
 
         return res.status(200).json({message: "Nivel eliminado con exito"});
     }
     catch (error)
     {
+        console.error("Error al eliminar nivel:", error);
         return res.status(500).json({message: "Internal error"});
     }
 };
