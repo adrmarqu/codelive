@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+/* const { Pool } = require('pg');
 
 let pool;
 
@@ -18,5 +18,17 @@ if (process.env.DATABASE_URL) {
     port: parseInt(process.env.DB_PORT || '5432', 10),
   });
 }
+
+module.exports = pool; */
+
+const { Pool } = require('pg');
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+    ca: undefined
+  }
+});
 
 module.exports = pool;
