@@ -1,4 +1,80 @@
 -- =========================================================================
+-- 1. INSERTAR LECCIONES (TABLA lessons)
+-- =========================================================================
+
+INSERT INTO lessons (id, level, id_module) VALUES
+  (1, 1, 1),   -- HTML / Introducción
+  (2, 1, 2),   -- HTML / Etiquetas básicas
+  (3, 1, 6),   -- CSS / Introducción
+  (4, 1, 12),  -- JS / Introducción
+  (5, 1, 18),  -- PHP / Introducción
+  (6, 1, 23),  -- NodeJS / Introducción
+  (7, 1, 28),  -- SQL / Introducción
+  (24, 1, 3),  (23, 2, 3), (25, 3, 3), (26, 4, 3), (27, 5, 3), -- HTML Formularios
+  (28, 1, 4),  (29, 2, 4), (30, 3, 4),                          -- HTML Multimedia
+  (31, 1, 5),  (32, 2, 5), (33, 3, 5), (34, 4, 5),              -- HTML Semántico
+  (35, 1, 7),  (36, 2, 7), (37, 3, 7),                          -- CSS Selectores
+  (38, 1, 8),  (39, 2, 8), (40, 3, 8),                          -- CSS Box Model
+  (41, 1, 9),  (42, 2, 9), (43, 3, 9),                          -- CSS Flexbox
+  (44, 1, 10), (45, 2, 10), (46, 3, 10),                        -- CSS Grid
+  (47, 1, 11), (48, 2, 11),                                     -- CSS Animaciones
+  (49, 1, 13), (50, 2, 13), (51, 3, 13),                        -- JS Variables
+  (52, 1, 14), (53, 2, 14),                                     -- JS Funciones
+  (54, 1, 15), (55, 2, 15), (56, 3, 15),                        -- JS DOM
+  (60, 1, 16), (61, 2, 16),                                     -- JS Async & Await
+  (57, 1, 17), (58, 2, 17), (59, 3, 17),                        -- JS ES6+
+  (65, 1, 19), (66, 2, 19),                                     -- PHP Variables y arrays
+  (67, 1, 20), (68, 2, 20),                                     -- PHP Funciones
+  (62, 1, 21), (63, 2, 21), (64, 3, 21),                        -- PHP POO
+  (69, 1, 22), (70, 2, 22),                                     -- PHP y MySQL
+  (71, 1, 24), (72, 2, 24),                                     -- NodeJS Express
+  (73, 1, 25), (74, 2, 25), (75, 3, 25),                        -- NodeJS API REST
+  (76, 1, 26), (77, 2, 26),                                     -- NodeJS Autenticación
+  (78, 1, 27), (79, 2, 27),                                     -- NodeJS WebSockets
+  (80, 1, 29), (81, 2, 29), (82, 3, 29),                        -- SQL SELECT
+  (83, 1, 30), (84, 2, 30), (85, 3, 30),                        -- SQL DML
+  (86, 1, 31), (87, 2, 31),                                     -- SQL JOINs
+  (88, 1, 32), (89, 2, 32)                                      -- SQL Índices
+ON CONFLICT (id) DO NOTHING;
+
+-- Lecciones de Introducción
+INSERT INTO lesson_content (id_lesson, title, content, code, code_lang) VALUES
+(1, 'Tu primera página web', 'HTML (HyperText Markup Language) es el lenguaje con el que se construyen todas las páginas web. Define la estructura mediante etiquetas con apertura y cierre.', '<html>
+  <head>
+    <title>Mi primera web</title>
+  </head>
+  <body>
+    <h1>¡Hola, mundo!</h1>
+    <p>Esta es mi primera página HTML.</p>
+  </body>
+</html>', 'html'),
+(2, 'Etiquetas básicas de texto', 'Las etiquetas más comunes para dar formato a textos son encabezados del <h1> al <h6>, párrafos con <p>, textos en negrita con <strong> o cursiva con <em>.', '<h1>Título Principal</h1>
+<h2>Subtítulo</h2>
+<p>Este es un párrafo con texto <strong>en negrita</strong> y <em>en cursiva</em>.</p>', 'html'),
+(3, 'Dando estilo con CSS', 'CSS (Cascading Style Sheets) se usa para dar aspecto visual a los elementos HTML. Una regla CSS tiene la forma: selector { propiedad: valor; }.', 'body {
+  background-color: #1a1a2e;
+  font-family: Arial, sans-serif;
+  color: #eee;
+  padding: 30px;
+}
+h1 {
+  color: #e94560;
+}', 'css'),
+(4, 'Variables y operaciones básicas', 'JavaScript es el lenguaje de programación de la web. Permite añadir lógica e interactividad con let, const y operadores.', 'const nombre = "CodeLive";\nlet version = 2.0;\nconsole.log("Bienvenido a " + nombre + " v" + version);\nlet a = 10, b = 3;\nconsole.log("Suma: " + (a + b));', 'js'),
+(5, 'Introducción a PHP', 'PHP es un lenguaje del lado del servidor. Se escribe entre etiquetas <?php y ?>. La función echo imprime texto en la salida.', '<?php\n$nombre = "CodeLive";\n$version = 2.0;\necho "Bienvenido a " . $nombre . " v" . $version . "\\n";\n$frutas = ["manzana", "plátano", "cereza"];\nforeach ($frutas as $f) {\n    echo "Fruta: " . $f . "\\n";\n}\n?>', 'php'),
+(6, 'Tu primer script con Node.js', 'Node.js permite ejecutar JavaScript en el servidor o terminal con acceso a módulos nativos del sistema operativo.', 'console.log("Hola desde Node.js!");\nconsole.log("Versión:", process.version);\nconst numeros = [1, 2, 3, 4, 5];\nconst dobles = numeros.map(n => n * 2);\nconsole.log("Dobles:", dobles);', 'node'),
+(7, 'Tu primera consulta SQL', 'SQL es el lenguaje estándar para consultar y manipular bases de datos relacionales con comandos como SELECT, WHERE y ORDER BY.', 'SELECT id, username, email, rol, created_at FROM users ORDER BY created_at DESC;', 'sql')
+ON CONFLICT (id_lesson) DO UPDATE SET
+  title = EXCLUDED.title,
+  content = EXCLUDED.content,
+  code = EXCLUDED.code,
+  code_lang = EXCLUDED.code_lang;
+
+-- =========================================================================
+-- 2. INSERTAR CONTENIDO DE MÓDULOS (TABLA lesson_content)
+-- =========================================================================
+
+-- =========================================================================
 -- CURSO 1: HTML (Módulos restantes: 3, 4 y 5)
 -- =========================================================================
 
@@ -168,3 +244,9 @@ INSERT INTO lesson_content (id_lesson, title, content, code, code_lang) VALUES
 INSERT INTO lesson_content (id_lesson, title, content, code, code_lang) VALUES
 (88, 'Creación de Índices Aceleradores (INDEX)', 'Cuando realizas búsquedas frecuentes filtrando por una columna en una tabla millonaria, el rendimiento cae drásticamente. Crear un INDEX genera una estructura de árbol mapeada en memoria (B-Tree por defecto) que permite al motor saltar directamente a la ubicación física del dato sin leer secuencialmente toda la tabla.', 'CREATE INDEX idx_customers_tax_id \nON customers(tax_id);', 'sql'),
 (89, 'Análisis de Consultas con EXPLAIN', 'Antes de dar por buena una consulta en entornos de producción masivos, debemos auditar cómo piensa resolverla internamente el planificador de PostgreSQL. Anteponer el comando "EXPLAIN ANALYZE" a nuestra consulta la ejecuta de forma real, devolviendo métricas del costo estimado de CPU, tiempos de ejecución y uso de índices.', 'EXPLAIN ANALYZE \nSELECT * FROM customers \nWHERE tax_id = \`ABC123456\`;', 'sql');
+
+-- =========================================================================
+-- 3. ACTUALIZAR SECUENCIAS
+-- =========================================================================
+SELECT setval('lessons_id_seq', COALESCE((SELECT MAX(id) FROM lessons), 1));
+SELECT setval('lesson_content_id_seq', COALESCE((SELECT MAX(id) FROM lesson_content), 1));

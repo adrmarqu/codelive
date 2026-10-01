@@ -1,34 +1,20 @@
-/* const { Pool } = require('pg');
+const { Pool } = require('pg');
 
-let pool;
+let sslConfig = false;
 
 if (process.env.DATABASE_URL) {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  });
-} else {
-  pool = new Pool({
-    user: process.env.DB_USER,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    password: process.env.DB_PASSWORD,
-    port: parseInt(process.env.DB_PORT || '5432', 10),
-  });
+  const isLocal = process.env.DATABASE_URL.includes('localhost') || process.env.DATABASE_URL.includes('127.0.0.1');
+  const sslDisabled = process.env.DATABASE_URL.includes('sslmode=disable') || process.env.DB_SSL === 'false';
+  
+  if (!isLocal && !sslDisabled) {
+    sslConfig = { rejectUnauthorized: false };
+  }
 }
-
-module.exports = pool; */
-
-const { Pool } = require('pg');
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-    ca: undefined
-  }
+  ssl: sslConfig
 });
 
 module.exports = pool;
+
